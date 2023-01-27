@@ -15,11 +15,11 @@
 
 .phony: all clean aspell
 
-all: recce.pdf
+all: lr0.pdf
 
-recce.pdf: recce.ltx
+lr0.pdf: lr0.ltx
 	pdflatex $?
 
 aspell:
-	cat recce.ltx | aspell list --home-dir=. --personal=recce-aspell-ignore.txt -t | sort | uniq
+	cat lr0.ltx | aspell list --home-dir=. --personal=lr0-aspell-ignore.txt -t | sort | uniq
 
