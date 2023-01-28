@@ -4,6 +4,9 @@
 \documentclass[12pt]{amsart}
 \usepackage{url}
 
+% I just don't care about underfull vbox's
+\raggedbottom
+
 \newsavebox{\myBox}
 \newlength{\myHt}
 \newlength{\myDp}
@@ -17,14 +20,16 @@
 }
 \newcommand{\padBox}[2]{\padBoxC{#1}{#1}{#2}}
 
-\newcommand{\cellboxrWidth}[1]{4.5in}
-% non-optional-argument version of right-adjusted cellbox
-\newcommand{\cellboxrB}[2]{%
-    \parbox{#1}{\raggedright{\ignorespaces#2}}%
+\newcommand{\cellboxWidth}[1]{4.5in}
+
+% non-optional-argument version of cellbox
+\newcommand{\cellboxB}[2]{%
+    \parbox{#1}{\ignorespaces#2}%
 }
-% Padded right-adjusted cellbox
-\newcommand{\cellboxr}[2][\cellboxrWidth]{%
-    \cellboxrB{#1}{%
+
+% Padded cellbox
+\newcommand{\cellbox}[2][\cellboxWidth]{%
+    \cellboxB{#1}{%
         \padBoxC{4pt}{0pt}{\vphantom{(}}%
         {\ignorespaces#2}%
         \padBoxC{0pt}{4pt}{\vphantom{(}}%
@@ -96,7 +101,7 @@ and the average of the $|size|^2$ is 3.9405.
   \multicolumn{1}{|c|}{Percent}\\
 & \multicolumn{1}{|c|}{of occurrences}\\
 \hline
-\rule{0pt}{2.5ex}
+\rule{0pt}{2.3ex}
 1&67.05\%\\
 2&25.67\%\\
 3&2.87\%\\
@@ -145,7 +150,7 @@ The average of the size squared was 3.98.
    Size}&
   \multicolumn{1}{|c|}{Occurrences}\\
 \hline
-\rule{0pt}{2.5ex}
+\rule{0pt}{2.3ex}
 1&695\\
 2&188\\
 3&40\\
@@ -171,65 +176,57 @@ the average for practical grammars may be $O(s)$,
 where $s$ is the size of the grammar.
 This is the same as the theoretical worst case.
 
-Here are the number of items for predicted states for the Perl grammar.
-Here in tabular form are the sizes most common sizes, in order of
-decreasing frequency:
-\par
-\vskip\baselineskip
-\vbox{\offinterlineskip
-\halign{&#&
-  \strut\quad\hfil#\quad\cr
-&\omit&&\omit&\cr
-&Size\hfil&&Frequency&\cr\
-&\omit&&\omit&\cr
-&2&&5&\cr
-&3, 142&&4&\cr
-&1, 4&&3&\cr
-&6, 7, 143&&2&\cr
-&\omit&&\omit&\cr}
-}
-\vskip\baselineskip
-\par
-
-In addition, the Perl grammar had exactly one predicted state of
-the following sizes:
-5,
-64,
-71,
-77,
-79,
-81,
-83,
-85,
-88,
-90,
-98,
-100,
-102,
-104,
-106,
-108,
-111,
-116,
-127,
-129,
-132,
-135,
-136,
-137,
-141,
-144,
-149,
-151,
-156,
-157,
-220,
-224, and
-225.
-
+For predicted states, because AHFA states of varied
+size are common,
+we switch from showing the frequency of AHFA states
+for each size,
+to showing the sizes of the AHFA state by the
+frequency of states of that size.
+Table \ref{tab:perl-predicted}
+on page \pageref{tab:perl-predicted}.
+show the data for a Perl grammar,
+in order of
+decreasing frequency.
 The number of predicted states in the Perl grammar was 58.
 The average size was 83.59 AHFA items.
 The average of the size squared was 11356.41.
+
+\begin{table}[ht]
+\caption{
+  \label{tab:perl-predicted}
+  Predicted AHFA states for a Perl grammar}
+\vspace{1ex}
+\begin{tabular}{|l|r|}
+\hline
+\multicolumn{1}{|c|}
+  {\rule{0pt}{2.3ex}
+   \rule{0pt}{-.5ex}
+   Size of AHFA state}&
+  \multicolumn{1}{|c|}{Occurrences of States}\\
+   &\multicolumn{1}{|c|}{of that size}\\
+\hline
+\rule{0pt}{2.3ex}%
+2&5\\
+\hline
+\rule{0pt}{2.3ex}%
+3, 142&4\\
+\hline
+\rule{0pt}{2.3ex}%
+1, 4&3\\
+\hline
+\rule{0pt}{2.3ex}%
+6, 7, 143&2\\
+\hline
+\cellbox[3in]{
+  5, 64, 71, 77, 79, 81, 83, 85, 88, 90, 98, 100, 102,
+  104, 106, 108, 111, 116, 127, 129, 132, 135, 136, 137, 141,
+  144, 149, 151, 156, 157, 220, 224, 225
+}
+  &1\\
+\hline
+\end{tabular}
+\end{table}
+
 
 And here is the same data for the collection of HTML grammars:
 \par
