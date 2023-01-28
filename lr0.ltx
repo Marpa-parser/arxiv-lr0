@@ -40,42 +40,49 @@ While not relevant to the current version of Marpa,
 it may be useful for anyone else wanting to experiment with
 the use of LR states in Earley items.
 
-\section{ Some statistics on AHFA states. }
+\section{ Statistics on AHFA states. }
 
-\subsection{Discovered states.}
+\subsection{Confirmed states.}
 
-For Perl's grammar, the discovered states range in size from 1 to 20 items,
+We show the counts for the confirmed states for the Perl grammar
+in Table \ref{tab:perl-confirmed}
+on page \pageref{tab:perl-confirmed}.
+They range in size from 1 to 20 items,
 but the numbers are heavily skewed toward the low
-end.  Here are the item counts that appear, with the percent of the total
-discovered AHFA states with that item count in parentheses.
-in parentheses:
-\par
-\vskip\baselineskip
-\vbox{\offinterlineskip
-\halign{&#&
-  \strut\quad\hfil#\quad\cr
-&\omit&&\omit&\cr
-&Size\hfil&&Perl discovered&\cr\
-&&&states (percent)\hfil&\cr\
-&\omit&&\omit&\cr
-&1&&67.05\%&\cr
-&2&&25.67\%\cr
-&3&&2.87\%\cr
-&4&&2.68\%\cr
-&5&&0.19\%\cr
-&6&&0.38\%\cr
-&7&&0.19\%\cr
-&8&&0.57\%\cr
-&9&&0.19\%\cr
-&20&&0.19\%\cr
-&\omit&&\omit&\cr}
-}
-\vskip\baselineskip
-\par
+end.
 As can be seen, well over 90\% of the total discovered states have
 just one or two items.
 The average size is 1.5235,
 and the average of the $|size|^2$ is 3.9405.
+
+\begin{table}[ht]
+\caption{
+  \label{tab:perl-confirmed}
+  Confirmed AHFA states for a Perl grammar}
+\vspace{1ex}
+\begin{tabular}{|r|r|}
+\hline
+\multicolumn{1}{|c|}
+  {\rule{0pt}{2.3ex}
+   \rule{0pt}{-.5ex}
+   Size}&
+  \multicolumn{1}{|c|}{Percent}\\
+& \multicolumn{1}{|c|}{of occurrences}\\
+\hline
+\rule{0pt}{2.5ex}
+1&67.05\%\\
+2&25.67\%\\
+3&2.87\%\\
+4&2.68\%\\
+5&0.19\%\\
+6&0.38\%\\
+7&0.19\%\\
+8&0.57\%\\
+9&0.19\%\\
+20&0.19\%\\
+\hline
+\end{tabular}
+\end{table}
 
 For HTML, I looked at a parser which generates grammars on
 the fly, aggregating the states in all of them.
