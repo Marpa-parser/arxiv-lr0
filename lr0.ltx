@@ -85,9 +85,9 @@ end.
 As can be seen, well over 90\% of the total confirmed states have
 just one or two items.
 The average size is 1.5235,
-and the average of the $|size|^2$ is 3.9405.
+and the average of the size squared is 3.9405.
 
-\begin{table}[ht]
+\begin{table}[tb]
 \caption{
   \label{tab:perl-confirmed}
   Confirmed AHFA states for a Perl grammar}
@@ -122,10 +122,10 @@ For the the HTML grammars I used, the totals are even more lopsided:
 80.96\% of all confirmed states have only 1 item.
 All the others (19.04\%) have 2 items.
 The average size is 1.1904,
-and the average of the $|size|^2$ is 1.5712.
+and the average of the size squared is 1.5712.
 
 Table \ref{tab:c-confirmed}
-on page \pageref{tab:c-confirmed}.
+on page \pageref{tab:c-confirmed}
 shows the count of confirmed AHFA states, by state size,
 for a compiler-quality C grammar,
 the confirmed states range in size from 1 to 15 items but again,
@@ -137,7 +137,7 @@ There were 970 confirmed C states.
 The average size was 1.52.
 The average of the size squared was 3.98.
 
-\begin{table}[ht]
+\begin{table}[tb]
 \caption{
   \label{tab:c-confirmed}
   Confirmed AHFA states for a C grammar}
@@ -183,15 +183,13 @@ for each size,
 to showing the sizes of the AHFA state by the
 frequency of states of that size.
 Table \ref{tab:perl-predicted}
-on page \pageref{tab:perl-predicted}.
-show the data for a Perl grammar,
-in order of
-decreasing frequency.
+on page \pageref{tab:perl-predicted}
+shows the data for a Perl grammar.
 The number of predicted states in the Perl grammar was 58.
 The average size was 83.59 AHFA items.
 The average of the size squared was 11356.41.
 
-\begin{table}[ht]
+\begin{table}[tb]
 \caption{
   \label{tab:perl-predicted}
   Predicted AHFA states for a Perl grammar}
@@ -202,7 +200,7 @@ The average of the size squared was 11356.41.
   {\rule{0pt}{2.3ex}
    \rule{0pt}{-.5ex}
    Size of AHFA state}&
-  \multicolumn{1}{|c|}{Occurrences of States}\\
+  \multicolumn{1}{|c|}{Occurrences of states}\\
    &\multicolumn{1}{|c|}{of that size}\\
 \hline
 \rule{0pt}{2.3ex}%
@@ -227,65 +225,131 @@ The average of the size squared was 11356.41.
 \end{tabular}
 \end{table}
 
-
-And here is the same data for the collection of HTML grammars:
-\par
-\vskip\baselineskip
-\vbox{\offinterlineskip
-\halign{&#&
-  \strut\quad\hfil#\quad\cr
-&\omit&&\omit&\cr
-&Size\hfil&&HTML predicted states&\cr\
-&\omit&&\omit&\cr
-&1&&95&\cr
-&2&&95&\cr
-&4&&95&\cr
-&11&&181&\cr
-&14&&181&\cr
-&15&&294&\cr
-&16&&112&\cr
-&18&&349&\cr
-&19&&120&\cr
-&20&&190&\cr
-&21&&63&\cr
-&22&&22&\cr
-&24&&8&\cr
-&25&&16&\cr
-&26&&16&\cr
-&28&&2&\cr
-&29&&16&\cr
-&\omit&&\omit&\cr}
-}
-\vskip\baselineskip
-
+Table \ref{tab:html-predicted}
+on page \pageref{tab:html-predicted}
+contains the data for prediction AHFA states in HTML grammars.
 The total number of predicted states in the HTML grammars was 1855.
 Their average size was 14.60.
 Their average size squared was 250.93.
 
+\begin{table}[tb]
+\caption{
+  \label{tab:html-predicted}
+  Predicted AHFA states for HTML grammars}
+\vspace{1ex}
+\begin{tabular}{|r|r|}
+\hline
+\multicolumn{1}{|c|}
+  {\rule{0pt}{2.3ex}
+   \rule{0pt}{-.5ex}
+   Size}&
+  \multicolumn{1}{|c|}{Occurrences}\\
+\hline
+\rule{0pt}{2.3ex}%
+1&95\\
+\hline
+\rule{0pt}{2.3ex}%
+2&95\\
+\hline
+\rule{0pt}{2.3ex}%
+4&95\\
+\hline
+\rule{0pt}{2.3ex}%
+11&181\\
+\hline
+\rule{0pt}{2.3ex}%
+14&181\\
+\hline
+\rule{0pt}{2.3ex}%
+15&294\\
+\hline
+\rule{0pt}{2.3ex}%
+16&112\\
+\hline
+\rule{0pt}{2.3ex}%
+18&349\\
+\hline
+\rule{0pt}{2.3ex}%
+19&120\\
+\hline
+\rule{0pt}{2.3ex}%
+20&190\\
+\hline
+\rule{0pt}{2.3ex}%
+21&63\\
+\hline
+\rule{0pt}{2.3ex}%
+22&22\\
+\hline
+\rule{0pt}{2.3ex}%
+24&8\\
+\hline
+\rule{0pt}{2.3ex}%
+25&16\\
+\hline
+\rule{0pt}{2.3ex}%
+26&16\\
+\hline
+\rule{0pt}{2.3ex}%
+28&2\\
+\hline
+\rule{0pt}{2.3ex}%
+29&16\\
+\hline
+\end{tabular}
+\end{table}
+
+The data for predicted states in a C grammar
+is Table \ref{tab:c-predicted}
+on page \pageref{tab:c-predicted}
 The number of predicted states in the C grammar was 114.
 The average size was 54.81.
 The average size squared was 5361.28.
 The sizes of the predicted states for the C grammar were spread from 1 
 to 222.
+\begin{table}[tb]
+\caption{
+  \label{tab:c-predicted}
+  Predicted AHFA states for a C grammar}
+\vspace{1ex}
+\begin{tabular}{|l|r|}
+\hline
+\multicolumn{1}{|c|}
+  {\rule{0pt}{2.3ex}
+   \rule{0pt}{-.5ex}
+   Size of AHFA state}&
+  \multicolumn{1}{|c|}{Occurrences of states}\\
+   &\multicolumn{1}{|c|}{of that size}\\
+\hline
+\rule{0pt}{2.3ex}%
+2, 3&6\\
+\hline
+\rule{0pt}{2.3ex}%
+8&5\\
+\hline
+\rule{0pt}{2.3ex}%
+4, 90&4\\
+\hline
+\rule{0pt}{2.3ex}%
+6, 11, 31, 47&3\\
+\hline
+\rule{0pt}{2.3ex}%
+\cellbox[3in]{5, 14, 42, 64, 68, 78, 91, 95, 98}
+&2\\
+\hline
+\cellbox[3in]{
+1, 7, 9, 12, 15, 17, 18, 19, 21, 22, 25, 28, 29, 33, 34, 36,
+37, 40, 43, 44, 45, 46, 52, 53, 54, 57, 58, 61, 65, 66, 69, 72,
+74, 76, 80, 81, 86, 87, 89, 94, 96, 97, 99, 102, 105, 108,
+115, 117, 119, 123, 125, 127, 144, 149, 150, 154, 181, 219,
+222.
+}
+  &1\\
+\hline
+\end{tabular}
+\end{table}
 
-\begin{itemize}
-\item The most frequent sizes were 2 and 3, tied at
-six states each.
-\item There were five states of size 8.
-\item There were four states in each of the sizes 4 and 90.
-\item There were three states in each of the following sizes:
-      6, 11, 31, and 47
-\item There were two states in each of the following sizes:
-           5, 14, 42, 64, 68, 78, 91, 95, and 98.
-\item There was a single state of each of the following sizes:
-     1, 7, 9, 12, 15, 17, 18, 19, 21, 22, 25, 28, 29, 33, 34, 36,
-    37, 40, 43, 44, 45, 46, 52, 53, 54, 57, 58, 61, 65, 66, 69, 72,
-    74, 76, 80, 81, 86, 87, 89, 94, 96, 97, 99, 102, 105, 108,
-   115, 117, 119, 123, 125, 127, 144, 149, 150, 154, 181, 219,
-   and 222.
-\end{itemize}
-
-\section{ Statistics on completed LHS symbols per AHFA state. }
+\subsection{Completed LHS symbols per AHFA state. }
 An AHFA state may contain completions for more than one LHS,
 but that is rare in practical use, and the number of completed
 LHS symbols in the exceptions remains low.
