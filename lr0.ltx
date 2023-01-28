@@ -76,17 +76,6 @@ the use of LR states in Earley items.
 
 \subsection{Confirmed states.}
 
-We show the counts for the confirmed states for the Perl grammar
-in Table \ref{tab:perl-confirmed}
-on page \pageref{tab:perl-confirmed}.
-They range in size from 1 to 20 items,
-but the numbers are heavily skewed toward the low
-end.
-As can be seen, well over 90\% of the total confirmed states have
-just one or two items.
-The average size is 1.5235,
-and the average of the size squared is 3.9405.
-
 \begin{table}[tb]
 \caption{
   \label{tab:perl-confirmed}
@@ -116,6 +105,17 @@ and the average of the size squared is 3.9405.
 \end{tabular}
 \end{table}
 
+We show the counts for the confirmed states for the Perl grammar
+in Table \ref{tab:perl-confirmed}
+on page \pageref{tab:perl-confirmed}.
+They range in size from 1 to 20 items,
+but the numbers are heavily skewed toward the low
+end.
+As can be seen, well over 90\% of the total confirmed states have
+just one or two items.
+The average size is 1.5235,
+and the average of the size squared is 3.9405.
+
 For HTML, I looked at a parser which generates grammars on
 the fly, aggregating the states in all of them.
 For the the HTML grammars I used, the totals are even more lopsided:
@@ -123,19 +123,6 @@ For the the HTML grammars I used, the totals are even more lopsided:
 All the others (19.04\%) have 2 items.
 The average size is 1.1904,
 and the average of the size squared is 1.5712.
-
-Table \ref{tab:c-confirmed}
-on page \pageref{tab:c-confirmed}
-shows the count of confirmed AHFA states, by state size,
-for a compiler-quality C grammar,
-the confirmed states range in size from 1 to 15 items but again,
-the numbers are heavily skewed toward the low
-end.  Here are the item counts that appear, with the percent of the total
-confirmed AHFA states with that item count in parentheses.
-in parentheses.
-There were 970 confirmed C states.
-The average size was 1.52.
-The average of the size squared was 3.98.
 
 \begin{table}[tb]
 \caption{
@@ -167,6 +154,20 @@ The average of the size squared was 3.98.
 \end{tabular}
 \end{table}
 
+Table \ref{tab:c-confirmed}
+on page \pageref{tab:c-confirmed}
+shows the count of confirmed AHFA states, by state size,
+for a compiler-quality C grammar,
+the confirmed states range in size from 1 to 15 items but again,
+the numbers are heavily skewed toward the low
+end.  Here are the item counts that appear, with the percent of the total
+confirmed AHFA states with that item count in parentheses.
+in parentheses.
+There were 970 confirmed C states.
+The average size was 1.52.
+The average of the size squared was 3.98.
+
+
 \subsection{Predicted states.}
 
 The number of predicted states tends to be much more
@@ -175,19 +176,6 @@ It also tends to be much larger, and
 the average for practical grammars may be $O(s)$,
 where $s$ is the size of the grammar.
 This is the same as the theoretical worst case.
-
-For predicted states, because AHFA states of varied
-size are common,
-we switch from showing the frequency of AHFA states
-for each size,
-to showing the sizes of the AHFA state by the
-frequency of states of that size.
-Table \ref{tab:perl-predicted}
-on page \pageref{tab:perl-predicted}
-shows the data for a Perl grammar.
-The number of predicted states in the Perl grammar was 58.
-The average size was 83.59 AHFA items.
-The average of the size squared was 11356.41.
 
 \begin{table}[tb]
 \caption{
@@ -225,12 +213,19 @@ The average of the size squared was 11356.41.
 \end{tabular}
 \end{table}
 
-Table \ref{tab:html-predicted}
-on page \pageref{tab:html-predicted}
-contains the data for prediction AHFA states in HTML grammars.
-The total number of predicted states in the HTML grammars was 1855.
-Their average size was 14.60.
-Their average size squared was 250.93.
+For predicted states, because AHFA states of varied
+size are common,
+we switch from showing the frequency of AHFA states
+for each size,
+to showing the sizes of the AHFA state by the
+frequency of states of that size.
+Table \ref{tab:perl-predicted}
+on page \pageref{tab:perl-predicted}
+shows the data for a Perl grammar.
+The number of predicted states in the Perl grammar was 58.
+The average size was 83.59 AHFA items.
+The average of the size squared was 11356.41.
+
 
 \begin{table}[tb]
 \caption{
@@ -299,14 +294,7 @@ Their average size squared was 250.93.
 \end{tabular}
 \end{table}
 
-The data for predicted states in a C grammar
-is Table \ref{tab:c-predicted}
-on page \pageref{tab:c-predicted}
-The number of predicted states in the C grammar was 114.
-The average size was 54.81.
-The average size squared was 5361.28.
-The sizes of the predicted states for the C grammar were spread from 1 
-to 222.
+
 \begin{table}[tb]
 \caption{
   \label{tab:c-predicted}
@@ -348,6 +336,15 @@ to 222.
 \hline
 \end{tabular}
 \end{table}
+
+The data for predicted states in a C grammar
+is Table \ref{tab:c-predicted}
+on page \pageref{tab:c-predicted}
+The number of predicted states in the C grammar was 114.
+The average size was 54.81.
+The average size squared was 5361.28.
+The sizes of the predicted states for the C grammar were spread from 1 
+to 222.
 
 \subsection{Completed LHS symbols per AHFA state. }
 An AHFA state may contain completions for more than one LHS,
