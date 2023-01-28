@@ -4,6 +4,7 @@
 \documentclass[12pt]{amsart}
 \usepackage{url}
 \usepackage{placeins}
+\usepackage{needspace}
 
 % I just don't care about underfull vbox's
 \raggedbottom
@@ -117,14 +118,37 @@ just one or two items.
 The average size is 1.5235,
 and the average of the size squared is 3.9405.
 
+\begin{table}[ht]
+\caption{
+  \label{tab:html-confirmed}
+  Confirmed AHFA states for HTML grammars}
+\vspace{1ex}
+\begin{tabular}{|r|r|}
+\hline
+\multicolumn{1}{|c|}
+  {\rule{0pt}{2.3ex}
+   \rule{0pt}{-.5ex}
+   Size}&
+  \multicolumn{1}{|c|}{Percent}\\
+& \multicolumn{1}{|c|}{of occurrences}\\
+\hline
+\rule{0pt}{2.3ex}
+1&80.96\%\\
+2&19.04\%\\
+\hline
+\end{tabular}
+\end{table}
+
 For HTML, I looked at a parser which generates grammars on
 the fly, aggregating the states in all of them.
-For the the HTML grammars I used, the totals are even more lopsided:
-80.96\% of all confirmed states have only 1 item.
-All the others (19.04\%) have 2 items.
+The data are in
+Table \ref{tab:html-confirmed}
+on page \pageref{tab:html-confirmed}.
 The average size is 1.1904,
 and the average of the size squared is 1.5712.
 
+\FloatBarrier % Necessary to make 'Needspace' below work
+%             % to prevent orphan
 \begin{table}[ht]
 \caption{
   \label{tab:c-confirmed}
@@ -155,6 +179,7 @@ and the average of the size squared is 1.5712.
 \end{tabular}
 \end{table}
 
+\Needspace{10\baselineskip}% prevent orphan
 Table \ref{tab:c-confirmed}
 on page \pageref{tab:c-confirmed}
 shows the count of confirmed AHFA states, by state size,
@@ -163,11 +188,9 @@ the confirmed states range in size from 1 to 15 items but again,
 the numbers are heavily skewed toward the low
 end.  Here are the item counts that appear, with the percent of the total
 confirmed AHFA states with that item count in parentheses.
-in parentheses.
 There were 970 confirmed C states.
 The average size was 1.52.
 The average of the size squared was 3.98.
-
 
 \subsection{Predicted states.}
 
