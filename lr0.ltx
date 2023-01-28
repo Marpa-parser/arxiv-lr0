@@ -4,6 +4,33 @@
 \documentclass[12pt]{amsart}
 \usepackage{url}
 
+\newsavebox{\myBox}
+\newlength{\myHt}
+\newlength{\myDp}
+\newlength{\myWd}
+\newcommand{\padBoxC}[3]{%
+    \savebox{\myBox}{\ignorespaces#3}%
+    \usebox{\myBox}%
+    \myHt=\ht\myBox%
+    \myDp=\dp\myBox%
+    \vrule height\dimexpr\myHt+#1 depth\dimexpr\myDp+#2 width0pt%
+}
+\newcommand{\padBox}[2]{\padBoxC{#1}{#1}{#2}}
+
+\newcommand{\cellboxrWidth}[1]{4.5in}
+% non-optional-argument version of right-adjusted cellbox
+\newcommand{\cellboxrB}[2]{%
+    \parbox{#1}{\raggedright{\ignorespaces#2}}%
+}
+% Padded right-adjusted cellbox
+\newcommand{\cellboxr}[2][\cellboxrWidth]{%
+    \cellboxrB{#1}{%
+        \padBoxC{4pt}{0pt}{\vphantom{(}}%
+        {\ignorespaces#2}%
+        \padBoxC{0pt}{4pt}{\vphantom{(}}%
+    }%
+}
+
 \begin{document}
 
 \date{\today}
@@ -50,7 +77,7 @@ on page \pageref{tab:perl-confirmed}.
 They range in size from 1 to 20 items,
 but the numbers are heavily skewed toward the low
 end.
-As can be seen, well over 90\% of the total discovered states have
+As can be seen, well over 90\% of the total confirmed states have
 just one or two items.
 The average size is 1.5235,
 and the average of the $|size|^2$ is 3.9405.
@@ -87,44 +114,53 @@ and the average of the $|size|^2$ is 3.9405.
 For HTML, I looked at a parser which generates grammars on
 the fly, aggregating the states in all of them.
 For the the HTML grammars I used, the totals are even more lopsided:
-80.96\% of all discovered states have only 1 item.
+80.96\% of all confirmed states have only 1 item.
 All the others (19.04\%) have 2 items.
 The average size is 1.1904,
 and the average of the $|size|^2$ is 1.5712.
 
-For a compiler-quality C grammar,
-the discovered states range in size from 1 to 15 items but again,
+Table \ref{tab:c-confirmed}
+on page \pageref{tab:c-confirmed}.
+shows the count of confirmed AHFA states, by state size,
+for a compiler-quality C grammar,
+the confirmed states range in size from 1 to 15 items but again,
 the numbers are heavily skewed toward the low
 end.  Here are the item counts that appear, with the percent of the total
-discovered AHFA states with that item count in parentheses.
-in parentheses:
-\par
-\vskip\baselineskip
-\vbox{\offinterlineskip
-\halign{&#&
-  \strut\quad\hfil#\quad\cr
-&\omit&&\omit&\cr
-&Size\hfil&&C discovered states&\cr\
-&\omit&&\omit&\cr
-&1&&695&\cr
-&2&&188&\cr
-&3&&40&\cr
-&4&&17&\cr
-&5&&6&\cr
-&6&&8&\cr
-&7&&6&\cr
-&8&&4&\cr
-&9&&1&\cr
-&10&&2&\cr
-&12&&2&\cr
-&15&&1&\cr
-&\omit&&\omit&\cr}
-}
-\vskip\baselineskip
-\par
-There were 970 discovered C states.
+confirmed AHFA states with that item count in parentheses.
+in parentheses.
+There were 970 confirmed C states.
 The average size was 1.52.
 The average of the size squared was 3.98.
+
+\begin{table}[ht]
+\caption{
+  \label{tab:c-confirmed}
+  Confirmed AHFA states for a C grammar}
+\vspace{1ex}
+\begin{tabular}{|r|r|}
+\hline
+\multicolumn{1}{|c|}
+  {\rule{0pt}{2.3ex}
+   \rule{0pt}{-.5ex}
+   Size}&
+  \multicolumn{1}{|c|}{Occurrences}\\
+\hline
+\rule{0pt}{2.5ex}
+1&695\\
+2&188\\
+3&40\\
+4&17\\
+5&6\\
+6&8\\
+7&6\\
+8&4\\
+9&1\\
+10&2\\
+12&2\\
+15&1\\
+\hline
+\end{tabular}
+\end{table}
 
 \subsection{Predicted states.}
 
