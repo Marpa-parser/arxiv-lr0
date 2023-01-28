@@ -3,6 +3,7 @@
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
 \usepackage{url}
+\usepackage{placeins}
 
 % I just don't care about underfull vbox's
 \raggedbottom
@@ -53,7 +54,7 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 
 \begin{abstract}
 In the course of developing the Marpa parser,
-we implemented the 
+we implemented the
 AHFA state-based parsing described in Aycock and Horspool's 2002 paper.
 This allowed us to test its effectiveness in practice.
 This paper reports our results.
@@ -76,7 +77,7 @@ the use of LR states in Earley items.
 
 \subsection{Confirmed states.}
 
-\begin{table}[tb]
+\begin{table}[ht]
 \caption{
   \label{tab:perl-confirmed}
   Confirmed AHFA states for a Perl grammar}
@@ -124,7 +125,7 @@ All the others (19.04\%) have 2 items.
 The average size is 1.1904,
 and the average of the size squared is 1.5712.
 
-\begin{table}[tb]
+\begin{table}[ht]
 \caption{
   \label{tab:c-confirmed}
   Confirmed AHFA states for a C grammar}
@@ -177,7 +178,7 @@ the average for practical grammars may be $O(s)$,
 where $s$ is the size of the grammar.
 This is the same as the theoretical worst case.
 
-\begin{table}[tb]
+\begin{table}[ht]
 \caption{
   \label{tab:perl-predicted}
   Predicted AHFA states for a Perl grammar}
@@ -227,7 +228,7 @@ The average size was 83.59 AHFA items.
 The average of the size squared was 11356.41.
 
 
-\begin{table}[tb]
+\begin{table}[ht]
 \caption{
   \label{tab:html-predicted}
   Predicted AHFA states for HTML grammars}
@@ -294,8 +295,7 @@ The average of the size squared was 11356.41.
 \end{tabular}
 \end{table}
 
-
-\begin{table}[tb]
+\begin{table}[ht]
 \caption{
   \label{tab:c-predicted}
   Predicted AHFA states for a C grammar}
@@ -343,7 +343,7 @@ on page \pageref{tab:c-predicted}
 The number of predicted states in the C grammar was 114.
 The average size was 54.81.
 The average size squared was 5361.28.
-The sizes of the predicted states for the C grammar were spread from 1 
+The sizes of the predicted states for the C grammar were spread from 1
 to 222.
 
 \subsection{Completed LHS symbols per AHFA state. }
@@ -368,6 +368,8 @@ In my HTML test suite,
 every single one
 of the 14,782 AHFA states
 has only one completed LHS symbol.
+
+\FloatBarrier
 
 \bibliographystyle{plain}
 
