@@ -54,9 +54,11 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 }
 
 \begin{abstract}
-In the course of developing the Marpa parser,
+In the course of developing Marpa,
+an Earley parser,
 we implemented the
-AHFA state-based parsing described in Aycock and Horspool's 2002 paper.
+LR(0) state-based parsing described
+in Aycock and Horspool's 2002 paper~\cite{AH2002}.
 This allowed us to test its effectiveness in practice.
 This paper reports our results.
 \end{abstract}
@@ -65,14 +67,34 @@ This paper reports our results.
 
 \section{ The Aycock-Horspool finite automata. }
 
-Most of the material in this document describes the behavior of
-Marpa when it used the states of
-the Aycock-Horspool finite automaton.
-This material includes statistics, and some carefully worked
-out math.
-While not relevant to the current version of Marpa,
-it may be useful for anyone else wanting to experiment with
-the use of LR states in Earley items.
+The Marpa recognizer~\cite{Marpa2023} was intended
+to make the best results on Earley's algorithm
+in the academic literature available as
+a practical general parser.
+Accordingly, when it was first released in 2011,
+it included the proposed improvements
+in Aycock and Horspool's 2002 paper~\cite{AH2002}.
+\cite{AH2002}~proposed changing Earley's algorithm to
+collected dotted rules into states of what we will
+call an Aycock-Horspool finite state automata (AHFA).
+The AHFA was based on the much-studied LR(0) states.
+Creating the AHFA was facilitated by a grammar rewrite
+to eliminate properly nullable
+(that is, nullable but not nulling)
+symbols.
+
+In 2014, we removed the AHFA state logic from
+Marpa, but keep the associated grammar rewrite.
+This paper explains why.
+
+Readers should be familiar with Marpa~\cite{Marpa2023}
+and Aycock and Horspool's 2002 paper~\cite{AH2002}.
+Users of the current version of Marpa will find
+this paper of historic interest, more than
+direct relevance.
+We hope that this paper would also
+be of interest to researchers into
+the relevance and usefulness of LR states in Earley parsing.
 
 \section{ Statistics on AHFA states. }
 
@@ -422,17 +444,16 @@ Dirk~Grune and Ceriel~J.H Jacobs.
 \newblock {\em Parsing Techniques: A Practical Guide}.
 \newblock Springer, Amsterdam, 2008.
 
-\bibitem{Marpa-HTML}
-Jeffrey~Kegler, 2011: Marpa-HTML.
-\newblock \url{http://search.cpan.org/dist/Marpa-HTML/}.
+\bibitem{Kegler2023}
+Jeffrey~Kegler.
+\newblock Marpa, A practical general parser: the recognizer.
+\\ % fix underfull HBOX
+\newblock arXiv:1910.08129.
+\newblock \url{https://arxiv.org/abs/1910.08129}
 
 \bibitem{Marpa-R2}
 Jeffrey~Kegler, 2013: Marpa-R2.
 \newblock \url{http://search.cpan.org/dist/Marpa-R2/}.
-
-\bibitem{Marpa-XS}
-Jeffrey~Kegler, 2011: Marpa-XS-1.002000.
-\newblock \url{http://search.cpan.org/dist/Marpa-XS/}.
 
 \bibitem{Leo1991}
 J.~M. I.~M. Leo.
