@@ -202,7 +202,6 @@ and the average of the size squared is 1.5712.
 \end{table}
 
 \FloatBarrier
-\Needspace{10\baselineskip}% prevent orphan
 Table \ref{tab:c-confirmed}
 on page \pageref{tab:c-confirmed}
 shows the count of confirmed AHFA states, by state size,
@@ -214,6 +213,7 @@ confirmed AHFA states with that item count in parentheses.
 There were 970 confirmed C states.
 The average size was 1.52.
 The average of the size squared was 3.98.
+\FloatBarrier
 
 \subsection{Predicted states.}
 
@@ -223,7 +223,14 @@ It also tends to be much larger, and
 the average for practical grammars may be $O(s)$,
 where $s$ is the size of the grammar.
 This is the same as the theoretical worst case.
+For predicted states, because AHFA states of varied
+size are common,
+we switch from showing the frequency of AHFA states
+for each size,
+to showing the sizes of the AHFA state by the
+frequency of states of that size.
 
+\FloatBarrier
 \begin{table}[ht]
 \caption{
   \label{tab:perl-predicted}
@@ -260,86 +267,81 @@ This is the same as the theoretical worst case.
 \end{tabular}
 \end{table}
 
-For predicted states, because AHFA states of varied
-size are common,
-we switch from showing the frequency of AHFA states
-for each size,
-to showing the sizes of the AHFA state by the
-frequency of states of that size.
+\FloatBarrier
+\subsubsection{Predicted States for a Perl grammar}
+
 Table \ref{tab:perl-predicted}
 on page \pageref{tab:perl-predicted}
 shows the data for a Perl grammar.
 The number of predicted states in the Perl grammar was 58.
 The average size was 83.59 AHFA items.
 The average of the size squared was 11356.41.
-
+\FloatBarrier
 
 \begin{table}[ht]
 \caption{
   \label{tab:html-predicted}
   Predicted AHFA states for HTML grammars}
 \vspace{1ex}
-\begin{tabular}{|r|r|}
-\hline
+\begin{tabular}{|r|r|c|r|r|}
+\cline{1-2} \cline{4-5}
 \multicolumn{1}{|c|}
   {\rule{0pt}{2.3ex}
    \rule{0pt}{-.5ex}
    Size}&
+  \multicolumn{1}{|c|}{Occurrences}&
+  \multicolumn{1}{|c|}{}&
+\multicolumn{1}{|c|}{Size}&
   \multicolumn{1}{|c|}{Occurrences}\\
-\hline
+\cline{1-2} \cline{4-5}
 \rule{0pt}{2.3ex}%
-1&95\\
-\hline
+1&95&&
+20&190\\
+\cline{1-2} \cline{4-5}
 \rule{0pt}{2.3ex}%
-2&95\\
-\hline
+2&95&&
+21&63\\
+\cline{1-2} \cline{4-5}
 \rule{0pt}{2.3ex}%
-4&95\\
-\hline
+4&95&&
+22&22\\
+\cline{1-2} \cline{4-5}
 \rule{0pt}{2.3ex}%
-11&181\\
-\hline
+11&181&&
+24&8\\
+\cline{1-2} \cline{4-5}
 \rule{0pt}{2.3ex}%
-14&181\\
-\hline
+14&181&&
+25&16\\
+\cline{1-2} \cline{4-5}
 \rule{0pt}{2.3ex}%
-15&294\\
-\hline
+15&294&&
+26&16\\
+\cline{1-2} \cline{4-5}
 \rule{0pt}{2.3ex}%
-16&112\\
-\hline
+16&112&&
+28&2\\
+\cline{1-2} \cline{4-5}
 \rule{0pt}{2.3ex}%
-18&349\\
-\hline
+18&349&&
+29&16\\
+\cline{1-2} \cline{4-5}
 \rule{0pt}{2.3ex}%
 19&120\\
-\hline
-\rule{0pt}{2.3ex}%
-20&190\\
-\hline
-\rule{0pt}{2.3ex}%
-21&63\\
-\hline
-\rule{0pt}{2.3ex}%
-22&22\\
-\hline
-\rule{0pt}{2.3ex}%
-24&8\\
-\hline
-\rule{0pt}{2.3ex}%
-25&16\\
-\hline
-\rule{0pt}{2.3ex}%
-26&16\\
-\hline
-\rule{0pt}{2.3ex}%
-28&2\\
-\hline
-\rule{0pt}{2.3ex}%
-29&16\\
-\hline
+\cline{1-2}
 \end{tabular}
 \end{table}
+
+\FloatBarrier
+\subsubsection{Predicted States for HTML grammars}
+
+Data for predicted AHFA states in the HTML grammars
+is in Table \ref{tab:html-predicted}
+on page \pageref{tab:html-predicted}.
+The total number of predicted states in the HTML grammars was
+1855. Their average size was 14.60. Their average size squared was
+250.93.
+\FloatBarrier
 
 \begin{table}[ht]
 \caption{
@@ -383,6 +385,9 @@ The average of the size squared was 11356.41.
 \end{tabular}
 \end{table}
 
+\FloatBarrier
+\subsubsection{Predicted states for a C grammar}
+
 The data for predicted states in a C grammar
 is Table \ref{tab:c-predicted}
 on page \pageref{tab:c-predicted}
@@ -391,6 +396,7 @@ The average size was 54.81.
 The average size squared was 5361.28.
 The sizes of the predicted states for the C grammar were spread from 1
 to 222.
+\FloatBarrier
 
 \subsection{Completed LHS symbols per AHFA state. }
 An AHFA state may contain completions for more than one LHS,
