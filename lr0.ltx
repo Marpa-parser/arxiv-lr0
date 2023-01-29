@@ -96,6 +96,34 @@ We hope that this paper would also
 be of interest to researchers into
 the relevance and usefulness of LR states in Earley parsing.
 
+\section{The pitfall of counting Earley items}
+
+In the Earley parsing literature speed results
+are reported based on the count of Earley items -- the fewer Earley items, it is
+assumed, the faster the parser. This totally ignores evaluation, never
+mind tracing or run-time features like events.
+
+This massive over-simplification worked, because Jay Earley and Joop
+Leo only went for results in Landau notation, and these are "big" enough
+that even a huge over-simplification is not a problem. This is not the
+case when we are talking about a constant factor.
+
+\section{AHFA states are not disjoint}
+
+The relationship between AHFA items and Earley items is not
+many-to-one, but many-to-many, greatly complicating the translation. IIRC
+correctly this is not in their paper. I ran into it when
+implementing.
+
+We were able to measure the AHFA states for practical grammars, only to
+find that their actual effect was quite small. The AHFA states did not
+produce measurable improvements, and were serious obstacles to several
+run-time features I was contemplating.
+
+The problem of translating back and forth from LR rule sets to the grammar
+is the most important factor that limited the success of LR parsing. When a Yacc parse
+fails it is often very hard for the grammar writer to figure out why.
+
 \section{ Statistics on AHFA states. }
 
 \subsection{Confirmed states.}
