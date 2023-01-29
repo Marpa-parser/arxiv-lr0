@@ -230,13 +230,15 @@ The problem of translating back and forth from LR rule sets to the grammar
 is the most important factor that limited the success of LR parsing. When a Yacc parse
 fails it is often very hard for the grammar writer to figure out why.
 
+\clearpage
+
 \section{ Statistics on AHFA states. }
 
 \subsection{Confirmed states.}
 
 \FloatBarrier
 
-\begin{table}[ht]
+\begin{table}[!ht]
 \caption{
   \label{tab:perl-confirmed}
   Confirmed AHFA states for a Perl grammar}
@@ -279,7 +281,7 @@ The average size is 1.5235,
 and the average of the size squared is 3.9405.
 \FloatBarrier
 
-\begin{table}[ht]
+\begin{table}[!ht]
 \caption{
   \label{tab:html-confirmed}
   Confirmed AHFA states for HTML grammars}
@@ -312,7 +314,7 @@ and the average of the size squared is 1.5712.
 
 \FloatBarrier % Necessary to make 'Needspace' below work
 %             % to prevent orphan
-\begin{table}[ht]
+\begin{table}[!ht]
 \caption{
   \label{tab:c-confirmed}
   Confirmed AHFA states for a C grammar}
@@ -372,7 +374,7 @@ to showing the sizes of the AHFA state by the
 frequency of states of that size.
 
 \FloatBarrier
-\begin{table}[ht]
+\begin{table}[!ht]
 \caption{
   \label{tab:perl-predicted}
   Predicted AHFA states for a Perl grammar}
@@ -419,7 +421,7 @@ The average size was 83.59 AHFA items.
 The average of the size squared was 11356.41.
 \FloatBarrier
 
-\begin{table}[ht]
+\begin{table}[!ht]
 \caption{
   \label{tab:html-predicted}
   Predicted AHFA states for HTML grammars}
@@ -484,7 +486,7 @@ The total number of predicted states in the HTML grammars was
 250.93.
 \FloatBarrier
 
-\begin{table}[ht]
+\begin{table}[!ht]
 \caption{
   \label{tab:c-predicted}
   Predicted AHFA states for a C grammar}
