@@ -5,6 +5,7 @@
 \usepackage{url}
 \usepackage{placeins}
 \usepackage{needspace}
+\usepackage{float}
 
 % We deal with underfull vbox's by eyeball, or not at all.
 \raggedbottom
@@ -230,7 +231,50 @@ The problem of translating back and forth from LR rule sets to the grammar
 is the most important factor that limited the success of LR parsing. When a Yacc parse
 fails it is often very hard for the grammar writer to figure out why.
 
-\clearpage
+AHFA states are not a partitioning of the dotted rules.  One dotted
+rule can fall into more than one AHFA state.
+Aycock and Horspool saw this as an optimization, in
+that it allows dotted rules, if they often occur together, to be grouped
+together aggressively. But it opens up the possibility that, in cases
+where the Earley algorithm had disposed of a dotted rule once and for all, Marpa
+might have to deal with it multiple times.
+
+Jay Earley~\cite{Earley1970},
+in his proofs,
+could rely on the fact
+that for each attempt
+to add a duplicate,
+the causation must be different --
+that the confluences causing the attempt
+will differ in either their mainstem
+or their tributary.
+Multiple confluences for an Earley item
+would mean multiple derivations
+for the sentential form that it represents.
+That in turn would mean that
+the grammar is ambiguous,
+contrary to assumption.
+
+With AHFA states, there is complication.
+A dotted rule can occur in more than one AHFA
+state.
+Because of that,
+it is possible that two of Marpa's
+operations to add an \type{EIM}
+will represent identical Earley confluences,
+and therefore will be
+consistent with an unambiguous grammar.
+Dealing with this produced complications both for our
+theoretical results.
+We~\cite{Marpa2023}
+and Aycock and Horpsool~\cite{AH2002}
+were able to achieve the same results in
+Landau-notation terms as Earley~\cite{Earley1970}
+but getting there was more complicated.
+Similarly, it made
+the Marpa implementation much more comlex.
+
+\Needspace{30\baselineskip}
 
 \section{ Statistics on AHFA states. }
 
@@ -238,7 +282,7 @@ fails it is often very hard for the grammar writer to figure out why.
 
 \FloatBarrier
 
-\begin{table}[!ht]
+\begin{table}[H]
 \caption{
   \label{tab:perl-confirmed}
   Confirmed AHFA states for a Perl grammar}
@@ -281,7 +325,7 @@ The average size is 1.5235,
 and the average of the size squared is 3.9405.
 \FloatBarrier
 
-\begin{table}[!ht]
+\begin{table}[H]
 \caption{
   \label{tab:html-confirmed}
   Confirmed AHFA states for HTML grammars}
@@ -314,7 +358,7 @@ and the average of the size squared is 1.5712.
 
 \FloatBarrier % Necessary to make 'Needspace' below work
 %             % to prevent orphan
-\begin{table}[!ht]
+\begin{table}[H]
 \caption{
   \label{tab:c-confirmed}
   Confirmed AHFA states for a C grammar}
@@ -374,7 +418,7 @@ to showing the sizes of the AHFA state by the
 frequency of states of that size.
 
 \FloatBarrier
-\begin{table}[!ht]
+\begin{table}[H]
 \caption{
   \label{tab:perl-predicted}
   Predicted AHFA states for a Perl grammar}
@@ -421,7 +465,7 @@ The average size was 83.59 AHFA items.
 The average of the size squared was 11356.41.
 \FloatBarrier
 
-\begin{table}[!ht]
+\begin{table}[H]
 \caption{
   \label{tab:html-predicted}
   Predicted AHFA states for HTML grammars}
@@ -486,7 +530,7 @@ The total number of predicted states in the HTML grammars was
 250.93.
 \FloatBarrier
 
-\begin{table}[!ht]
+\begin{table}[H]
 \caption{
   \label{tab:c-predicted}
   Predicted AHFA states for a C grammar}
