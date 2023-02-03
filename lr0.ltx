@@ -7,6 +7,22 @@
 \usepackage{needspace}
 \usepackage{float}
 
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+
+\tikzset{
+    state/.style={
+           rectangle,
+           rounded corners,
+           draw=black, thick,
+           minimum height=2em,
+           inner sep=2pt,
+           text centered,
+           },
+}
+
 % We deal with underfull vbox's by eyeball, or not at all.
 \raggedbottom
 
@@ -15,6 +31,10 @@
 \newcommand{\V}[1]{\ensuremath{\texttt{\mbox{#1}}}}
 \newcommand{\type}[1]{\ensuremath{\texttt{#1}}}
 \newcommand{\tuple}[1]{\ensuremath{\left\langle #1 \right\rangle}}
+
+\newcommand{\cat}{\,.\,}
+\newcommand{\de}{\mathrel{::=}}
+\newcommand{\mydot}{\raisebox{.05em}{$\,\bullet\,$}}
 
 \newcommand{\ah}[1]{#1_{\type{AH}}}
 \newcommand{\Vah}[1]{\ensuremath{\V{#1}_{\type{AH}}}}
@@ -216,6 +236,23 @@ that even a huge over-simplification is not a problem. This is not the
 case when we are talking about a constant factor.
 
 \section{AHFA states are not disjoint}
+
+\begin{tikzpicture}[shorten=1pt]
+
+ \node[state] (S0)
+ {\begin{tabular}{l}
+   $\V{S}^\prime \de \mydot \V{S}$\\
+   \end{tabular}};
+
+ \node[state,
+     below of=S0,
+     node distance=2cm] (S1)
+ {\begin{tabular}{l}
+   $\V{S} \de \mydot \V{A}\cat\V{B}\cat\V{C}\cat\V{D}$ \\
+   \end{tabular}};
+
+  \path[->] (S0) edge node {$\epsilon$} (S1) ;
+\end{tikzpicture}
 
 The relationship between AHFA items and Earley items is not
 many-to-one, but many-to-many, greatly complicating the translation. IIRC
