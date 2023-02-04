@@ -6,6 +6,8 @@
 \usepackage{placeins}
 \usepackage{needspace}
 \usepackage{float}
+% \usepackage[obeyDraft]{todonotes}
+\usepackage{todonotes}
 
 \usepackage{pgf}
 \usepackage{tikz}
@@ -79,7 +81,9 @@
 
 \date{\today}
 
-\title{The Aycock-Horspool AHFA: some practical experience}
+\title[Marpa and the Aycock-Horspool parser]{
+  Marpa and the Aycock-Horspool parser:
+  a practical experience}
 
 \author{Jeffrey Kegler}
 \thanks{%
@@ -93,11 +97,9 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \begin{abstract}
 In the course of developing Marpa,
 an Earley parser,
-we implemented the
-LR(0) state-based parsing described
+we dealt with nullable symbols by following the approach
 in Aycock and Horspool's 2002 paper~\cite{AH2002}.
-This allowed us to test its effectiveness in practice.
-This paper reports our results.
+This paper reports our experience.
 \end{abstract}
 
 \maketitle
@@ -108,34 +110,35 @@ The Marpa recognizer~\cite{Marpa2023} was intended
 to make the best results on Earley's algorithm
 in the academic literature available as
 a practical general parser.
-Accordingly, when it was first released in 2011,
-it included the proposed improvements
+Accordingly, when Marpa was first released in 2011,
+it included the improved handling of nullable symbols
 in Aycock and Horspool's 2002 paper~\cite{AH2002}.
-\cite{AH2002}~proposed changing Earley's algorithm to
-collected dotted rules into states of a
-finite automata.
-In this paper a
-``split LR(0) $\epsilon$-DFA''
-as described by Aycock and Horspool~\cite{AH2002},
-will be called an Aycock-Horspool Finite Automaton,
-or AHFA.
-Creating the AHFA was facilitated by a grammar rewrite
-to eliminate properly nullable
-(that is, nullable but not nulling)
-symbols.
+The measures proposed in
+that we adopted from \cite{AH2002}
+were the following:
+\begin{itemize}
+\item Eliminating proper nullable with a semantics preserving
+grammar rewrite.
+A ``proper nullable'' symbol is a nulling symbol
+that is not nulling.
+\item
+Collecting dotted rules into states of a
+finite automata, which we will call
+an Aycok-Horspool Finite Automata (AHFA)\footnote{%
+  In \cite{AH2002} an AHFA is called a ``split LR(0) $\epsilon$-DFA''.
+},
+and modifying the Earley parse engine to use 
+AHFA states.
+\end{itemize}
 
-In 2014, we removed the AHFA state logic from
-Marpa, but keep the associated grammar rewrite.
-This paper explains why.
+We made many modifications to the suggestions in \cite{AH2002}.
+The most significant of these was made in 2014.
+Based on our experience with the AHFA-driven parse engine,
+we eliminated the use of AHFA state logic in Marpa.
 
+\todo{Describe sections}
 Readers should be familiar with Marpa~\cite{Marpa2023}
-and Aycock and Horspool's 2002 paper~\cite{AH2002}.
-Users of the current version of Marpa will find
-this paper of historic interest, more than
-direct relevance.
-We hope that this paper would also
-be of interest to researchers into
-the relevance and usefulness of LR states in Earley parsing.
+and with Aycock and Horspool's 2002 paper~\cite{AH2002}.
 
 \section{ The Aycock-Horspool finite automata. }
 
@@ -402,7 +405,57 @@ but getting there was more complicated.
 Similarly, it made
 the Marpa implementation much more complex.
 
+
+\bibliographystyle{plain}
+
+\begin{thebibliography}{10}
+
+\raggedright
+
+\bibitem{AU1972}
+Alfred H.~Aho and Jeffrey D.~Ullman.
+\newblock The Theory of Parsing, Translation, and Computing
+\newblock Prentice-Hall, Englewood Cliff, N.J., 1972.
+
+\bibitem{AH2002}
+John~Aycock and R.~Nigel~Horspool.
+\newblock Practical Earley Parsing
+\newblock {\em The Computer Journal},
+    Vol. 45, No. 6, 2002, pp. 620-630.
+
+\bibitem{Earley1970}
+J.~Earley.
+\newblock An efficient context-free parsing algorithm.
+\newblock {\em Communications of the Association for Computing Machinery},
+  13(2):94--102, 1970.
+
+\bibitem{GJ2008}
+Dirk~Grune and Ceriel~J.H Jacobs.
+\newblock {\em Parsing Techniques: A Practical Guide}.
+\newblock Springer, Amsterdam, 2008.
+
+\bibitem{Marpa2023}
+Jeffrey~Kegler.
+\newblock Marpa, A practical general parser: the recognizer.
+\\ % fix underfull HBOX
+\newblock arXiv:1910.08129.
+\newblock \url{https://arxiv.org/abs/1910.08129}
+
+\bibitem{Marpa-R2}
+Jeffrey~Kegler, 2013: Marpa-R2.
+\newblock \url{http://search.cpan.org/dist/Marpa-R2/}.
+
+\bibitem{Leo1991}
+J.~M. I.~M. Leo.
+\newblock A general context-free parsing algorithm running in linear time on
+  every {LR($k$)} grammar without using lookahead.
+\newblock {\em Theoretical Computer Science}, 82:165--176, 1991.
+
+\end{thebibliography}
+
 \Needspace{30\baselineskip}
+
+\appendix
 
 \section{ Statistics on AHFA states. }
 
@@ -737,53 +790,6 @@ of the 14,782 AHFA states
 has only one completed LHS symbol.
 
 \FloatBarrier
-
-\bibliographystyle{plain}
-
-\begin{thebibliography}{10}
-
-\raggedright
-
-\bibitem{AU1972}
-Alfred H.~Aho and Jeffrey D.~Ullman.
-\newblock The Theory of Parsing, Translation, and Computing
-\newblock Prentice-Hall, Englewood Cliff, N.J., 1972.
-
-\bibitem{AH2002}
-John~Aycock and R.~Nigel~Horspool.
-\newblock Practical Earley Parsing
-\newblock {\em The Computer Journal},
-    Vol. 45, No. 6, 2002, pp. 620-630.
-
-\bibitem{Earley1970}
-J.~Earley.
-\newblock An efficient context-free parsing algorithm.
-\newblock {\em Communications of the Association for Computing Machinery},
-  13(2):94--102, 1970.
-
-\bibitem{GJ2008}
-Dirk~Grune and Ceriel~J.H Jacobs.
-\newblock {\em Parsing Techniques: A Practical Guide}.
-\newblock Springer, Amsterdam, 2008.
-
-\bibitem{Marpa2023}
-Jeffrey~Kegler.
-\newblock Marpa, A practical general parser: the recognizer.
-\\ % fix underfull HBOX
-\newblock arXiv:1910.08129.
-\newblock \url{https://arxiv.org/abs/1910.08129}
-
-\bibitem{Marpa-R2}
-Jeffrey~Kegler, 2013: Marpa-R2.
-\newblock \url{http://search.cpan.org/dist/Marpa-R2/}.
-
-\bibitem{Leo1991}
-J.~M. I.~M. Leo.
-\newblock A general context-free parsing algorithm running in linear time on
-  every {LR($k$)} grammar without using lookahead.
-\newblock {\em Theoretical Computer Science}, 82:165--176, 1991.
-
-\end{thebibliography}
 
 \clearpage
 \tableofcontents
