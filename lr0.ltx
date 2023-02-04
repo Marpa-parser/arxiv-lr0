@@ -256,6 +256,14 @@ case when we are talking about a constant factor.
 
  \node[state,
      anchor=center,
+     right of=C0,
+     node distance=4.5cm] (C8)
+ {\begin{tabular}{ll}
+   C8&$\V{S}^\prime \de \V{S} \mydot$\\
+   \end{tabular}};
+
+ \node[state,
+     anchor=center,
      below of=C0,
      node distance=15ex] (P1)
  {\begin{tabular}{ll}
@@ -293,7 +301,7 @@ case when we are talking about a constant factor.
  \node[state,
      anchor=center,
      below of=C3,
-     node distance=15ex] (P2)
+     node distance=12ex] (P2)
  {\begin{tabular}{ll}
    P2&$\V{B} \de \mydot \V{x}\cat\V{b}$ \\
    \end{tabular}};
@@ -305,7 +313,6 @@ case when we are talking about a constant factor.
  {\begin{tabular}{ll}
    C5&$\V{B} \de \V{x}\mydot\V{b}$ \\
    \end{tabular}};
-
 
  \node[state,
      anchor=center,
@@ -324,6 +331,7 @@ case when we are talking about a constant factor.
    \end{tabular}};
 
   \path[->] (C0) edge node[anchor=left,right] {$\epsilon$} (P1) ;
+  \path[->] (C0) edge node[anchor=south,above] {$\V{S}$} (C8) ;
   \path[->] (P1) edge node[anchor=south,above] {$\V{x}$} (C2) ;
   \path[->] (P1) edge node[anchor=left,right] {$\V{A}$} (C3) ;
   \path[->] (C3) edge node[anchor=left,right] {$\epsilon$} (P2) ;
