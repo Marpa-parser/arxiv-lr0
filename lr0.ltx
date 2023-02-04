@@ -237,21 +237,33 @@ case when we are talking about a constant factor.
 
 \section{AHFA states are not disjoint}
 
-\begin{tikzpicture}[shorten=1pt]
+\begin{tikzpicture}
 
- \node[state] (S0)
- {\begin{tabular}{l}
-   $\V{S}^\prime \de \mydot \V{S}$\\
+ \node[state] (C0)
+ {\begin{tabular}{ll}
+   C0&$\V{S}^\prime \de \mydot \V{S}$\\
    \end{tabular}};
 
  \node[state,
-     below of=S0,
-     node distance=2cm] (S1)
- {\begin{tabular}{l}
-   $\V{S} \de \mydot \V{A}\cat\V{B}\cat\V{C}\cat\V{D}$ \\
+     below of=C0,
+     node distance=15ex] (P1)
+ {\begin{tabular}{ll}
+   P1&$\V{S} \de \mydot \V{A}\cat\V{B}$ \\
+   &$\V{A} \de \mydot \V{x}\cat\V{a}$ \\
+   &$\V{A} \de \mydot \V{B}$ \\
+   &$\V{B} \de \mydot \V{x}\cat\V{b}$ \\
    \end{tabular}};
 
-  \path[->] (S0) edge node {$\epsilon$} (S1) ;
+ \node[state,
+     right of=P1,
+     node distance=5cm] (C2)
+ {\begin{tabular}{ll}
+   C2&$\V{A} \de \V{x}\mydot\V{a}$ \\
+   &$\V{B} \de \V{x}\mydot\V{b}$ \\
+   \end{tabular}};
+
+  \path[->] (C0) edge node[anchor=left,right] {$\epsilon$} (P1) ;
+  \path[->] (P1) edge node[anchor=south,above] {$\V{x}$} (C2) ;
 \end{tikzpicture}
 
 The relationship between AHFA items and Earley items is not
@@ -309,7 +321,7 @@ were able to achieve the same results in
 Landau-notation terms as Earley~\cite{Earley1970}
 but getting there was more complicated.
 Similarly, it made
-the Marpa implementation much more comlex.
+the Marpa implementation much more complex.
 
 \Needspace{30\baselineskip}
 
