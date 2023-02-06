@@ -2,6 +2,7 @@
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
+\usepackage{xspace}
 \usepackage{url}
 \usepackage{placeins}
 \usepackage{needspace}
@@ -34,9 +35,49 @@
 \newcommand{\type}[1]{\ensuremath{\texttt{#1}}}
 \newcommand{\tuple}[1]{\ensuremath{\left\langle #1 \right\rangle}}
 
+\newcommand{\seq}[1]{\ensuremath{\left[ #1 \right]}}
+\newcommand{\seqB}[2]{\seq{#1 \mcoloncolon #2}}
+
+\newcommand{\typed}[2]{\ensuremath{#1\mcolon#2}}
+\newcommand{\Vtyped}[2]{\ensuremath{\V{#1}\mcolon#2}}
+\newcommand{\VTtyped}[2]{\ensuremath{\V{#1}\mcolon\type{#2}}}
+
+\newcommand{\defined}{\underset{\text{def}}{\equiv}}
+\newcommand{\naturals}{\ensuremath{\mathbb{N}}\xspace}
 \newcommand{\cat}{\,.\,}
+\newcommand{\size}[1]{\ensuremath{\left | {#1} \right |}}
+
+
+\newcommand{\Vsize}[1]{\ensuremath{\size{\V{#1}}}}
+
 \newcommand{\de}{\mathrel{::=}}
 \newcommand{\mydot}{\raisebox{.05em}{$\,\bullet\,$}}
+
+\newcommand{\lastix}[1]{\ensuremath{\##1}}
+\newcommand{\Vlastix}[1]{\ensuremath{\lastix{\V{#1}}}}
+\newcommand{\VlastElement}[1]{\Velement{#1}{\Vlastix{#1}}}
+\newcommand{\element}[2]{\ensuremath{\mathop{#1}
+    \mathopen{}\left[#2\right]\mathclose{}}}
+\newcommand{\Velement}[2]{\ensuremath{\mathop{\V{#1}}
+    \mathopen{}\left[#2\right]\mathclose{}}}
+\newcommand{\VVelement}[2]{\ensuremath{\mathop{\V{#1}}
+    \mathopen{}\left[ \V{#2}
+    \right]\mathclose{} }}
+
+\newcommand{\mcolon}{\mathrel:}
+\newcommand{\mcoloncolon}{\mathrel{\vcenter{\hbox{$::$}}}}
+
+% [f]u[n]ction [M]ap operator
+\newcommand{\fnMap}{\rightharpoonup}
+% [t]otal [f]u[n]ction [M]ap operator
+\newcommand{\tfnMap}{\rightarrow}
+
+% [t]otal [f]u[n]ction [M]ultidomain [M]ap operator
+% \hbox shifts from math to text vertical alignment, which is what we want
+\newcommand{\tfnMMap}{\ensuremath{
+    \mathrel{\raise.75pt\hbox{\ensuremath{
+          \raise1.19pt\hbox{\scalebox{.60}{$\ni$}} \mkern-12mu \rightarrow}}}
+    }}
 
 \newcommand{\ah}[1]{#1_{\type{AH}}}
 \newcommand{\Vah}[1]{\ensuremath{\V{#1}_{\type{AH}}}}
@@ -44,6 +85,13 @@
 \newcommand{\Vdr}[1]{\ensuremath{\V{#1}_{\type{DR}}}}
 \newcommand{\orig}[1]{#1_{\type{ORIG}}}
 \newcommand{\Vorig}[1]{\ensuremath{\V{#1}_{\type{ORIG}}}}
+\newcommand{\setOf}[1]{{{#1}^{\mbox{\normalsize $\ast$}}}}
+\newcommand{\Vrule}[1]{\ensuremath{\V{#1}_{\type{RULE}}}}
+\newcommand{\Vruleset}[1]{\ensuremath{\V{#1}_{\setOf{\type{RULE}}}}}
+\newcommand{\Vstr}[1]{\ensuremath{\V{#1}_{\type{STR}}}}
+\newcommand{\sym}[1]{#1_{\type{SYM}}}
+\newcommand{\Vsym}[1]{\ensuremath{\V{#1}_{\type{SYM}}}}
+\newcommand{\Vsymset}[1]{\ensuremath{\V{#1}_{\setOf{\type{SYM}}}}}
 
 \newcommand{\GOTO}{\mymathop{GOTO}}
 \newcommand{\Cfa}{\V{fa}}
@@ -137,10 +185,184 @@ Based on our experience with the AHFA-driven parse engine,
 we eliminated the use of AHFA state logic in Marpa.
 
 \todo{Describe sections}
-Readers should be familiar with Marpa~\cite{Marpa2023}
-and with Aycock and Horspool's 2002 paper~\cite{AH2002}.
+\section{Preliminaries}
 
-\section{ The Aycock-Horspool finite automata. }
+Readers should be familiar with Marpa~\cite{Marpa2023},
+with Aycock and Horspool's 2002 paper~\cite{AH2002},
+and with standard grammar notation.%
+\todo{Cite Wikipedia?}
+
+We use the type system
+of Farmer~2012~\cite{Farmer2012},
+without needing most of its apparatus.\footnote{%
+Types in \cite{Farmer2012} are
+collections of classes (``superclasses'').
+But in this paper, every explicitly stated type will be a ZF set.
+}
+Let \V{exp} be an expression,
+and let \type{T} be its type.
+Type may be indicated in a ``wide'' notation:
+$$ \VTtyped{exp}{T} $$.
+More often, this paper will use the ``narrow''
+notation,
+where a subscripts indicates type.
+$$ \V{exp}_\type{T} $$
+
+We often write ``iff'' for ``if and only if''.
+We write tuples using angle brackets: $ \tuple{\V{a},\V{b},\V{c}} $.
+We define the natural numbers, \naturals, to include zero.
+
+We define the natural numbers, \naturals, to include zero.
+$\V{D} \fnMap \V{C}$ is the set of partial functions from domain \V{D} to codomain \V{C}.
+$\V{D} \tfnMap \V{C}$ is the set of total functions from domain \V{D} to codomain \V{C}.
+It follows that $\naturals \tfnMap \V{C}$ is the set of
+infinite sequences of terms from the set \V{C};
+and that $42 \tfnMap \V{C}$ is the set of
+sequences of length 42 of terms from the set \V{C}.
+We say that
+$$ \V{domSet} \tfnMMap \V{C} \defined
+   \bigl\{ \V{fn} \bigm|
+       \left( \exists \; \V{D} \in \V{domSet} \; \middle| \; \V{fn} \in \V{D} \tfnMap \V{C}
+       \right) \bigr\}
+$$
+so that $\naturals \tfnMMap \V{C}$
+is the set of finite sequences of terms from the set \V{C}.
+
+We write \Vsize{\V{seq}} for the cardinality, or length,
+of the sequence \V{seq}.
+\VVelement{seq}{i} is the \V{i}'th term of the sequence \V{seq},
+and is well-defined when
+$0 \le \V{i} < \Vsize{seq}$.
+We write often specify a sequence by giving its terms inside
+brackets.
+For example,
+$$\seq{\, \V{a}, \; 42, \; \seq{} \, }$$
+is the sequence of length
+3 whose terms are, in order, \V{a}, the number 42, and the empty sequence.
+
+The last index of the sequence \V{seq} is \Vlastix{seq},
+so that \VlastElement{seq} is the last term of \V{seq}.
+\Vlastix{seq} is ill-defined for the empty sequence,
+that is, if $\Vsize{seq} = 0$.
+If \V{seq} is not the empty sequence, then
+$\Vsize{seq} = \Vlastix{seq} + 1$.
+
+Let \V{vocab} be a non-empty set of symbols.
+The string type, \type{STR}, is the set of all finite sequences of
+symbols:
+$$ \type{STR} = \naturals \tfnMMap \V{vocab} $$
+
+A grammar is a 4-tuple
+\begin{equation}
+\label{eq:grammar-template}
+    \tuple{\Vsymset{vocab}, \Sigma, \V{rules}, \Vsym{accept}}.
+\end{equation}
+Here $\Vsym{accept} \in \V{vocab}$,
+and $\Sigma \subset \V{vocab}$.
+Call the language of \V{g}, $\typed{\myL{\Cg}}{\setOf{\type{STR}}}$.
+
+In \eqref{eq:grammar-template},
+\Vruleset{rules} is a set of rules (type \type{RULE}),
+where a rule is a duple
+of the form $\tuple{\Vsym{lhs} \de \Vstr{rhs}}$,
+such that
+\begin{equation*}
+\Vsym{lhs} \in \V{vocab} \quad \text{and}
+\quad \Vstr{rhs} \in \type{STR}^\ast.
+\end{equation*}
+\Vsym{lhs} is referred to as the left hand side (LHS)
+of \Vrule{r}.
+\Vstr{rhs} is referred to as the right hand side (RHS)
+of \Vrule{r}.
+The LHS and RHS of \Vrule{r} may also be
+referred to as
+$\LHS{\Vrule{r}}$ and $\RHS{\Vrule{r}}$, respectively.
+
+The rules imply the traditional rewriting system,
+in which
+\begin{itemize}
+\item $\Vstr{x} \derives \Vstr{y}$
+states that \V{x} derives \V{y} in exactly one step;
+\item $\Vstr{x} \deplus \Vstr{y}$
+states that \V{x} derives \V{y} in one or more steps;
+and
+\item $\Vstr{x} \destar \Vstr{y}$
+states that \V{x} derives \V{y} in zero or more steps.
+\end{itemize}
+We call these rewrites \dfn{derivation steps}.
+A sequence of one or more of derivation steps,
+in which the left hand side of all but the first
+is the right hand side of its predecessor,
+is a \dfn{derivation}.
+We say that the symbol \V{x} \dfn{induces}
+the string of length 1 whose only term is that symbol,
+that is, the string \seq{\Vsym{x}}.
+Pedantically, the terms of derivations,
+and the arguments of concatenations like
+$\Vstr{s1} \cat \Vstr{s2}$
+must be strings.
+But in concatenations and derivation steps we often
+write the symbol to represent the string it induces so
+that
+$$ \Vstr{a} \cat \Vsym{b} \cat \Vstr{c}
+= \Vstr{a} \cat \seq{\Vsym{b}} \cat \Vstr{c}.
+$$
+
+We say that a string \V{x} is \dfn{nullable},
+$\Nullable{\Vstr{x}}$, iff the empty string can be
+derived from it:
+$$\Nullable{\Vstr{x}} \defined \V{x} \destar \epsilon.$$
+We say that a string \V{x} is \dfn{nulling},
+$\Nulling{\Vstr{x}}$,
+iff it always eventually derives the null
+string:
+\[
+\Nulling{\Vstr{s}} \defined
+  \forall \; \Vstr{y} \;\mid\; \V{x} \destar \V{y} \implies \V{y} \destar \epsilon.
+\]
+We say that symbols are nulling or nullable based on the string they
+induce:
+\begin{gather*}
+\Nullable{\Vsym{x}} \defined \Nullable{\seq{\V{x}}}. \\
+\Nulling{\Vsym{x}} \defined \Nulling{\seq{\V{x}}}.
+\end{gather*}
+A string or symbol is
+\begin{itemize}
+\item \dfn{non-nullable} iff it is not nullable;
+\item a \dfn{proper nullable} iff it is nullable,
+but not nulling; and
+\item \dfn{non-nulling} iff it is not nulling.
+\end{itemize}
+
+We assume grammars are ``augmented'',
+that is,
+that there is a dedicated acceptance rule,
+$$ \Vrule{accept} = \tuple{ \Vsym{accept} \de \Vsym{start} }, $$
+where $\Vsym{start} \in \V{vocab}$,
+and that the accept symbol, \Vsym{accept},
+is such that
+\begin{equation*}
+\begin{gathered}
+\forall \; \V{x} \in \Crules \mid \\
+\nexists \; \Vstr{pre}, \; \Vstr{post} \; \mid \\
+\V{pre} \cat \Vsym{accept} \cat \V{post} = \RHS{\Vrule{x}} \\
+\end{gathered}
+\end{equation*}
+and
+$$ \Vsym{accept} = \LHS{\V{x}} \implies \Vrule{accept} = \V{x}. $$
+
+Let the input to
+the parse be $\typed{\Cw}{\type{STR}^\ast}$.
+Locations in the input will be of type \type{LOC}.
+When we state our complexity results later,
+they will often be in terms of $\V{n}$,
+where $\V{n} = \Vsize{w}$.
+\CVw{i} is character \V{i}
+of the input,
+and is well-defined when
+$0 \le \Vloc{i} < \Vsize{w}$.
+
+\section{The Aycock-Horspool finite automata}
 
 This section will
 summarize the ideas
@@ -428,6 +650,12 @@ J.~Earley.
 \newblock An efficient context-free parsing algorithm.
 \newblock {\em Communications of the Association for Computing Machinery},
   13(2):94--102, 1970.
+
+\bibitem{Farmer2012}
+William~M.~Farmer.
+\newblock Chiron: A Set Theory with Types, Undefinedness, Quotation, and Evaluation.
+\newblock SQRL Report No. 38, McMaster University, 2007 (revised 2012)
+\newblock arXiv:1305.6206
 
 \bibitem{GJ2008}
 Dirk~Grune and Ceriel~J.H Jacobs.
