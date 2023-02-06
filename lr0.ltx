@@ -2,6 +2,7 @@
 % This document is licensed under
 % a Creative Commons Attribution-NoDerivs 3.0 United States License.
 \documentclass[12pt]{amsart}
+\usepackage{amssymb}
 \usepackage{xspace}
 \usepackage{url}
 \usepackage{placeins}
@@ -51,6 +52,11 @@
 \newcommand{\Vsize}[1]{\ensuremath{\size{\V{#1}}}}
 
 \newcommand{\de}{\mathrel{::=}}
+\newcommand{\derives}{\Rightarrow}
+\newcommand{\destar}
+    {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\Rightarrow\!}\:$}}}
+\newcommand{\deplus}
+    {\mathrel{\mbox{$\:\stackrel{\!{+}}{\Rightarrow\!}\:$}}}
 \newcommand{\mydot}{\raisebox{.05em}{$\,\bullet\,$}}
 
 \newcommand{\lastix}[1]{\ensuremath{\##1}}
@@ -92,9 +98,29 @@
 \newcommand{\sym}[1]{#1_{\type{SYM}}}
 \newcommand{\Vsym}[1]{\ensuremath{\V{#1}_{\type{SYM}}}}
 \newcommand{\Vsymset}[1]{\ensuremath{\V{#1}_{\setOf{\type{SYM}}}}}
+\newcommand{\Eloc}[1]{\ensuremath{{#1}_{\type{LOC}}}}
+\newcommand{\Vloc}[1]{\Eloc{\V{#1}}}
 
-\newcommand{\GOTO}{\mymathop{GOTO}}
 \newcommand{\Cfa}{\V{fa}}
+\newcommand{\Cg}{\V{g}}
+\newcommand{\Cw}{\V{w}}
+\newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\V{#1}]}}}
+\newcommand{\Crules}{\V{rules}}
+\newcommand{\Nulling}[1]{\mymathop{Nulling}(#1)}
+\newcommand{\Nullable}[1]{\mymathop{Nullable}(#1)}
+\newcommand{\GOTO}{\mymathop{GOTO}}
+\newcommand{\Next}[1]{\mymathop{Next}(#1)}
+\newcommand{\Predict}[1]{\mymathop{Predict}(#1)}
+\newcommand{\Postdot}[1]{\mymathop{Postdot}(#1)}
+\newcommand{\Penult}[1]{\mymathop{Penult}(#1)}
+\newcommand{\Pos}[1]{\mymathop{Pos}(#1)}
+\newcommand{\Rule}[1]{\mymathop{Rule}(#1)}
+\newcommand{\LHS}[1]{\mymathop{LHS}(#1)}
+\newcommand{\RHS}[1]{\mymathop{RHS}(#1)}
+\newcommand{\DR}[1]{\mymathop{DR}(#1)}
+\newcommand{\Transition}[1]{\mymathop{Transition}(#1)}
+\newcommand{\Origin}[1]{\mymathop{Origin}(#1)}
+\newcommand{\myL}[1]{\mymathop{L}(#1)}
 
 \newsavebox{\myBox}
 \newlength{\myHt}
