@@ -557,10 +557,11 @@ We also state the following:
   \Vsym{next}, \text{ if } \existQ{
       \Vstr{pre}, \; \Vstr{post}, \; \Vsym{A}}{ \\
       \qquad \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}} \\
-      \qquad \land \; \Nullable{\V{post}} \land \; \neg \Nulling{\V{next}}} \\
+      \qquad \land \; \Nulling{\V{post}} \land \; \neg \Nulling{\V{next}}} \\
   \unicorn, \text{ otherwise}
   \end{cases}
 \]
+\todo{Delete Penult?}
 
 A \dfn{penult} is a dotted rule \Vdr{d} such that $\Penult{\V{d}} \isWellDef$.
 We note that $\Penult{\Vdr{x}}$
@@ -591,7 +592,7 @@ Predicted, confirmed and completed dotted rules
 are also called, respectively,
 \dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
-A traditional Earley item (type \type{EIM}) is a triple
+An Earley item (type \type{EIM}) is a triple
 of dotted rule, origin, and current location.\footnote{%
   This definition of \type{EIM} departs from the tradition,
   according to which the current location is not an element
@@ -619,10 +620,12 @@ of dotted rule, origin, and current location.\footnote{%
      \Current{\Veim{x}} = \TTl{\V{x}}.
 \end{gather*}
 $\DR{\Veim{x}}$ is the dotted rule.
-The origin of \Veim{x}, $\Origin{\Veim{x}},$
-is the location in the input where recognition of $\Rule{DR{\Veim{x}}}$
+The origin of \Veim{x},
+$$\typed{\Origin{\Veim{x}}}{\type{LOC}},$$
+is the location in the input where recognition of $\Rule{\DR{\Veim{x}}}$
 started.
-The current location of \Veim{x}, $\Current{\Veim{x}},$
+The current location of \Veim{x},
+$$\typed{\Current{\Veim{x}}}{\type{LOC}},$$
 is the location in the input of the dot in $\DR{\Veim{x}}.$
 $\Current{\Veim{x}}$ is also called the \dfn{dot location}
 of \Veim{x}.
@@ -663,22 +666,15 @@ Occasionally the naming location is a expression,
 so that
 $$ \es{(\Origin{\Veim{x}})} $$
 is the Earley set at the origin of the \type{EIMT} \Veim{x}.
-
-At points,
-we will need to compare the Earley sets
-produced by the different recognizers.
-\Vtable{i} will be
-the Earley set at \Vloc{i}
-in the table of Earley sets.
 If \es{\V{working}} is an Earley set,
 $\size{\es{\V{working}}}$ is the number of Earley items.
 
 Recall that
 there was a unique acceptance symbol,
 \Vsym{accept}, in \Cg{}.
-The input \Cw{} is accepted if and only if,
+The input \Cw{} is accepted if and only if
 \begin{equation*}
-\tuple{\tuple{\Vsym{accept} \de \Vsym{start} \mydot}, 0} \in \bigEtable{\Vsize{\Cw}}
+\tuple{\tuple{\Vsym{accept} \de \Vsym{start} \mydot}, 0} \in \bigEtable{\Vsize{\Cw}}.
 \end{equation*}
 
 \section{The Aycock-Horspool finite automata}
