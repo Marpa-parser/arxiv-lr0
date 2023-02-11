@@ -34,6 +34,19 @@
 \newcommand{\mymathop}[1]{\mathop{\texttt{#1}}}
 \newcommand{\V}[1]{\ensuremath{\texttt{\mbox{#1}}}}
 \newcommand{\type}[1]{\ensuremath{\texttt{#1}}}
+
+\newcommand{\isWellDef}{\mathop{\downarrow}}
+\newcommand{\isIllDef}{\mathop{\uparrow}}
+\newcommand{\wellDefRel}{\mathrel{\downarrow}}
+\newcommand{\illDefRel}{\mathrel{\uparrow}}
+\newcommand{\wellDefB}[2]{#1\wellDefRel#2}
+\newcommand{\illDefB}[2]{#1\illDefRel#2}
+
+\newcommand{\qeq}{\simeq}
+\newcommand{\nqeq}{\not\simeq}
+\newcommand{\unicorn}{\ensuremath{\bot}\xspace}
+\newcommand{\TRUE}{\ensuremath{\mathbb T}\xspace}
+\newcommand{\FALSE}{\ensuremath{\mathbb F}\xspace}
 \newcommand{\tuple}[1]{\ensuremath{\left\langle #1 \right\rangle}}
 
 \newcommand{\seq}[1]{\ensuremath{\left[ #1 \right]}}
@@ -42,6 +55,31 @@
 \newcommand{\typed}[2]{\ensuremath{#1\mcolon#2}}
 \newcommand{\Vtyped}[2]{\ensuremath{\V{#1}\mcolon#2}}
 \newcommand{\VTtyped}[2]{\ensuremath{\V{#1}\mcolon\type{#2}}}
+
+\newcommand{\mname}[1]{\mbox{\sf #1}}
+% [O]perator [A]pplication
+\newcommand{\Oname}[1]{\mname{#1}}
+% The \mathopen{} and \mathclose{} eliminate unwanted extra space
+\newcommand{\OA}[2]{\ensuremath{%
+    \mathop{\Oname{#1}}\mathopen{}\left(#2\right)\mathclose{}%
+}}
+\newcommand{\VOA}[2]{\OA{#1}{\V{#2}}}
+% [F]unction [A]pplication, replaces \myfn
+\newcommand{\smallrawfn}[2]{\ensuremath{\mathop{#1}(#2)}}
+% The \mathopen{} and \mathclose{} eliminate unwanted extra space
+\newcommand{\rawfn}[2]{\ensuremath{\mathop{#1}\mathopen{}\left(#2\right)\mathclose{}}}
+\newcommand{\Fname}[1]{\V{#1}}
+\newcommand{\FA}[2]{\ensuremath{\rawfn{\mathop{\Fname{#1}}}{#2}}}
+\newcommand{\VFA}[2]{\FA{#1}{\V{#2}}}
+
+% List operators
+\newcommand{\Hd}[1]{\OA{hd}{#1}}
+% With the list operators,
+% is looks better if we don't increase paren size as we nest
+\newcommand{\Tl}[1]{\Oname{tl}({#1})}
+\newcommand{\HTl}[1]{\Hd{\Tl{#1}}}
+\newcommand{\TTl}[1]{\Tl{\Tl{#1}}}
+\newcommand{\TTTl}[1]{\Tl{\TTl{#1}}}
 
 \newcommand{\defined}{\underset{\text{def}}{\equiv}}
 \newcommand{\naturals}{\ensuremath{\mathbb{N}}\xspace}
@@ -52,11 +90,11 @@
 \newcommand{\Vsize}[1]{\ensuremath{\size{\V{#1}}}}
 
 \newcommand{\de}{\mathrel{::=}}
-\newcommand{\derives}{\Rightarrow}
+\newcommand{\derives}{\mathrel{\Rightarrow}}
 \newcommand{\destar}
-    {\mathrel{\mbox{$\:\stackrel{\!{\ast}}{\Rightarrow\!}\:$}}}
+    {\mathrel{\mbox{$\stackrel{\!{\ast}}{\Rightarrow\!}$}}}
 \newcommand{\deplus}
-    {\mathrel{\mbox{$\:\stackrel{\!{+}}{\Rightarrow\!}\:$}}}
+    {\mathrel{\mbox{$\stackrel{\!{+}}{\Rightarrow\!}$}}}
 \newcommand{\mydot}{\raisebox{.05em}{$\,\bullet\,$}}
 
 \newcommand{\lastix}[1]{\ensuremath{\##1}}
@@ -72,6 +110,36 @@
 
 \newcommand{\mcolon}{\mathrel:}
 \newcommand{\mcoloncolon}{\mathrel{\vcenter{\hbox{$::$}}}}
+
+\newcommand{\suchthat}{\mcoloncolon}
+\newcommand{\quantify}[3]{% quantifier, binding, predicate
+    \ensuremath{\mathrel{#1}#2 \; \suchthat \; #3}%
+}
+\newcommand{\rIota}{\mathop{\scalebox{1.5}{\rotatebox[origin=c]{180}{$\iota$}}}}
+\newcommand{\iotaQOp}{\mathop{\rIota}}
+\newcommand{\iotaQ}[2]{\quantify{\iotaQOp}{#1}{#2}}
+
+\newcommand{\epsQOp}{\mathop{\varepsilon}}
+\newcommand{\epsQ}[2]{\quantify{\epsQOp}{#1}{#2}}
+
+\newcommand{\lambdaQOp}{\mathop{\lambda}}
+\newcommand{\lambdaQ}[2]{\quantify{\lambdaQOp}{#1}{#2}}
+
+% collection builder variant, or descriptor
+\newcommand{\setQvOp}{\mathop{\mathsection}}
+\newcommand{\setQv}[2]{\quantify{\setQOp}{#1}{#2}}
+\newcommand{\setB}[2]{\lbrace #1 \suchthat #2 \rbrace}
+
+\newcommand{\existUniqQOp}{\mathop{\exists{!}}}
+\newcommand{\existUniqQ}[2]{\quantify{\existUniqQOp}{#1}{#2}}
+% extra {} in existQOP and univQOp to raise to baseline
+\newcommand{\existQOp}{\mathop{\exists{}}}
+\newcommand{\existQ}[2]{\quantify{\existQOp}{#1}{#2}}
+\newcommand{\nexistQOp}{\mathop{\nexists{}}}
+\newcommand{\nexistQ}[2]{\quantify{\nexistQOp}{#1}{#2}}
+% extra {} in existQOP and univQOp to raise to baseline
+\newcommand{\univQOp}{\mathop{\forall{}\,}}
+\newcommand{\univQ}[2]{\quantify{\univQOp}{#1}{#2}}
 
 % [f]u[n]ction [M]ap operator
 \newcommand{\fnMap}{\rightharpoonup}
@@ -94,6 +162,9 @@
 \newcommand{\setOf}[1]{{{#1}^{\mbox{\normalsize $\ast$}}}}
 \newcommand{\Vrule}[1]{\ensuremath{\V{#1}_{\type{RULE}}}}
 \newcommand{\Vruleset}[1]{\ensuremath{\V{#1}_{\setOf{\type{RULE}}}}}
+\newcommand{\Veim}[1]{\ensuremath{\V{#1}_{\type{EIM}}}}
+\newcommand{\es}[1]{\ensuremath{#1_{\type{ES}}}}
+\newcommand{\Ves}[1]{\ensuremath{\V{#1}_{\type{ES}}}}
 \newcommand{\Vstr}[1]{\ensuremath{\V{#1}_{\type{STR}}}}
 \newcommand{\sym}[1]{#1_{\type{SYM}}}
 \newcommand{\Vsym}[1]{\ensuremath{\V{#1}_{\type{SYM}}}}
@@ -120,7 +191,12 @@
 \newcommand{\DR}[1]{\mymathop{DR}(#1)}
 \newcommand{\Transition}[1]{\mymathop{Transition}(#1)}
 \newcommand{\Origin}[1]{\mymathop{Origin}(#1)}
+\newcommand{\Current}[1]{\mymathop{Current}(#1)}
 \newcommand{\myL}[1]{\mymathop{L}(#1)}
+
+\newcommand\Etable[1]{\ensuremath{\mymathop{table}[#1]}}
+\newcommand\bigEtable[1]{\ensuremath{\mymathop{table}\bigl[#1\bigr]}}
+\newcommand\Vtable[1]{\Etable{\V{#1}}}
 
 \newsavebox{\myBox}
 \newlength{\myHt}
@@ -233,6 +309,37 @@ More often, this paper will use the ``narrow''
 notation,
 where a subscripts indicates type.
 $$ \V{exp}_\type{T} $$
+
+A useful feature of Farmer~2012~\cite{Farmer2012} is his notion of ill-definedness.
+For example, the value of partial functions may be ill-defined for
+some arguments in their domain.
+Farmer's handling of ill-definedness is the traditional one,
+and was well-entrenched,
+but he was first to describe and formalize it.\footnote{%
+See Farmer 2004~\cite{Farmer2004}.
+Note that Farmer refers to ill-defined values as ``undefined''.
+We found this problematic.
+For example, a partial function may not have a value for
+every argument in its domain.
+Saying that that the value of the partial function for these arguments
+is defined as ``undefined'' is confusing.
+In this paper we say that these values are defined, but ill-defined.
+}
+
+We write $\unicorn$ for ill-defined.
+A value is \dfn{well-defined} iff it is not ill-defined.
+We write $\V{x}\isWellDef$ to say that \V{x} is well-defined,
+and we write $\V{x}\isIllDef$ to say that \V{x} is ill-defined.
+
+Traditionally, and in this paper,
+any formula with an ill-defined operand is false.
+This means that a equality both of whose operands are ill-defined
+is false, so that $\neg \; (\unicorn = \unicorn)$.
+For cases where this is inconvenient,
+we introduce a new relation, $\simeq$, such that
+$$
+  \V{a} \simeq \V{b} \defined \V{a} = \V{b} \lor (\V{a} \isIllDef \land \V{b} \isIllDef ).
+$$
 
 We often write ``iff'' for ``if and only if''.
 We write tuples using angle brackets: $ \tuple{\V{a},\V{b},\V{c}} $.
@@ -387,6 +494,171 @@ where $\V{n} = \Vsize{w}$.
 of the input,
 and is well-defined when
 $0 \le \Vloc{i} < \Vsize{w}$.
+
+\section{Earley's algorithm}
+\label{s:earley}
+
+A dotted rule (type \type{DR}) is a duple of rule and position
+in the rule.
+\begin{gather*}
+\Rule{\Vdr{dr}} \defined \Hd{\V{dr}}, \\
+\Pos{\Vdr{dr}} \defined \Tl{\V{dr}}, \text{ and} \\
+ 0 \le \Pos{\V{dr}} \le \size{\Rule{\V{dr}}}.
+\end{gather*}
+
+The position of a dotted rule indicates the extent to which
+the rule has been recognized,
+and is represented with a large raised dot,
+so that if
+\begin{equation*}
+\tuple{ \Vsym{A} \de \Vsym{X} \cat \Vsym{Y} \cat \Vsym{Z}}
+\end{equation*}
+is a rule,
+\begin{equation*}
+\tuple{ \Vsym{A} \de \V{X} \cat \V{Y} \mydot \V{Z}}
+\end{equation*}
+is the dotted rule with the dot at
+$\V{pos} = 2$,
+between \Vsym{Y} and \Vsym{Z}.
+
+Every rule concept, when applied to a dotted rule,
+is applied to the rule of the dotted rule.
+The following are examples:
+\[
+\begin{gathered}
+  \LHS{\Vdr{x}} \defined \LHS{\Rule{\V{x}}}. \\
+  \RHS{\Vdr{x}} \defined \RHS{\Rule{\V{x}}}. \\
+\end{gathered}
+\]
+
+We also state the following:
+\[
+  \Postdot{\Vdr{x}} \defined
+  \begin{cases}
+  \Vsym{next}, \text{ if } \existQ{
+      \Vstr{pre}, \; \Vstr{post}, \; \Vsym{A}}{ \\
+      \qquad \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}}} \\
+  \unicorn, \text{ otherwise.}
+  \end{cases} \\
+\]
+
+\[
+  \Next{\Vdr{x}} \defined
+  \begin{cases}
+    \VTtyped{\tuple{ \Vsym{A} \de \Vstr{pre} \cat \Vsym{next} \mydot \Vstr{post}}}{DR}, \\
+      \qquad \text{if } \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}} \\
+    \unicorn, \text{ otherwise.}
+  \end{cases} \\
+\]
+
+\[
+  \Penult{\Vdr{x}} \defined
+  \begin{cases}
+  \Vsym{next}, \text{ if } \existQ{
+      \Vstr{pre}, \; \Vstr{post}, \; \Vsym{A}}{ \\
+      \qquad \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}} \\
+      \qquad \land \; \Nullable{\V{post}} \land \; \neg \Nulling{\V{next}}} \\
+  \unicorn, \text{ otherwise}
+  \end{cases}
+\]
+
+A \dfn{penult} is a dotted rule \Vdr{d} such that $\Penult{\V{d}} \isWellDef$.
+We note that $\Penult{\Vdr{x}}$
+is never a nullable symbol.
+The \dfn{initial dotted rule} is
+\begin{equation}
+\label{eq:initial-dr}
+\Vdr{initial} = \tuple{\Vsym{accept} \de \mydot \Vsym{start} }.
+\end{equation}
+A \dfn{predicted dotted rule} is a dotted rule,
+other than the initial dotted rule,
+with a dot position of zero,
+for example,
+\begin{equation*}
+\Vdr{predicted} = \tuple{\Vsym{A} \de \mydot \Vstr{alpha} }.
+\end{equation*}
+A \dfn{confirmed dotted rule}
+is the initial dotted rule,
+or a dotted rule
+with a dot position greater than zero.
+A \dfn{completed dotted rule} is a dotted rule with its dot
+position after the end of its RHS,
+for example,
+\begin{equation*}
+\Vdr{completed} = \tuple{\Vsym{A} \de \Vstr{alpha} \mydot }.
+\end{equation*}
+Predicted, confirmed and completed dotted rules
+are also called, respectively,
+\dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
+
+A traditional Earley item (type \type{EIM}) is a triple
+of dotted rule, origin, and current location.
+\begin{gather*}
+     \DR{\Veim{x}} = \Hd{\V{x}}. \\
+     \Origin{\Veim{x}} = \HTl{\V{x}}. \\
+     \Current{\Veim{x}} = \TTl{\V{x}}.
+\end{gather*}
+The origin of \Veim{x}, $\Origin{\Veim{x}},$
+is the location in the input where recognition of $\Rule{DR{\Veim{x}}}$
+started.
+The current location of \Veim{x}, $\Current{\Veim{x}},$
+is the location in the input of the dot in $\DR{\Veim{x}}.$
+$\Current{\Veim{x}}$ is also called the \dfn{dot location}
+of \Veim{x}.
+For convenience, the type \type{ORIG} will be a synonym
+for \type{LOC}, indicating that the variable designates
+the origin entry of an Earley item.
+
+We find it convenient to apply dotted rule concepts to
+\type{EIMT}'s,
+so that the concept applied to the \type{EIMT} is
+the concept applied to the dotted rule of the \type{EIMT}.
+The following are examples:
+\begin{gather*}
+\LHS{\Veim{x}} \defined \LHS{\DR{\V{dr}}}. \\
+\Postdot{\Veim{x}} \defined \Postdot{\DR{\V{dr}}}. \\
+\Penult{\Veim{x}} \defined \Penult{\DR{\V{dr}}}. \\
+\Next{\Veim{x}} \defined \Next{\DR{\V{dr}}}. \\
+\Rule{\Veim{x}} \defined \Rule{\DR{\V{dr}}}. \\
+\end{gather*}
+
+An Earley parser builds a table of Earley sets,
+\begin{equation*}
+\Vtable{i},
+\quad \text{where} \quad
+0 \le \Vloc{i} \le \size{\Cw}.
+\end{equation*}
+Earley sets are of type \type{ES}.
+Earley sets are often named by their location:
+That is,
+the bijection between \Ves{i} and \Vloc{i}
+allows locations to be treated as the ``names'' of Earley sets.
+We often write \Ves{i} to mean the Earley set at \Vloc{i},
+and \Vloc{x} to mean the location of Earley set \Ves{x}.
+The type designator \type{ES} is often omitted to avoid clutter,
+especially in cases where the Earley set is not
+named by location.
+Occasionally the naming location is a expression,
+so that
+$$ \es{(\Origin{\Veim{x}})} $$
+is the Earley set at the origin of the \type{EIMT} \Veim{x}.
+
+At points,
+we will need to compare the Earley sets
+produced by the different recognizers.
+\Vtable{i} will be
+the Earley set at \Vloc{i}
+in the table of Earley sets.
+If \es{\V{working}} is an Earley set,
+$\size{\es{\V{working}}}$ is the number of Earley items.
+
+Recall that
+there was a unique acceptance symbol,
+\Vsym{accept}, in \Cg{}.
+The input \Cw{} is accepted if and only if,
+\begin{equation*}
+\tuple{\tuple{\Vsym{accept} \de \Vsym{start} \mydot}, 0} \in \bigEtable{\Vsize{\Cw}}
+\end{equation*}
 
 \section{The Aycock-Horspool finite automata}
 
@@ -676,6 +948,13 @@ J.~Earley.
 \newblock An efficient context-free parsing algorithm.
 \newblock {\em Communications of the Association for Computing Machinery},
   13(2):94--102, 1970.
+
+\bibitem{Farmer2004}
+William~M.~Farmer.
+\newblock Formalizing undefinedness arising in calculus.
+\newblock In D.~Basin and M.~Rusinowitch, editors, {\em Automated
+  Reasoning---IJCAR 2004}, volume 3097 of {\em Lecture Notes in Computer
+  Science}, pages 475--489. Springer-Verlag, 2004.
 
 \bibitem{Farmer2012}
 William~M.~Farmer.
