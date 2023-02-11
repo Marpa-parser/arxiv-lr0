@@ -527,7 +527,7 @@ The following are examples:
 \[
 \begin{gathered}
   \LHS{\Vdr{x}} \defined \LHS{\Rule{\V{x}}}. \\
-  \RHS{\Vdr{x}} \defined \RHS{\Rule{\V{x}}}. \\
+  \RHS{\Vdr{x}} \defined \RHS{\Rule{\V{x}}}.
 \end{gathered}
 \]
 
@@ -592,12 +592,33 @@ are also called, respectively,
 \dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
 A traditional Earley item (type \type{EIM}) is a triple
-of dotted rule, origin, and current location.
+of dotted rule, origin, and current location.\footnote{%
+  This definition of \type{EIM} departs from the tradition,
+  according to which the current location is not an element
+  of the tuples which define \type{EIM}s.
+  Instead \type{EIM}s
+  are grouped into sets
+  that share the same current location.
+  These sets of co-located \type{EIMS}s are called
+  ``Earley sets''.
+  Membership in an Earley sets becomes a ``property''
+  of each \type{EIM}.
+  In set theory, by the Axion of Extensionality,
+  sets with the same membership (or extension)
+  are equivalent,
+  and non-extensional properties do not exist.
+  Since \type{EIM}s at different current locations
+  are conceptually distinct for most purposes,
+  the omission of current location from the \type{EIM}
+  definition is awkward,
+  and in this paper we honor the traditional definition in the breach.
+}
 \begin{gather*}
      \DR{\Veim{x}} = \Hd{\V{x}}. \\
      \Origin{\Veim{x}} = \HTl{\V{x}}. \\
      \Current{\Veim{x}} = \TTl{\V{x}}.
 \end{gather*}
+$\DR{\Veim{x}}$ is the dotted rule.
 The origin of \Veim{x}, $\Origin{\Veim{x}},$
 is the location in the input where recognition of $\Rule{DR{\Veim{x}}}$
 started.
@@ -619,7 +640,7 @@ The following are examples:
 \Postdot{\Veim{x}} \defined \Postdot{\DR{\V{dr}}}. \\
 \Penult{\Veim{x}} \defined \Penult{\DR{\V{dr}}}. \\
 \Next{\Veim{x}} \defined \Next{\DR{\V{dr}}}. \\
-\Rule{\Veim{x}} \defined \Rule{\DR{\V{dr}}}. \\
+\Rule{\Veim{x}} \defined \Rule{\DR{\V{dr}}}.
 \end{gather*}
 
 An Earley parser builds a table of Earley sets,
