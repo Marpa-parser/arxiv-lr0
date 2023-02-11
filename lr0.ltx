@@ -31,6 +31,7 @@
 \raggedbottom
 
 \newcommand{\dfn}[1]{{\bf #1}}
+\newcommand{\inference}[2]{\genfrac{}{}{1pt}{}{#1}{#2}}
 \newcommand{\mymathop}[1]{\mathop{\texttt{#1}}}
 \newcommand{\V}[1]{\ensuremath{\texttt{\mbox{#1}}}}
 \newcommand{\type}[1]{\ensuremath{\texttt{#1}}}
@@ -326,7 +327,8 @@ is defined as ``undefined'' is confusing.
 In this paper we say that these values are defined, but ill-defined.
 }
 
-We write $\unicorn$ for ill-defined.
+We write \TRUE for ``true''; \FALSE for ``false'';
+and $\unicorn$ for ill-defined.
 A value is \dfn{well-defined} iff it is not ill-defined.
 We write $\V{x}\isWellDef$ to say that \V{x} is well-defined,
 and we write $\V{x}\isIllDef$ to say that \V{x} is ill-defined.
@@ -634,9 +636,9 @@ for \type{LOC}, indicating that the variable designates
 the origin entry of an Earley item.
 
 We find it convenient to apply dotted rule concepts to
-\type{EIMT}'s,
-so that the concept applied to the \type{EIMT} is
-the concept applied to the dotted rule of the \type{EIMT}.
+\type{EIM}'s,
+so that the concept applied to the \type{EIM} is
+the concept applied to the dotted rule of the \type{EIM}.
 The following are examples:
 \begin{gather*}
 \LHS{\Veim{x}} \defined \LHS{\DR{\V{dr}}}. \\
@@ -665,7 +667,7 @@ named by location.
 Occasionally the naming location is a expression,
 so that
 $$ \es{(\Origin{\Veim{x}})} $$
-is the Earley set at the origin of the \type{EIMT} \Veim{x}.
+is the Earley set at the origin of the \type{EIM} \Veim{x}.
 If \es{\V{working}} is an Earley set,
 $\size{\es{\V{working}}}$ is the number of Earley items.
 
@@ -676,6 +678,98 @@ The input \Cw{} is accepted if and only if
 \begin{equation*}
 \tuple{\tuple{\Vsym{accept} \de \Vsym{start} \mydot}, 0} \in \bigEtable{\Vsize{\Cw}}.
 \end{equation*}
+
+\section{Operations of the Earley algorithm}
+\label{s:earley-ops}
+
+\textbf{Initialization}:
+\begin{equation}
+\label{eq:initial}
+\inference{
+   \TRUE
+}{
+    \begin{array}{c}
+        \VTtyped{ \tuple{ \Vdr{initial}, 0, 0 }}{EIM} \\
+    \end{array}
+}
+\end{equation}
+Here \Vdr{initial} is from \eqref{eq:initial-dr}.
+Earley {\bf initialization} only takes
+place in Earley set 0,
+and always adds exactly one \type{EIM}.
+
+\vspace{1ex}
+\textbf{Scanning}:
+\begin{equation}
+\label{eq:scan}
+\inference{
+    \begin{array}{c}
+	\Postdot{\Veim{mainstem}} = \Cw\bigl[ \Vloc{current} \bigr]
+    \end{array}
+}{
+    \begin{array}{c}
+	\VTtyped{ \tuple{ \Next{\Veim{mainstem}}, \Origin{\V{mainstem}},
+	    \V{current}+1
+	}}{EIM}
+    \end{array}
+}
+\end{equation}
+
+\vspace{1ex}
+\textbf{Reduction}:
+\begin{equation}
+\label{eq:reduction}
+\inference{
+    \begin{array}{c}
+      \Current{\Veim{mainstem}} = \Origin{\Veim{tributary}} \\
+      \Postdot{\Veim{mainstem}} = \LHS{\Veim{tributary}}
+    \end{array}
+}{
+    \begin{array}{c}
+	\left< \begin{gathered}
+	  \Next{\Veim{mainstem}}, \Origin{\V{mainstem}}, \\
+	       \Current{\V{tributary}}
+	\end{gathered} \right> : \type{EIM}
+    \end{array}
+}
+\end{equation}
+
+\vspace{1ex}
+\textbf{Prediction}:
+\begin{equation}
+\label{eq:prediction}
+\inference{
+    \begin{array}{c}
+	\tuple{ \Vsym{lhs} \de \Vstr{rhs} } \in \Crules \\
+	\Postdot{\V{mainstem}} = \Vsym{lhs}
+    \end{array}
+}{
+  \begin{array}{c}
+      \left< \begin{gathered}
+      \tuple{ \Vsym{lhs} \de \mydot \Vstr{rhs} }, \Current{\V{mainsteam}}, \\
+	  \Current{\V{mainsteam}}
+      \end{gathered} \right> : \type{EIM}
+  \end{array}
+}
+\end{equation}
+
+In traditional implementations,
+the operations are applied
+to create Earley sets,
+in order from 0 to \Vsize{w}.
+Scanning is done ahead of the operations,
+so that while the other operations are adding
+items to the Earley set at \Vloc{i},
+scanned items are added to \es{(\V{i}+1)}.
+
+Traditionally, each Earley set is implementated a list.
+The result of a prediction operation \eqref{eq:prediction},
+may be the \V{mainstem} of a reduction operation \eqref{eq:reduction}.
+That reduction operation may, in turn,
+produce new predicitons.
+Traditionally, this was dealt with by making repeated passes
+through the Earley set,
+terminating when no more \type{EIM}s could be added.
 
 \section{The Aycock-Horspool finite automata}
 
@@ -720,7 +814,7 @@ and conjectured that this would
 make Earley's algorithm faster in practice.
 
 As a reminder,
-the original Earley items (\type{EIMT}'s)
+the original Earley items (\type{EIM}'s)
 were duples,
 $$\tuple{\Vdr{x}, \Vorig{x}},$$
 where \Vdr{x} is a dotted rule.
