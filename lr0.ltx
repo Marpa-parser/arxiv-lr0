@@ -757,8 +757,11 @@ In traditional implementations,
 the operations are applied
 to create Earley sets,
 in order from 0 to \Vsize{w}.
-Scanning is done ahead of the operations,
-so that while the other operations are adding
+Duplicate \type{EIM}s are not added.
+In typical implementations,
+scanning is running
+ahead of the other operations
+in the sense that, while the other operations are adding
 items to the Earley set at \Vloc{i},
 scanned items are added to \es{(\V{i}+1)}.
 
