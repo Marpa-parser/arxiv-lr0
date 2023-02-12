@@ -778,7 +778,7 @@ Traditionally, this was dealt with by making repeated passes
 through the Earley set,
 terminating when no more \type{EIM}s could be added.
 
-\section{Aycock-Horspool and prediction}
+\section{The Aycock-Horspool ``ideal'' solution}
 
 The need to make multiple passes over each Earley set
 was long seen as a problem.
@@ -795,7 +795,9 @@ we first rewrite the original prediction operation
 in the form of a function,
 \[ \Vtyped{Opred}{\type{EIM} \tfnMap \setOf{\type{EIM}}}, \]
 such that
-\[\begin{gathered}
+\begin{equation}
+\label{eq:original-earley-prediction}
+\begin{gathered}
 \VFA{Opred}{\Veim{x}} =
 \left\lbrace
     \Veim{res} \; \middle| \;
@@ -805,12 +807,15 @@ such that
      \land \, \Current{\V{res}} = \Current{\Veim{x}} \\
      \land \, \Origin{\V{res}} = \Current{\Veim{x}}
      \end{gathered}
-\right\rbrace . \end{gathered} \]
+\right\rbrace . \end{gathered}
+\end{equation}
 
 We can write the transitive closure of \Fname{Opred} as
 \[ \Vtyped{AHpred}{\type{EIM} \tfnMap \setOf{\type{EIM}}}, \]
 such that
-\[\begin{gathered}
+\begin{equation}
+\label{eq:ah-earley-prediction}
+\begin{gathered}
 \VFA{AHpred}{\Veim{x}} =
   \VFA{Opred}{\V{x}} \cup
   \left\lbrace \Veim{eim1} \; \middle| \;
@@ -820,10 +825,31 @@ such that
 	\land \, \V{eim2} \in \VFA{AHpred}{\V{x}}}
     \end{gathered}
   \right\rbrace
-\end{gathered} . \]
+\end{gathered} .
+\end{equation}
 
+Aycock and Horspool proved \cite[pp. 621-622]{AH2002} that,
+by replacing the Earley prediction operation
+\eqref{eq:original-earley-prediction}
+with its transitive closure
+\eqref{eq:ah-earley-prediction}
+they had an algorithm that was correct in
+the presence of nullable symbols.
+Their new algorithm required only one pass,
+``retain[ed] the elegance of Earley's algorithm'',
+and did not require a new, dynamically-updated data structure.
 
 \section{The Aycock-Horspool finite automata}
+
+Aycock and Horspool called the algorithm of
+the previous section ``ideal'',
+but the quote marks are theirs
+\cite[p. 621]{AH2002}.
+This seems to reflect a perception on their part that,
+while they had an idea
+that captured the basis of an Earley engine
+that could handle nullable symbols gracefully,
+a practical implemention would demand some refinements.
 
 This section will
 summarize the ideas
