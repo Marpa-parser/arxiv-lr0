@@ -832,8 +832,8 @@ Aycock and Horspool proved \cite[pp. 621-622]{AH2002} that,
 by replacing the Earley prediction operation
 \eqref{eq:original-earley-prediction}
 with its transitive closure
-\eqref{eq:ah-earley-prediction}
-they had an algorithm that was correct in
+\eqref{eq:ah-earley-prediction},
+they had created an algorithm that was correct in
 the presence of nullable symbols.
 Their new algorithm required only one pass,
 ``retain[ed] the elegance of Earley's algorithm'',
@@ -851,12 +851,22 @@ that captured the basis of an Earley engine
 that could handle nullable symbols gracefully,
 a practical implemention would demand some refinements.
 
-This section will
-summarize the ideas
-from~\cite{AH2002}
-that are central to Marpa.
+The ``ideal'' solution of~\cite{AH2002},
+if naively implemented,
+required every prediction operation to compute a transitive closure.
+But, during the parse, this transitive closure was a constant ---
+it depended only on the grammar and the postdot symbol of the argument EIM.
+Clearly, precomputation could eliminate most or all of the runtime
+cost of their new prediction operation.
 
-Aycock and Horspool based their AHFA's
+For their precomputation, Aycock and Horspool~\cite{AH2002} hauled some heavy theoretical artillery ---
+they invented a new semi-deterministic finite automata,
+which \cite{AH2002} calls a ``split LR(0) $\epsilon$-DFA''.
+We recall that, in this paper,
+we are calling their ``split LR(0) $\epsilon$-DFA'',
+an Aycock-Horspool Finite Automata (AHFA).
+
+The AHFA is based
 on a few observations.
 \begin{itemize}
 \item
