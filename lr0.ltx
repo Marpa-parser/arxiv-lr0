@@ -793,10 +793,10 @@ To present Aycock and Horspool's revised prediction step,
 we first rewrite the original prediction operation
 \eqref{eq:prediction} on page \pageref{eq:prediction},
 in the form of a function,
-\[ \Vtyped{pred}{\type{EIM} \tfnMap \setOf{\type{EIM}}}, \]
+\[ \Vtyped{Opred}{\type{EIM} \tfnMap \setOf{\type{EIM}}}, \]
 such that
 \[\begin{gathered}
-\VFA{pred}{\Veim{x}} =
+\VFA{Opred}{\Veim{x}} =
 \left\lbrace
     \Veim{res} \; \middle| \;
     \begin{gathered}
@@ -806,6 +806,22 @@ such that
      \land \, \Origin{\V{res}} = \Current{\Veim{x}}
      \end{gathered}
 \right\rbrace . \end{gathered} \]
+
+We can write the transitive closure of \Fname{Opred} as
+\[ \Vtyped{AHpred}{\type{EIM} \tfnMap \setOf{\type{EIM}}}, \]
+such that
+\[\begin{gathered}
+\VFA{AHpred}{\Veim{x}} =
+  \VFA{Opred}{\V{x}} \cup
+  \left\lbrace \Veim{eim1} \; \middle| \;
+    \begin{gathered}
+	\existQ{\Veim{eim2}}{ \\
+	\V{eim1} \in \VFA{Opred}{\V{eim2}} \\
+	\land \, \V{eim2} \in \VFA{AHpred}{\V{x}}}
+    \end{gathered}
+  \right\rbrace
+\end{gathered} . \]
+
 
 \section{The Aycock-Horspool finite automata}
 
