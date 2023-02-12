@@ -642,6 +642,8 @@ the concept applied to the dotted rule of the \type{EIM}.
 The following are examples:
 \begin{gather*}
 \LHS{\Veim{x}} \defined \LHS{\DR{\V{dr}}}. \\
+\RHS{\Veim{x}} \defined \RHS{\DR{\V{dr}}}. \\
+\Pos{\Veim{x}} \defined \Pos{\DR{\V{dr}}}. \\
 \Postdot{\Veim{x}} \defined \Postdot{\DR{\V{dr}}}. \\
 \Penult{\Veim{x}} \defined \Penult{\DR{\V{dr}}}. \\
 \Next{\Veim{x}} \defined \Next{\DR{\V{dr}}}. \\
@@ -775,6 +777,35 @@ produce new predictions.
 Traditionally, this was dealt with by making repeated passes
 through the Earley set,
 terminating when no more \type{EIM}s could be added.
+
+\section{Aycock-Horspool and prediction}
+
+The need to make multiple passes over each Earley set
+was long seen as a problem.
+Aycock and Horspool experimented with a suggestion
+from Jay Earley that required
+a dynamically-updated data structure,
+but found this solution unsatisfactory~\cite[p. 621]{AH2002}.
+Instead, they found a way to revise the prediction step
+itself that eliminated the problem.
+
+To present Aycock and Horspool's revised prediction step,
+we first rewrite the original prediction operation
+\eqref{eq:prediction} on page \pageref{eq:prediction},
+in the form of a function,
+\[ \Vtyped{pred}{\type{EIM} \tfnMap \setOf{\type{EIM}}}, \]
+such that
+\[\begin{gathered}
+\VFA{pred}{\Veim{x}} =
+\left\lbrace
+    \Veim{res} \; \middle| \;
+    \begin{gathered}
+     \LHS{\V{res}} = \Postdot{\V{eim}} \\
+     \land \, \Pos{\V{res}} = 0 \\
+     \land \, \Current{\V{res}} = \Current{\Veim{x}} \\
+     \land \, \Origin{\V{res}} = \Current{\Veim{x}}
+     \end{gathered}
+\right\rbrace . \end{gathered} \]
 
 \section{The Aycock-Horspool finite automata}
 
@@ -1041,6 +1072,17 @@ but getting there was more complicated.
 Similarly, it made
 the Marpa implementation much more complex.
 
+\section{Problems with the AHFA}
+
+\subsection{No noticeable performance improvement}
+
+\subsection{Increased code complexity}
+
+\subsection{Increased theoretical complexity}
+
+\subsection{Difficulty in debugging and maintenance}
+
+\subsection{Difficulty in adding new features}
 
 \bibliographystyle{plain}
 
