@@ -336,7 +336,7 @@ and we write $\V{x}\isIllDef$ to say that \V{x} is ill-defined.
 Traditionally, and in this paper,
 any formula with an ill-defined operand is false.
 This means that a equality both of whose operands are ill-defined
-is false, so that $\neg \; (\unicorn = \unicorn)$.
+is false, so that $\unicorn \neq \unicorn$.
 For cases where this is inconvenient,
 we introduce a new relation, $\simeq$, such that
 $$
@@ -346,6 +346,10 @@ $$
 We often write ``iff'' for ``if and only if''.
 We write tuples using angle brackets: $ \tuple{\V{a},\V{b},\V{c}} $.
 We define the natural numbers, \naturals, to include zero.
+$\V{f} \circ \V{g}$, pronounced ``\V{f} after \V{g}'',
+indicates the composition of the functions \V{f} and \V{g},
+so that
+$\rawfn{(\V{f}\circ\V{g})}{\V{x}} = \VFA{f}{\VFA{g}{\V{x}}}$.
 
 We define the natural numbers, \naturals, to include zero.
 $\V{D} \fnMap \V{C}$ is the set of partial functions from domain \V{D} to codomain \V{C}.
