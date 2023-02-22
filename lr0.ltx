@@ -232,9 +232,7 @@
 
 \date{\today}
 
-\title[Marpa and the Aycock-Horspool parser]{
-  Marpa and the Aycock-Horspool parser:
-  a practical experience}
+\title{Marpa and nullable symbols}
 
 \author{Jeffrey Kegler}
 \thanks{%
@@ -246,11 +244,14 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 }
 
 \begin{abstract}
-In the course of developing Marpa,
-an Earley parser,
-we dealt with nullable symbols by following the approach
+Marpa is an improved Earley parser.
+Earley-based parsers have had issues handling
+nullable symbols.
+Initially, we dealt with nullable symbols by following the approach
 in Aycock and Horspool's 2002 paper~\cite{AH2002}.
-This paper reports our experience.
+This paper reports our experience with ~\cite{AH2002},
+and the approach to handling nullables that we settled on
+in reaction to that experience.
 \end{abstract}
 
 \maketitle
@@ -372,7 +373,7 @@ of the sequence \V{seq}.
 \VVelement{seq}{i} is the \V{i}'th term of the sequence \V{seq},
 and is well-defined when
 $0 \le \V{i} < \Vsize{seq}$.
-We write often specify a sequence by giving its terms inside
+We often specify a sequence by giving its terms inside
 brackets.
 For example,
 $$\seq{\, \V{a}, \; 42, \; \seq{} \, }$$
