@@ -129,7 +129,7 @@
 % collection builder variant, or descriptor
 \newcommand{\setQvOp}{\mathop{\mathsection}}
 \newcommand{\setQv}[2]{\quantify{\setQOp}{#1}{#2}}
-\newcommand{\setB}[2]{\lbrace #1 \suchthat #2 \rbrace}
+\newcommand{\setB}[2]{\lbrace #1 \; \suchthat \; #2 \rbrace}
 
 \newcommand{\existUniqQOp}{\mathop{\exists{!}}}
 \newcommand{\existUniqQ}[2]{\quantify{\existUniqQOp}{#1}{#2}}
@@ -153,6 +153,9 @@
     \mathrel{\raise.75pt\hbox{\ensuremath{
           \raise1.19pt\hbox{\scalebox{.60}{$\ni$}} \mkern-12mu \rightarrow}}}
     }}
+
+\newcommand{\nat}[1]{\ensuremath{#1_\naturals}}
+\newcommand{\Vnat}[1]{\nat{\V{#1}}}
 
 \newcommand{\ah}[1]{#1_{\type{AH}}}
 \newcommand{\Vah}[1]{\ensuremath{\V{#1}_{\type{AH}}}}
@@ -815,23 +818,25 @@ such that
 \right\rbrace . \end{gathered}
 \end{equation}
 
-We can write the transitive closure of \Fname{Opred} as
-\[ \Vtyped{AHpred}{\type{EIM} \tfnMap \setOf{\type{EIM}}}, \]
-such that
-\begin{equation}
+Let
+\( \Vtyped{AHpred}{\type{EIM} \tfnMap \setOf{\type{EIM}}}. \)
+be
+the transitive closure of \Fname{Opred}.
+More precisely,
+\[ \VFA{AHpred}{\VTtyped{x}{EIM}} = \Fname{predAll} \circ \Fname{Opred}, \]
+where
+\begin{equation*}
 \label{eq:ah-earley-prediction}
 \begin{gathered}
-\VFA{AHpred}{\Veim{x}} =
-  \VFA{Opred}{\V{x}} \cup
-  \left\lbrace \Veim{eim1} \; \middle| \;
-    \begin{gathered}
-	\existQ{\Veim{eim2}}{ \\
-	\V{eim1} \in \VFA{Opred}{\V{eim2}} \\
-	\land \, \V{eim2} \in \VFA{AHpred}{\V{x}}}
-    \end{gathered}
-  \right\rbrace
-\end{gathered} .
-\end{equation}
+\VFA{predAll}{\Vtyped{eimSet}{\setOf{\type{EIM}}}} =  \\
+  \setB{\VTtyped{eim}{EIM}}{ \existQ{\Vtyped{i}{\naturals}}{
+     \V{eim} \in \VFA{predN}{\V{i}, \V{eimSet}} } }, \\[1ex]
+\VFA{predN}{0, \Vtyped{eimSet}{\setOf{\type{EIM}}}} = \V{eimSet}, \text{ and} \\[1ex]
+\VFA{predN}{(\Vtyped{n}{\naturals})+1, \Vtyped{eimSet}{\setOf{\type{EIM}}}} = \\
+  \setB{ \VTtyped{eim}{EIM} }{ \existQ{\VTtyped{eim2}{EIM}}{ \\
+    \V{eim2} \in \VFA{predN}{\V{n},\V{eimset}}}}.
+\end{gathered}
+\end{equation*}
 
 Aycock and Horspool proved \cite[pp. 621-622]{AH2002} that,
 by replacing the Earley prediction operation
