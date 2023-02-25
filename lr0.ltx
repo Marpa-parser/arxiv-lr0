@@ -179,7 +179,6 @@
 \newcommand{\Cfa}{\V{fa}}
 \newcommand{\Cg}{\V{g}}
 \newcommand{\Cw}{\V{w}}
-\newcommand{\CVw}[1]{\ensuremath{\sym{\Cw[\V{#1}]}}}
 \newcommand{\Crules}{\V{rules}}
 \newcommand{\Nulling}[1]{\mymathop{Nulling}(#1)}
 \newcommand{\Nullable}[1]{\mymathop{Nullable}(#1)}
@@ -343,9 +342,11 @@ Note that Farmer refers to ill-defined values as ``undefined''.
 We found this problematic.
 For example, a partial function may not have a value for
 every argument in its domain.
-Saying that that the value of the partial function for these arguments
+Saying that the value of the partial function for these arguments
 is defined as ``undefined'' is confusing.
-In this paper we say that these values are defined, but ill-defined.
+In this paper we say that all the values of partial functions
+are defined, but that some may not have values in the codomain,
+and are therefore ill-defined.
 }
 
 We write \TRUE for ``true''; \FALSE for ``false'';
@@ -356,7 +357,7 @@ and we write $\V{x}\isIllDef$ to say that \V{x} is ill-defined.
 
 Traditionally, and in this paper,
 any formula with an ill-defined operand is false.
-This means that a equality both of whose operands are ill-defined
+This means that an equality both of whose operands are ill-defined
 is false, so that $\unicorn \neq \unicorn$.
 For cases where this is inconvenient,
 we introduce a new relation, $\simeq$, such that
@@ -364,7 +365,7 @@ $$
   \V{a} \simeq \V{b} \defined \V{a} = \V{b} \lor (\V{a} \isIllDef \land \V{b} \isIllDef ).
 $$
 
-We often write ``iff'' for ``if and only if''.
+We often abbreviate ``if and only if'' to ``iff''.
 We write tuples using angle brackets: $ \tuple{\V{a},\V{b},\V{c}} $.
 We define the natural numbers, \naturals, to include zero.
 $\V{f} \circ \V{g}$, pronounced ``\V{f} after \V{g}'',
@@ -415,10 +416,10 @@ $$ \type{STR} = \naturals \tfnMMap \V{vocab} $$
 A grammar is a 4-tuple
 \begin{equation}
 \label{eq:grammar-template}
-    \tuple{\Vsymset{vocab}, \Sigma, \V{rules}, \Vsym{accept}}.
+    \tuple{\Vsymset{vocab}, \Vsymset{terminals}, \V{rules}, \Vsym{accept}}.
 \end{equation}
 Here $\Vsym{accept} \in \V{vocab}$,
-and $\Sigma \subset \V{vocab}$.
+and $\V{terminals} \subset \V{vocab}$.
 Call the language of \V{g}, $\typed{\myL{\Cg}}{\setOf{\type{STR}}}$.
 
 In \eqref{eq:grammar-template},
@@ -450,7 +451,7 @@ and
 states that \V{x} derives \V{y} in zero or more steps.
 \end{itemize}
 We call these rewrites \dfn{derivation steps}.
-A sequence of one or more of derivation steps,
+A sequence of one or more derivation steps,
 in which the left hand side of all but the first
 is the right hand side of its predecessor,
 is a \dfn{derivation}.
@@ -517,7 +518,7 @@ Locations in the input will be of type \type{LOC}.
 When we state our complexity results later,
 they will often be in terms of $\V{n}$,
 where $\V{n} = \Vsize{w}$.
-\CVw{i} is character \V{i}
+\typed{\VVelement{w}{i}}{\type{SYM}} is character \Vloc{i}
 of the input,
 and is well-defined when
 $0 \le \Vloc{i} < \Vsize{w}$.
