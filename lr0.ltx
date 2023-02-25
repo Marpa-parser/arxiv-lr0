@@ -286,18 +286,35 @@ and modifying the Earley parse engine to use
 AHFA states.
 \end{itemize}
 
-We made many modifications to the suggestions in \cite{AH2002}.
-The most significant of these was made in 2014.
-Based on our experience with the AHFA-driven parse engine,
-we eliminated the use of AHFA state logic in Marpa.
+Section \ref{sec:preliminaries}
+deals with notation and other conventions.
+Sections \ref{sec:earley}
+and \ref{sec:earley-ops}
+describe the Earley algorithm.
+Sections \ref{sec:aycock-horspool-ideal-solution}
+and \ref{sec:aycock-horspool-finite-automata}
+describe the Aycock-Horspool version of Earley's
+algorithm~\cite{AH2002}.
+Sections \ref{sec:pitfall-of-counting-earley-items}
+and \ref{sec:ahfa-states-are-not-disjoint}
+raise some theoretical issues about \cite{AH2002}.
+Section \ref{sec:problems-with-the-ahfa}
+discusses the practical issues we encountered in
+implementing~\cite{AH2002}.
+In 2014 we extensively modified Marpa's usage of
+the ideas from \cite{AH2002}.
+Section
+\ref{sec:marpa-s-approach-to-dealing-with-nullable-symbols}
+describes the new approach
+we took to dealing with nullables.
+Section \ref{sec:conclusion} summarizes our conclusions.
 
-\todo{Describe sections}
 \section{Preliminaries}
+\label{sec:preliminaries}
 
 Readers should be familiar with Marpa~\cite{Marpa2023},
 with Aycock and Horspool's 2002 paper~\cite{AH2002},
-and with standard grammar notation.%
-\todo{Cite Wikipedia?}
+and with standard grammar notation.
 
 We use the type system
 of Farmer~2012~\cite{Farmer2012},
@@ -309,13 +326,13 @@ But in this paper, every explicitly stated type will be a ZF set.
 Let \V{exp} be an expression,
 and let \type{T} be its type.
 Type may be indicated in a ``wide'' notation:
-$$ \VTtyped{exp}{T} $$.
+\[ \VTtyped{exp}{T} \]
 More often, this paper will use the ``narrow''
 notation,
-where a subscripts indicates type.
-$$ \V{exp}_\type{T} $$
+where a subscripts indicates type:
+\[ \V{exp}_\type{T} \]
 
-A useful feature of Farmer~2012~\cite{Farmer2012} is his notion of ill-definedness.
+A noteworthy feature we adopt from Farmer~2012~\cite{Farmer2012} is his notion of ill-definedness.
 For example, the value of partial functions may be ill-defined for
 some arguments in their domain.
 Farmer's handling of ill-definedness is the traditional one,
@@ -506,7 +523,7 @@ and is well-defined when
 $0 \le \Vloc{i} < \Vsize{w}$.
 
 \section{Earley's algorithm}
-\label{s:earley}
+\label{sec:earley}
 
 A dotted rule (type \type{DR}) is a duple of rule and position
 in the rule.
@@ -690,7 +707,7 @@ The input \Cw{} is accepted if and only if
 \end{equation*}
 
 \section{Operations of the Earley algorithm}
-\label{s:earley-ops}
+\label{sec:earley-ops}
 
 \textbf{Initialization}:
 \begin{equation}
@@ -787,6 +804,7 @@ through the Earley set,
 terminating when no more \type{EIM}s could be added.
 
 \section{The Aycock-Horspool ``ideal'' solution}
+\label{sec:aycock-horspool-ideal-solution}
 
 The need to make multiple passes over each Earley set
 was long seen as a problem.
@@ -850,6 +868,7 @@ Their new algorithm required only one pass,
 and did not require a new, dynamically-updated data structure.
 
 \section{The Aycock-Horspool finite automata}
+\label{sec:aycock-horspool-finite-automata}
 
 Aycock and Horspool called the algorithm of
 the previous section ``ideal'',
@@ -955,7 +974,9 @@ In combining
 the improvements of Leo~\cite{Leo1991} and
 Aycock and Horspool~\cite{AH2002},
 the following theorem is crucial.
+
 \section{The pitfall of counting Earley items}
+\label{sec:pitfall-of-counting-earley-items}
 
 In the Earley parsing literature speed results
 are reported based on the count of Earley items -- the fewer Earley items, it is
@@ -968,6 +989,7 @@ that even a huge over-simplification is not a problem. This is not the
 case when we are talking about a constant factor.
 
 \section{AHFA states are not disjoint}
+\label{sec:ahfa-states-are-not-disjoint}
 
 \begin{figure}
 \hrule
@@ -1135,6 +1157,7 @@ Similarly, it made
 the Marpa implementation much more complex.
 
 \section{Problems with the AHFA}
+\label{sec:problems-with-the-ahfa}
 
 \subsection{No noticeable performance improvement}
 
@@ -1145,6 +1168,12 @@ the Marpa implementation much more complex.
 \subsection{Difficulty in debugging and maintenance}
 
 \subsection{Difficulty in adding new features}
+
+\section{Marpa's approach to dealing with nullable symbols}
+\label{sec:marpa-s-approach-to-dealing-with-nullable-symbols}
+
+\section{Conclusion}
+\label{sec:conclusion}
 
 \bibliographystyle{plain}
 
