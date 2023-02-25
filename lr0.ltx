@@ -80,14 +80,14 @@
 \newcommand{\Tl}[1]{\Oname{tl}({#1})}
 \newcommand{\HTl}[1]{\Hd{\Tl{#1}}}
 \newcommand{\TTl}[1]{\Tl{\Tl{#1}}}
+\newcommand{\HTTl}[1]{\Hd{\Tl{\Tl{#1}}}}
 \newcommand{\TTTl}[1]{\Tl{\TTl{#1}}}
 
 \newcommand{\defined}{\underset{\text{def}}{\equiv}}
 \newcommand{\naturals}{\ensuremath{\mathbb{N}}\xspace}
 \newcommand{\cat}{\,.\,}
+
 \newcommand{\size}[1]{\ensuremath{\left | {#1} \right |}}
-
-
 \newcommand{\Vsize}[1]{\ensuremath{\size{\V{#1}}}}
 
 \newcommand{\de}{\mathrel{::=}}
@@ -191,6 +191,10 @@
 \newcommand{\Rule}[1]{\mymathop{Rule}(#1)}
 \newcommand{\LHS}[1]{\mymathop{LHS}(#1)}
 \newcommand{\RHS}[1]{\mymathop{RHS}(#1)}
+\newcommand{\Rules}[1]{\ensuremath{\mymathop{Rules}(#1)}}
+\newcommand{\Vocab}[1]{\ensuremath{\mymathop{Vocab}(#1)}}
+\newcommand{\Terminals}[1]{\ensuremath{\mymathop{Terminals}(#1)}}
+\newcommand{\Accept}[1]{\ensuremath{\mymathop{Accept}(#1)}}
 \newcommand{\DR}[1]{\mymathop{DR}(#1)}
 \newcommand{\Transition}[1]{\mymathop{Transition}(#1)}
 \newcommand{\Origin}[1]{\mymathop{Origin}(#1)}
@@ -281,7 +285,7 @@ finite automata, which we will call
 an Aycok-Horspool Finite Automata (AHFA)\footnote{%
   In \cite{AH2002} an AHFA is called a ``split LR(0) $\epsilon$-DFA''.
 },
-and modifying the Earley parse engine to use 
+and modifying the Earley parse engine to use
 AHFA states.
 \end{itemize}
 
@@ -366,12 +370,27 @@ $$
 $$
 
 We often abbreviate ``if and only if'' to ``iff''.
-We write tuples using angle brackets: $ \tuple{\V{a},\V{b},\V{c}} $.
 We define the natural numbers, \naturals, to include zero.
 $\V{f} \circ \V{g}$, pronounced ``\V{f} after \V{g}'',
 indicates the composition of the functions \V{f} and \V{g},
 so that
 $\rawfn{(\V{f}\circ\V{g})}{\V{x}} = \VFA{f}{\VFA{g}{\V{x}}}$.
+
+We write tuples using angle brackets: $ \tuple{\V{a},\V{b},\V{c}} $.
+The head of a tuple \V{S} can be written \Hd{S}.
+The tail of a tuple \V{S} can be written \Tl{S}.
+For example, where
+\[
+    \V{S} = \tuple{ 42, 1729, 42 },
+\]
+then \V{S} is a 3-tuple, or triple,
+\begin{gather*}
+\Hd{S}=42, \\
+\Tl{S}=\tuple{1729,42}, \\
+\HTl{S}=1729, \\
+\TTl{S}=42, \text{ and} \\
+\TTTl{S}\isIllDef.
+\end{gather*}
 
 We define the natural numbers, \naturals, to include zero.
 $\V{D} \fnMap \V{C}$ is the set of partial functions from domain \V{D} to codomain \V{C}.
@@ -413,33 +432,42 @@ The string type, \type{STR}, is the set of all finite sequences of
 symbols:
 $$ \type{STR} = \naturals \tfnMMap \V{vocab} $$
 
-A grammar is a 4-tuple
-\begin{equation}
-\label{eq:grammar-template}
-    \tuple{\Vsymset{vocab}, \Vsymset{terminals}, \V{rules}, \Vsym{accept}}.
-\end{equation}
-Here $\Vsym{accept} \in \V{vocab}$,
-and $\V{terminals} \subset \V{vocab}$.
-Call the language of \V{g}, $\typed{\myL{\Cg}}{\setOf{\type{STR}}}$.
-
-In \eqref{eq:grammar-template},
-\Vruleset{rules} is a set of rules (type \type{RULE}),
-where a rule is a duple
-of the form $\tuple{\Vsym{lhs} \de \Vstr{rhs}}$,
-such that
-\begin{equation*}
-\Vsym{lhs} \in \V{vocab} \quad \text{and}
-\quad \Vstr{rhs} \in \type{STR}^\ast.
-\end{equation*}
+A rule (type \type{RULE}) is a duple:
+\[ RULE = \type{SYM} \times \type{STR}. \]
+\[ \begin{gathered}
+    \LHS{\VTtyped{r}{RULE}} = \Hd{\V{r}}. \\
+    \RHS{\VTtyped{r}{RULE}} = \Tl{\V{r}}.
+\end{gathered} \]
+We usually write a rule \V{r} in
+the form $\tuple{\Vsym{lhs} \de \Vstr{rhs}}$,
+where $\V{lhs} = \LHS{\V{r}}$
+and $\V{rhs} = \RHS{\V{r}}$.
 \Vsym{lhs} is referred to as the left hand side (LHS)
 of \Vrule{r}.
 \Vstr{rhs} is referred to as the right hand side (RHS)
 of \Vrule{r}.
-The LHS and RHS of \Vrule{r} may also be
-referred to as
-$\LHS{\Vrule{r}}$ and $\RHS{\Vrule{r}}$, respectively.
 
-The rules imply the traditional rewriting system,
+A grammar is a 4-tuple, type \type{G},
+\[
+      \type{G} = \setOf{\type{SYM}} \times \setOf{\type{SYM}} \times  \type{RULE} \times \type{SYM},
+\]
+where
+\[ \begin{gathered}
+      \Vocab{\VTtyped{g}{G}} \defined \Hd{\V{g}}, \\
+      \Terminals{\VTtyped{g}{G}} \defined \HTl{\V{g}}, \\
+      \Rules{\VTtyped{g}{G}} \defined \HTTl{\V{g}}, \text{ and}\\
+      \Accept{\VTtyped{g}{G}} \defined \TTTl{\V{g}}, \\
+\end{gathered} \]
+and where, if \V{g} is a grammar, then
+\[ \begin{gathered}
+      \Accept{\V{g}} \in \Vocab{\V{g}}, \\
+      \Terminals{\V{g}} \subset \Vocab{\V{g}} \setminus \Terminals{\V{g}}, \\
+      \V{r} \in \Rules{\V{g}} \implies \LHS{\V{r}} \in \Vocab{\V{g}} \setminus \Terminals{\V{g}},
+	\text{ and }\\
+      \V{r} \in \Rules{\V{g}} \implies \RHS{\V{r}} \in \setOf{\Vocab{\V{g}}}.
+\end{gathered} \]
+
+The rules of a grammar imply the traditional rewriting system,
 in which
 \begin{itemize}
 \item $\Vstr{x} \derives \Vstr{y}$
@@ -468,6 +496,15 @@ that
 $$ \Vstr{a} \cat \Vsym{b} \cat \Vstr{c}
 = \Vstr{a} \cat \seq{\Vsym{b}} \cat \Vstr{c}.
 $$
+
+A \dfn{sentence} of \V{g} is a string of terminals derivable
+from \V{g}'s accept symbol.
+The language of a grammar \V{g}, $\myL{\V{g}}$,
+is its set of sentences:
+\[ \begin{gathered}
+  \myL{\V{g}} = \setB{ \VTtyped{sentence}{STR} }{ \\
+  \V{sentence} \in \setOf{\Terminals{\V{g}}} \land  \Accept{\V{g}} \destar \V{sentence} }
+\end{gathered} \]
 
 We say that a string \V{x} is \dfn{nullable},
 $\Nullable{\Vstr{x}}$, iff the empty string can be
