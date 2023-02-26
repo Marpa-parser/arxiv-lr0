@@ -640,8 +640,12 @@ is never a nullable symbol.
 The \dfn{initial dotted rule} is
 \begin{equation}
 \label{eq:initial-dr}
-\Vdr{initial} = \tuple{\Vsym{accept} \de \mydot \Vsym{start} }.
+\Vdr{initial} = \tuple{\Vsym{accept} \de \mydot \Vsym{start} },
 \end{equation}
+where \Vsym{accept} and \Vsym{start} are as in
+the accept rule,
+\eqref{eq:accept-rule}
+on page \pageref{eq:accept-rule}.
 A \dfn{predicted dotted rule} is a dotted rule,
 other than the initial dotted rule,
 with a dot position of zero,
@@ -765,7 +769,8 @@ the input \Cw{} is accepted if and only if
     \end{array}
 }
 \end{equation}
-Here \Vdr{initial} is from \eqref{eq:initial-dr}.
+Here \Vdr{initial} is
+from \eqref{eq:initial-dr} on \pageref{eq:initial-dr}.
 Earley {\bf initialization} only takes
 place in Earley set 0,
 and always adds exactly one \type{EIM}.
@@ -812,7 +817,7 @@ and always adds exactly one \type{EIM}.
 \label{eq:prediction}
 \inference{
     \begin{array}{c}
-	\tuple{ \Vsym{lhs} \de \Vstr{rhs} } \in \Crules \\
+	\tuple{ \Vsym{lhs} \de \Vstr{rhs} } \in \Rules{\V{g}} \\
 	\Postdot{\V{mainstem}} = \Vsym{lhs}
     \end{array}
 }{
@@ -831,7 +836,7 @@ to create Earley sets,
 in order from 0 to \Vsize{w}.
 Duplicate \type{EIM}s are not added.
 In typical implementations,
-scanning is running
+scanning is run
 ahead of the other operations
 in the sense that, while the other operations are adding
 items to the Earley set at \Vloc{i},
