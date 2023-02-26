@@ -532,22 +532,21 @@ but not nulling; and
 \item \dfn{non-nulling} iff it is not nulling.
 \end{itemize}
 
-We assume grammars are ``augmented'',
-that is,
-that there is a dedicated acceptance rule,
-$$ \Vrule{accept} = \tuple{ \Vsym{accept} \de \Vsym{start} }, $$
-where $\Vsym{start} \in \V{vocab}$,
-and that the accept symbol, \Vsym{accept},
-is such that
+We assume grammars are ``augmented''.
+Specifically, for any grammar \V{g},
+there is an accept rule,
+\[ \Vrule{accept} = \tuple{ \Vsym{accept} \de \Vsym{start} }, \]
+where \( \Vsym{accept} = \Accept{\V{g}} \)
+and \( \Vsym{start} \in \Vocab{\V{g}}; \)
 \begin{equation*}
 \begin{gathered}
-\forall \; \V{x} \in \Crules \mid \\
+\forall \; \V{x} \in \Rules{\V{g}} \mid \\
 \nexists \; \Vstr{pre}, \; \Vstr{post} \; \mid \\
-\V{pre} \cat \Vsym{accept} \cat \V{post} = \RHS{\Vrule{x}} \\
+\V{pre} \cat \Vsym{accept} \cat \V{post} = \RHS{\Vrule{x}}; \\
 \end{gathered}
 \end{equation*}
-and
-$$ \Vsym{accept} = \LHS{\V{x}} \implies \Vrule{accept} = \V{x}. $$
+and the accept rule is unique,
+\[ \Vsym{accept} = \LHS{\V{x}} \implies \Vrule{accept} = \V{x}. \]
 
 Let the input to
 the parse be $\typed{\Cw}{\type{STR}^\ast}$.
@@ -564,12 +563,16 @@ $0 \le \Vloc{i} < \Vsize{w}$.
 \label{sec:earley}
 
 A dotted rule (type \type{DR}) is a duple of rule and position
-in the rule.
+within the rule.
 \begin{gather*}
-\Rule{\Vdr{dr}} \defined \Hd{\V{dr}}, \\
-\Pos{\Vdr{dr}} \defined \Tl{\V{dr}}, \text{ and} \\
- 0 \le \Pos{\V{dr}} \le \size{\Rule{\V{dr}}}.
+\Rule{\Vdr{dr}} \defined \Hd{\V{dr}}. \\
+\Pos{\Vdr{dr}} \defined \Tl{\V{dr}}.
 \end{gather*}
+More precisely,
+\[ \begin{gathered}
+\type{DR} \defined \setB{ \, \Vtyped{dr}{\type{RULE} \times \naturals}}{
+    0 \le \Pos{\V{dr}} \le \size{\Rule{\V{dr}}} \, }.
+\end{gathered} \]
 
 The position of a dotted rule indicates the extent to which
 the rule has been recognized,
@@ -596,7 +599,7 @@ The following are examples:
 \end{gathered}
 \]
 
-We also state the following:
+We also make the following definitions:
 \[
   \Postdot{\Vdr{x}} \defined
   \begin{cases}
