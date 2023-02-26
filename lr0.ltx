@@ -535,7 +535,10 @@ but not nulling; and
 We assume grammars are ``augmented''.
 Specifically, for any grammar \V{g},
 there is an accept rule,
-\[ \Vrule{accept} = \tuple{ \Vsym{accept} \de \Vsym{start} }, \]
+\begin{equation}
+\label{eq:accept-rule}
+  \Vrule{accept} = \tuple{ \Vsym{accept} \de \Vsym{start} },
+\end{equation}
 where \( \Vsym{accept} = \Accept{\V{g}} \)
 and \( \Vsym{start} \in \Vocab{\V{g}}; \)
 \begin{equation*}
@@ -739,10 +742,11 @@ is the Earley set at the origin of the \type{EIM} \Veim{x}.
 If \es{\V{working}} is an Earley set,
 $\size{\es{\V{working}}}$ is the number of Earley items.
 
-Recall that
-there was a unique acceptance symbol,
-\Vsym{accept}, in \Cg{}.
-The input \Cw{} is accepted if and only if
+Recalling the accept rule,
+\eqref{eq:accept-rule}
+on page \pageref{eq:accept-rule},
+we say that
+the input \Cw{} is accepted if and only if
 \begin{equation*}
 \tuple{\tuple{\Vsym{accept} \de \Vsym{start} \mydot}, 0} \in \bigEtable{\Vsize{\Cw}}.
 \end{equation*}
