@@ -182,7 +182,7 @@
 \newcommand{\Crules}{\V{rules}}
 \newcommand{\Nulling}[1]{\mymathop{Nulling}(#1)}
 \newcommand{\Nullable}[1]{\mymathop{Nullable}(#1)}
-\newcommand{\GOTO}{\mymathop{GOTO}}
+\newcommand{\GOTO}[2]{\mymathop{GOTO}(#1, #2)}
 \newcommand{\Next}[1]{\mymathop{Next}(#1)}
 \newcommand{\Predict}[1]{\mymathop{Predict}(#1)}
 \newcommand{\Postdot}[1]{\mymathop{Postdot}(#1)}
@@ -427,13 +427,21 @@ that is, if $\Vsize{seq} = 0$.
 If \V{seq} is not the empty sequence, then
 $\Vsize{seq} = \Vlastix{seq} + 1$.
 
-Let \V{vocab} be a non-empty set of symbols.
+Let \type{SYM} be the type for symbols, which
+will will treat as opaque,
+except that
+\( \emptyset \notin \type{SYM} \).
 The string type, \type{STR}, is the set of all finite sequences of
 symbols:
-$$ \type{STR} = \naturals \tfnMMap \V{vocab} $$
+\[ \type{STR} = \naturals \tfnMMap \type{SYM}. \]
+The empty string is \( \emptyset \), but we let
+\( \emptyset = \epsilon \)
+and we usually write the empty string as \( \epsilon \).
+We note also that \(\epsilon\) can usually be used as
+the reserved non-symbol: \( \epsilon \notin \type{SYM} \).
 
 A rule (type \type{RULE}) is a duple:
-\[ RULE = \type{SYM} \times \type{STR}. \]
+\[ \type{RULE} = \type{SYM} \times \type{STR}. \]
 \[ \begin{gathered}
     \LHS{\VTtyped{r}{RULE}} = \Hd{\V{r}}. \\
     \RHS{\VTtyped{r}{RULE}} = \Tl{\V{r}}.
@@ -977,9 +985,6 @@ at grouping dotted rules that often occur together
 into a single DFA state.
 \end{itemize}
 
-AHFA states are, in effect,
-a shorthand
-for groups of dotted rules that occur together frequently.
 Aycock and Horspool realized that,
 by changing Earley items to track AHFA states
 instead of individual dotted rules,
@@ -987,32 +992,28 @@ the size of Earley sets could be reduced,
 and conjectured that this would
 make Earley's algorithm faster in practice.
 
+An AHFA state (type \type{AH}) is, in effect, a shorthand
+for groups of dotted rules that occur together frequently.
+\[ \type{AH} = \setOf{\type{DR}}. \]
 We recall that
 the traditional Earley items (\type{EIM}'s)
 are duples,
-$$\tuple{\Vdr{x}, \Vorig{x}},$$
+\[ \tuple{\VTtyped{x}{DR}, \VTtyped{i}{LOC}}, \]
 where \Vdr{x} is a dotted rule.
 An Aycock-Horspool Earley item is a duple
-\begin{equation*}
-\tuple{\Vah{y}, \Vorig{y}},
-\end{equation*}
-where $\Vah{y}$ is an AHFA state.
+\[ \tuple{\VTtyped{x}{AH}, \VTtyped{i}{LOC}}. \]
 
-Marpa uses
-Earley items of the form
-created by Aycock and Horspool.
-A Marpa Earley item has type \type{EIM},
-and a Marpa Earley item is often referred to as an \type{EIM}.
-
+AHFA's are not fully deterministic.
 \cite{AH2002} also defines
 a partial transition function for
 pairs of AHFA state and symbol,
 \begin{equation*}
-\GOTO: \Cfa, (\epsilon \cup \V{vocab}) \mapsto \Cfa.
+\Vtyped{GOTO}{ \type{AH} \times (\epsilon \cup \Vocab{\V{g}}) \fnMap \type{AH} }.
 \end{equation*}
-$\GOTO(\Vah{from}, \epsilon)$ is a
-\dfn{null transition}.
-(AHFA's are not fully deterministic.)
+A transition on the reserved non-symbol,
+for example
+\( \GOTO{\Vah{from)}}{\epsilon}, \)
+is a \dfn{null transition}.
 If \Vah{predicted} is the result of a null transition,
 it is called a \dfn{predicted} AHFA state.
 If an AHFA state is not a \dfn{predicted} AHFA state,
@@ -1021,16 +1022,6 @@ The initial AHFA state is a confirmed AHFA state.\footnote{%
 In~\cite{AH2002} confirmed states are called ``kernel states'',
 and predicted states are called ``non-kernel states''.
 }
-
-The states of an AHFA
-are not a partition of the dotted
-rules --
-a single dotted rule can occur
-in more than one AHFA state.
-In combining
-the improvements of Leo~\cite{Leo1991} and
-Aycock and Horspool~\cite{AH2002},
-the following theorem is crucial.
 
 \section{The pitfall of counting Earley items}
 \label{sec:pitfall-of-counting-earley-items}
@@ -1047,6 +1038,12 @@ case when we are talking about a constant factor.
 
 \section{AHFA states are not disjoint}
 \label{sec:ahfa-states-are-not-disjoint}
+
+The states of an AHFA
+are not a partition of the dotted
+rules --
+a single dotted rule can occur
+in more than one AHFA state.
 
 \begin{figure}
 \hrule
