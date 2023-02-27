@@ -933,8 +933,8 @@ but the quote marks are theirs
 \cite[p. 621]{AH2002}.
 This seems to reflect a perception on their part that,
 while they had an idea
-that captured the basis of an Earley engine
-that could handle nullable symbols gracefully,
+that allowed an Earley-based parse engine
+to handle nullable symbols gracefully,
 a practical implemention would demand some refinements.
 
 The ``ideal'' solution of~\cite{AH2002},
@@ -945,8 +945,8 @@ it depended only on the grammar and the postdot symbol of the argument EIM.
 Clearly, precomputation could eliminate most or all of the runtime
 cost of their new prediction operation.
 
-For their precomputation, Aycock and Horspool~\cite{AH2002} hauled some heavy theoretical artillery ---
-they invented a new semi-deterministic finite automata,
+For their precomputation, Aycock and Horspool~\cite{AH2002}
+invented a new semi-deterministic finite automata,
 which \cite{AH2002} calls a ``split LR(0) $\epsilon$-DFA''.
 We recall that, in this paper,
 we are calling their ``split LR(0) $\epsilon$-DFA'',
@@ -987,9 +987,9 @@ the size of Earley sets could be reduced,
 and conjectured that this would
 make Earley's algorithm faster in practice.
 
-As a reminder,
-the original Earley items (\type{EIM}'s)
-were duples,
+We recall that
+the traditional Earley items (\type{EIM}'s)
+are duples,
 $$\tuple{\Vdr{x}, \Vorig{x}},$$
 where \Vdr{x} is a dotted rule.
 An Aycock-Horspool Earley item is a duple
@@ -1216,15 +1216,24 @@ the Marpa implementation much more complex.
 \section{Problems with the AHFA}
 \label{sec:problems-with-the-ahfa}
 
-\subsection{No noticeable performance improvement}
+\subsection{Difficulty in debugging and maintenance}
+
+\todo{Tables of Earley items use AH-states, not dotted rules}
+
+\todo{Dotted rules are a natural way of tracking a parse,
+collected them in AH-states requires a lookup which is a
+nuisance when tracing and debugging}
+
+\subsection{Difficulty in adding new features}
 
 \subsection{Increased code complexity}
 
 \subsection{Increased theoretical complexity}
 
-\subsection{Difficulty in debugging and maintenance}
+\subsection{No noticeable performance improvement}
 
-\subsection{Difficulty in adding new features}
+\todo{Given the forgoing, we would have been willing
+to give up some performance}
 
 \section{Marpa's approach to dealing with nullable symbols}
 \label{sec:marpa-s-approach-to-dealing-with-nullable-symbols}
