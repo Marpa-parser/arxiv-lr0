@@ -1014,6 +1014,7 @@ A transition on the reserved non-symbol,
 for example
 \( \GOTO{\Vah{from)}}{\epsilon}, \)
 is a \dfn{null transition}.
+
 If \Vah{predicted} is the result of a null transition,
 it is called a \dfn{predicted} AHFA state.
 If an AHFA state is not a \dfn{predicted} AHFA state,
@@ -1022,6 +1023,16 @@ The initial AHFA state is a confirmed AHFA state.\footnote{%
 In~\cite{AH2002} confirmed states are called ``kernel states'',
 and predicted states are called ``non-kernel states''.
 }
+Figure \ref{fig:ahfa} on page
+\pageref{fig:ahfa} shows the AHFA for
+the grammar
+\[ \begin{array}{lcl}
+  \V{S}^\prime&\de&\V{S}  \\
+  \V{S}&\de&\V{A}\cat\V{B} \\
+  \V{A}&\de&\V{B} \\
+  \V{A}&\de&\V{x}\cat\V{a} \\
+  \V{B}&\de&\V{x}\cat\V{b}.
+\end{array} \]
 
 \section{The pitfall of counting Earley items}
 \label{sec:pitfall-of-counting-earley-items}
