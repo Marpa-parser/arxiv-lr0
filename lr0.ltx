@@ -1419,7 +1419,39 @@ to pay a price in performance.
 To explore the price,
 we counted the size of AHFA states for practical grammars.
 Our results are reported in an appendix
-starting on page \pageref{sec:statistics-on-ahfa-states}.
+starting on page~\pageref{sec:statistics-on-ahfa-states}.
+The relevant finding for our purposes was that,
+in practice,
+except for predicted AHFA states,
+most AHFA states had only one dotted rule.
+
+This made some sense, since the motivation in~\cite{AH2002}
+for AHFA's was memoizing the transitive closure of predictions.
+We noted that predictions are very easy to memoize,
+and there is any number of ways to do it.
+For example,
+because in every Earley set each prediction has the same
+dot position (zero),
+and the same origin (the current Earley set),
+within an Earley set the predictions can be uniquely identified by their rule.
+
+Since predictions in each Earley set can be uniquely identified by their rule,
+if the rules are numbered,
+the predictions in each Earley could be represented as a bit map.
+The transitive closure of the predictions for each symbol
+could be precomputed as a bit mask, and the bit masks or'ed into the bit map.
+The bit map could be retained as the representation of the predictions,
+or time could be traded for space by converting the bit map to a list of integers.
+
+A bit map is not the implementation we settled on for Marpa.
+In the event, a simpler implementation was to
+produce speeds in the Marpa environments that were not just adequate,
+but not measureably different from the speeds delivered by the
+AHFA implementation.
+We found this satisfactory,
+and faster implementations for the computation of predicted Earley items
+within Marpa,
+remain a topic for a research.
 
 \section{Marpa's approach to nullable symbols}
 \label{sec:marpa-s-approach-to-nullable-symbols}
