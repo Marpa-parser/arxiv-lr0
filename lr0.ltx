@@ -1087,15 +1087,71 @@ on page \pageref{sec:marpa-s-approach-to-dealing-with-nullable-symbols}.
 \section{The pitfall of counting Earley items}
 \label{sec:pitfall-of-counting-earley-items}
 
-In the Earley parsing literature speed results
-are reported based on the count of Earley items -- the fewer Earley items, it is
-assumed, the faster the parser. This totally ignores evaluation, never
-mind tracing or run-time features like events.
+It is now standard to analyze algorithms, by assigning resource (time or space)
+to operations, and looking at the results in asymptotic terms.
+The focus on asymptotic terms has the disadvantage of ignoring ``hidden constants'',
+which can have a real effect in practice,
+but this is far outweighed by the advantage:
+Results in asymptotic terms hold up well when
+the environment or hardware changes,
+which they often do in the computer field.
 
-This massive over-simplification worked, because Jay Earley and Joop
-Leo only went for results in Landau notation, and these are "big" enough
-that even a huge over-simplification is not a problem. This is not the
-case when we are talking about a constant factor.
+In analyzing parsing,
+results are sometimes reported in terms of the size of
+the grammar.
+But most often,
+the grammar is treated as constant,
+and complexity is reported as a function of the input length.
+
+When analyzing the complexity of parsers,
+evaluation is usually ignored,
+even though in practice an application almost
+always wants, not just to parse,
+but to evaluate the result of the parse.
+From the point of view of the typical application,
+evaluation is a necessary part of it,
+and the only relevant cost is the combined
+cost of both parsing and evaluation.
+
+Applications also usually want run-time features.
+But the impact of algorithms on
+tracing, debugging, and run-time events
+is almost always ignored completely.
+
+Analysis of Earley parsing,
+going back to the Earley's original work~\cite{Earley1970},
+uses an ``accounting technique'' to calculate complexity.
+Operations are not counted directly.
+Instead a complex accounting assigns the resource
+for every operation to
+an Earley item,
+taking care that each attempt to create an Earley item is assigned
+no more than
+a constant amount of resource.
+The resource consumed by the Earley algorithm is then
+determined by counting the number of attempts to create Earley items.
+For an unambiguous grammar,
+the number of attempts to create Earley items
+will be the same as the number of Earley items.
+
+Aycock and Horspool~\cite{AH2002}
+reported no complexity improvements in
+asymptotic terms.
+Instead \cite{AH2002} claimed that, because the use of AHFA states,
+their algorithm produces fewer Earley items,
+reducing constants,
+which are hidden by asymtotic analysis,
+but which are nonetheless significant.
+
+In assessing whether \cite{AH2002} was indeed faster,
+we need to look for any additional overheads
+the use of AHFA states might impose.
+These additional overheads would be among costs hidden
+by asymptotic analysis,
+but when the claimed improvement is only in the
+``hidden constants'',
+they come into play,
+and can reduce or eliminate any gains.
 
 \section{AHFA states are not disjoint}
 \label{sec:ahfa-states-are-not-disjoint}
