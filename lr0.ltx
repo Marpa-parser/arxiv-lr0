@@ -1445,14 +1445,23 @@ The bit map could be retained as the representation of the predictions,
 or time could be traded for space by converting the bit map to a list of integers.
 
 A bit map is not the implementation we settled on for Marpa.
-In the event, a simpler implementation was to
-produce speeds in the Marpa environments that were not just adequate,
-but not measureably different from the speeds delivered by the
+We started with a simple implementation for adding predictions,
+and changed Marpa incrementally, using test-driven development.
+After each change we timed our test suite,
+watching for changes in running speed.
+Running speed remained essentially constant,
+as best we could measure.
+
+The simple implementation of prediction, therefore, produced speeds that
+were not measureably different from the speeds delivered by the
 AHFA implementation.
-We found this satisfactory,
-and faster implementations for the computation of predicted Earley items
-within Marpa,
-remain a topic for research.
+Our tests of speed were not carefully controlled benchmarks,
+but they did reflect the range of circumstances under which
+Marpa is actually used,
+and we found this satisfactoryj
+We left bitmaps and other possibly faster implementations
+for the computation of predicted Earley items
+as a topic for research.
 
 \section{Marpa's approach to nullable symbols}
 \label{sec:marpa-s-approach-to-nullable-symbols}
