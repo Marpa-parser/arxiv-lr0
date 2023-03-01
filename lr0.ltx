@@ -1156,12 +1156,6 @@ and can reduce or eliminate any gains.
 \section{AHFA states are not disjoint}
 \label{sec:ahfa-states-are-not-disjoint}
 
-The states of an AHFA
-are not a partition of the dotted
-rules --
-a single dotted rule can occur
-in more than one AHFA state.
-
 \begin{figure}
 \hrule
 \caption{\label{fig:ahfa}
@@ -1270,42 +1264,101 @@ in more than one AHFA state.
 \hrule
 \end{figure}
 
-The relationship between AHFA items and Earley items is not
-many-to-one, but many-to-many, greatly complicating the translation.
-\todo{Is this in their paper?}
+The states of an AHFA
+are not a partition of the dotted
+rules --
+a single dotted rule can occur
+in more than one AHFA state.
+For example, in the AHFA of Figure
+\ref{fig:ahfa}, the
+dotted rule
+\[ \V{B} \de \V{x}\cat\V{b}\mydot \]
+occurs in AHFA states \V{C2} and \V{C5}.
 
-We were able to measure the AHFA states for practical grammars, only to
-find that their actual effect was quite small. The AHFA states did not
-produce measurable improvements, and were serious obstacles to several
-run-time features I was contemplating.
+Aycock and Horspool do
+not explicitly mention this issue.
+On \cite[p. 626]{AH2002}, they state that
+\begin{quote}
+we have
+not changed the underlying time complexity of Earley’s
+algorithm. In the worst case, each split $\epsilon$-DFA state would
+contain a single item, effectively reducing it to Earley’s
+original algorithm. Having said this, we are not aware of
+any practical example where this occurs.
+\end{quote}
 
-The problem of translating back and forth from LR rule sets to the grammar
-is the most important factor that limited the success of LR parsing. When a Yacc parse
-fails it is often very hard for the grammar writer to figure out why.
+\cite{AH2002} does not present a proof that in the worst case
+the number of Earley items in their algorithm is the same as
+Earley's.
+The count of dotted rules does not directly set an upper limit on
+the AHFA states,
+since the same dotted rule can occur in more than one AHFA.
+We were unable to find a proof for their worst case,
+but we also could not find a counter-example.
 
-AHFA states are not a partitioning of the dotted rules.  One dotted
-rule can fall into more than one AHFA state.
-Aycock and Horspool saw this as an optimization, in
-that it allows dotted rules, if they often occur together, to be grouped
-together aggressively. But it opens up the possibility that, in cases
-where the Earley algorithm had disposed of a dotted rule once and for all, Marpa
-might have to deal with it multiple times.
+\section{Problems with the AHFA}
+\label{sec:problems-with-the-ahfa}
 
-Jay Earley~\cite{Earley1970},
-in his proofs,
-could rely on the fact
-that for each attempt
-to add a duplicate,
-the causation must be different --
-that the confluences causing the attempt
-will differ in either their mainstem
-or their tributary.
-Multiple confluences for an Earley item
-would mean multiple derivations
-for the sentential form that it represents.
-That in turn would mean that
-the grammar is ambiguous,
-contrary to assumption.
+\subsection{Difficulty in debugging and tracing}
+
+During the years that Marpa used AHFA items,
+we encountered a number of disadvantages.
+A first was in debugging grammars.
+
+Earley items
+are an intuitive way to view the state of a parse.
+Each Earley item states a rule,
+the amount of progress within the rule
+(indicated by the dot),
+the location of the dot within the input string,
+and the location within the input string
+where recognition of the rule began.
+
+Use of AHFA states added a layer of abstraction over this.
+We were faced with two choices ---
+require a user of the Marpa algorithm to deal with the AHFA states
+directly,
+or translate them for the user into dotted rules.
+Translating the AHFA states into dotted rules
+took the user away from the actual workings
+of the algorithm.
+And the translation was not a simple one.
+Since two AHFA states might contain the same dotted rule,
+the relationship between AHFA states and dotted rules is
+many-to-many.
+
+\subsection{Increased code complexity}
+
+Most Marpa users,
+if they were simply trying to get a grammar working,
+could ignore the internal representation,
+focus on the dotted rules,
+and act as if the AHFA states did not exist.
+But a the user might, for example,
+be concerned with efficiency.
+In that case a trace that translated multiple AHFA items
+into multiple dotted rules might give a misleading impressing.
+
+For the programmer working in the Marpa code itself,
+dealing with the AHFA states was unavoidable.
+Evaluation required doing the many-to-many translation
+from AHFA states and dotted rules.
+Undoing the potential duplication of dotted rules in AHFA states
+is an overhead that cut into the speedups promised by AHFA states,
+and the over of a duplication check had to incurred for every AHFA
+item, whether it contained a duplicated dotted rule or not.
+
+Translation often needed to be done at run-time.
+We have mentioned the case of tracing or debugging.
+Marpa also has a run-time event mechanism and,
+to be practical,
+the events in this mechanism needed to be presented to the user in terms
+of dotted rules, not AHFA states.
+Other run-time features have been contemplated for Marpa,
+and the complexity of translating to and from AHFA states
+was a real obstacle to their implementation.
+
+\subsection{Increased theoretical complexity}
 
 With AHFA states, there is complication.
 A dotted rule can occur in more than one AHFA
@@ -1326,27 +1379,14 @@ but getting there was more complicated.
 Similarly, it made
 the Marpa implementation much more complex.
 
-\section{Problems with the AHFA}
-\label{sec:problems-with-the-ahfa}
-
-\subsection{Difficulty in debugging and maintenance}
-
-\todo{Tables of Earley items use AH-states, not dotted rules}
-
-\todo{Dotted rules are a natural way of tracking a parse,
-collected them in AH-states requires a lookup which is a
-nuisance when tracing and debugging}
-
-\subsection{Difficulty in adding new features}
-
-\subsection{Increased code complexity}
-
-\subsection{Increased theoretical complexity}
-
 \subsection{No noticeable performance improvement}
 
 \todo{Given the forgoing, we would have been willing
 to give up some performance}
+We were able to measure the AHFA states for practical grammars, only to
+find that their actual effect was quite small. The AHFA states did not
+produce measurable improvements, and were serious obstacles to several
+run-time features I was contemplating.
 
 \section{Marpa's approach to dealing with nullable symbols}
 \label{sec:marpa-s-approach-to-dealing-with-nullable-symbols}
