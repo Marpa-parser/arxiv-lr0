@@ -310,9 +310,9 @@ implementing~\cite{AH2002}.
 In 2014 we extensively modified Marpa's usage of
 the ideas from \cite{AH2002}.
 Section
-\ref{sec:marpa-s-approach-to-dealing-with-nullable-symbols}
+\ref{sec:marpa-s-approach-to-nullable-symbols}
 describes the new approach
-we took to dealing with nullables.
+we took in Marpa to deal with nullable symbols.
 Section \ref{sec:conclusion} summarizes our conclusions.
 
 \section{Preliminaries}
@@ -1081,8 +1081,8 @@ new rules,
 where \V{pn} is the number of proper nullables in the rule.
 This overhead is a grammar constant, and \cite{AH2002} found it tolerable,
 but we will return to this matter
-in Section \ref{sec:marpa-s-approach-to-dealing-with-nullable-symbols}
-on page \pageref{sec:marpa-s-approach-to-dealing-with-nullable-symbols}.
+in Section \ref{sec:marpa-s-approach-to-nullable-symbols}
+on page \pageref{sec:marpa-s-approach-to-nullable-symbols}.
 
 \section{The pitfall of counting Earley items}
 \label{sec:pitfall-of-counting-earley-items}
@@ -1300,6 +1300,7 @@ but we also could not find a counter-example.
 \label{sec:problems-with-the-ahfa}
 
 \subsection{Difficulty in debugging and tracing}
+\label{sec:difficulty-in-debugging-and-tracing}
 
 During the years that Marpa used AHFA items,
 we encountered a number of disadvantages.
@@ -1328,6 +1329,7 @@ the relationship between AHFA states and dotted rules is
 many-to-many.
 
 \subsection{Increased code complexity}
+\label{sec:increased-code-complexity}
 
 Most Marpa users,
 if they were simply trying to get a grammar working,
@@ -1359,37 +1361,68 @@ and the complexity of translating to and from AHFA states
 was a real obstacle to their implementation.
 
 \subsection{Increased theoretical complexity}
+\label{sec:increased-theoretical-complexity}
 
-With AHFA states, there is complication.
-A dotted rule can occur in more than one AHFA
-state.
-Because of that,
-it is possible that two of Marpa's
-operations to add an \type{EIM}
-will represent identical Earley confluences,
-and therefore will be
-consistent with an unambiguous grammar.
-Dealing with this produced complications both for our
-theoretical results.
-We~\cite{Marpa2023}
-and Aycock and Horpsool~\cite{AH2002}
-were able to achieve the same results in
-Landau-notation terms as Earley~\cite{Earley1970}
+Earley~\cite{Earley1970}, in his proofs, could rely on each Earley item
+representing one dotted rule.
+For analyzing Marpa with AHFA items,
+since we did not have a proof that the count of Earley items
+in~\cite{Earley1970}
+was the worst case for~\cite{AH2002},
+we required additional results.
+Much of our initial paper on Marpa~\cite{Marpa2023}
+is devoted to those results.
+
+Additional theoretical complexity is not just
+a theoretical issue.
+In developing Marpa, proofs are often needed.
+Marpa is written in CWEB~\cite{CWEB2022}
+for this reason.
+In Marpa, theoretical complexity is an obstacle
+to new features, and to maintainance.
+
+We were able to show the same
+results in asymptotic terms for Marpa
+as for Earley~\cite{Earley1970},
+and Leo~\cite{Leo1991},
 but getting there was more complicated.
-Similarly, it made
-the Marpa implementation much more complex.
+We did not feel that we can assume the worst
+case as stated in~\cite{AH2002}.
+But we were able to note that the number of AHFA
+states is a constant which depends on the grammar,
+and that the number of duplicated dotted rules cannot
+exceed the number of AHFA states.
+(In practice, of course, the number of duplicated dotted
+rules will be far less.)
+With this assumption,
+and the appropriate changes in,
+and additions to,
+the proofs in
+\cite{Earley1970}~and~\cite{Leo1991},
+we were able to claim the same asymptotic results
+as \cite{Earley1970}~and~\cite{Leo1991}.
 
 \subsection{No noticeable performance improvement}
 
-\todo{Given the forgoing, we would have been willing
-to give up some performance}
-We were able to measure the AHFA states for practical grammars, only to
-find that their actual effect was quite small. The AHFA states did not
-produce measurable improvements, and were serious obstacles to several
-run-time features I was contemplating.
+Given the disadvantages mentions in Sections
+\ref{sec:difficulty-in-debugging-and-tracing}
+(page \pageref{sec:difficulty-in-debugging-and-tracing}),
+\ref{sec:increased-code-complexity}
+(page \pageref{sec:increased-code-complexity}), and
+\ref{sec:increased-theoretical-complexity}
+(page \pageref{sec:increased-theoretical-complexity}),
+in 2014, we decided to explore the possibility of
+backing out the use of AHFA states in Marpa.
+We would have been willing
+to pay a price in performance.
 
-\section{Marpa's approach to dealing with nullable symbols}
-\label{sec:marpa-s-approach-to-dealing-with-nullable-symbols}
+To explore the price,
+we counted the size of AHFA states for practical grammars.
+Our results are reported in an appendix
+starting on page \pageref{sec:statistics-on-ahfa-states}.
+
+\section{Marpa's approach to nullable symbols}
+\label{sec:marpa-s-approach-to-nullable-symbols}
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -1410,6 +1443,12 @@ John~Aycock and R.~Nigel~Horspool.
 \newblock Practical Earley Parsing
 \newblock {\em The Computer Journal},
     Vol. 45, No. 6, 2002, pp. 620-630.
+
+\bibitem{CWEB2022}
+\newblock The CWEB System of Structured Documentation
+\newblock Donald~E.~Knuth and Silvio~Levy
+\newblock Version 4.8, June 2022.
+\newblock \url{https://ctan.org/tex-archive/web/cweb}.
 
 \bibitem{Earley1970}
 J.~Earley.
@@ -1458,7 +1497,8 @@ J.~M. I.~M. Leo.
 
 \appendix
 
-\section{ Statistics on AHFA states. }
+\section{Statistics on AHFA states}
+\label{sec:statistics-on-ahfa-states}
 
 \subsection{Confirmed states.}
 
