@@ -284,7 +284,7 @@ that is not nulling.
 \item
 Collecting dotted rules into states of a
 finite automata, which we will call
-an Aycok-Horspool Finite Automata (AHFA)\footnote{%
+an Aycock-Horspool Finite Automata (AHFA)\footnote{%
   In \cite{AH2002} an AHFA is called a ``split LR(0) $\epsilon$-DFA''.
 },
 and modifying the Earley parse engine to use
@@ -686,11 +686,11 @@ of dotted rule, origin, and current location.\footnote{%
   Instead \type{EIM}s
   are grouped into sets
   that share the same current location.
-  These sets of co-located \type{EIMS}s are called
+  These sets of co-located \type{EIM}s are called
   ``Earley sets''.
   Membership in an Earley sets becomes a ``property''
   of each \type{EIM}.
-  In set theory, by the Axion of Extensionality,
+  In set theory, by the Axiom of Extensionality,
   sets with the same membership (or extension)
   are equivalent,
   and non-extensional properties do not exist.
@@ -834,8 +834,8 @@ and always adds exactly one \type{EIM}.
 }{
   \begin{array}{c}
       \left< \begin{gathered}
-      \tuple{ \Vsym{lhs} \de \mydot \Vstr{rhs} }, \Current{\V{mainsteam}}, \\
-	  \Current{\V{mainsteam}}
+      \tuple{ \Vsym{lhs} \de \mydot \Vstr{rhs} }, \Current{\V{mainstem}}, \\
+	  \Current{\V{mainstem}}
       \end{gathered} \right> : \type{EIM}
   \end{array}
 }
@@ -918,7 +918,7 @@ where
 \VFA{predN}{(\Vtyped{n}{\naturals})+1, \Vtyped{eimSet}{\setOf{\type{EIM}}}} = \\
   \setB{ \VTtyped{eim}{EIM} }{ \existQ{\VTtyped{eim2}{EIM}}{ \\
     \V{eim} \in \VFA{Opred}{\V{eim2}} \\
-    \land \, \V{eim2} \in \VFA{predN}{\V{n},\V{eimset}}}}.
+    \land \, \V{eim2} \in \VFA{predN}{\V{n},\V{eimSet}}}}.
 \end{gathered}
 \end{equation*}
 
@@ -946,7 +946,7 @@ This seems to reflect a perception on their part that,
 while they had an idea
 that allowed an Earley-based parse engine
 to handle nullable symbols gracefully,
-a practical implemention would demand some refinements.
+a practical implementation would demand some refinements.
 
 The ``ideal'' solution of~\cite{AH2002},
 if naively implemented,
@@ -1140,7 +1140,7 @@ asymptotic terms.
 Instead \cite{AH2002} claimed that, because the use of AHFA states,
 their algorithm produces fewer Earley items,
 reducing constants,
-which are hidden by asymtotic analysis,
+which are hidden by asymptotic analysis,
 but which are nonetheless significant.
 
 In assessing whether \cite{AH2002} was indeed faster,
@@ -1444,7 +1444,7 @@ The bit map could be retained as the representation of the predictions,
 or converted into a list of integers.
 
 In converting away from AHFA states,
-we did not use a bit map for addng predictions.
+we did not use a bit map for adding predictions.
 Instead we decided to start with
 a simple implementation of prediction,
 one which will be described in
