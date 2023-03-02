@@ -1444,24 +1444,44 @@ could be precomputed as a bit mask, and the bit masks or'ed into the bit map.
 The bit map could be retained as the representation of the predictions,
 or time could be traded for space by converting the bit map to a list of integers.
 
-A bit map is not the implementation we settled on for Marpa.
+In converting away from AHFA states,
+we did use a bit map for addng predictions.
 We started with a simple implementation for adding predictions,
+which will be described in
+Section~\ref{sec:marpa-s-approach-to-nullable-symbols}
+on page~\pageref{sec:marpa-s-approach-to-nullable-symbols},
 and changed Marpa incrementally, using test-driven development.
 After each change we timed our test suite,
 watching for changes in running speed.
-Running speed remained essentially constant,
-as best we could measure.
+The tests in our test suite typically tested not just parsing,
+but evaluation.
+Some of the tests also were of
+run-time event-processing,
+and tracing.
 
-The simple implementation of prediction, therefore, produced speeds that
-were not measureably different from the speeds delivered by the
-AHFA implementation.
-Our tests of speed were not carefully controlled benchmarks,
-but they did reflect the range of circumstances under which
-Marpa is actually used,
-and we found this satisfactoryj
-We left bitmaps and other possibly faster implementations
+Running speed for the test suite,
+as best we could measure,
+remained essentially constant during the changeover.
+Our tests of speed were not benchmarks of the typical kind.
+These control the environment and narrow the focus,
+and can produce results that are, in a sense, more precise.
+Our tests did reflect the range of circumstances under which
+Marpa is likely to be used,
+and this was what was important to us.
+This, combined with our asymptotic results,
+the theoretical indicators that AHFA states were not necessarily
+a clear win,
+and our statistics on AHFA states,
+gave us confidence that if,
+for the changeover,
+we had paid any price at all,
+it was a very acceptable one.
+
+Since the simpler implementation of prediction produced
+results that were entirely adequate,
+we left bitmaps and other possibly faster implementations
 for the computation of predicted Earley items
-as a topic for research.
+as a topic for future research.
 
 \section{Marpa's approach to nullable symbols}
 \label{sec:marpa-s-approach-to-nullable-symbols}
