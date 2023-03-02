@@ -1503,13 +1503,18 @@ running the rewritten grammar
 recognizes the same set of sentences as the parser does
 when running the pre-rewrite grammar.
 
+\todo{Add note about language == set of strings}
+\todo{Semantics traditionally associated with rules, terminals and nulled symbols}
+
 However, rewrites have been very lightly used for practical parsing.
 This is because
 practical parsing almost always requires an evaluation phase.
-And, even if a complex rewrite leaves string recognition intact,
-it often either erases the relationship between the rules
+And, even if a complex rewrite recognizes the same language,
+it usually also needs to duplicate the semantics associated
+with every sentence of the grammar's language.
+Many rewrites erase the relationship between the rules
 of the grammar and their semantics,
-or makes that relationship so complex that the benefit
+or at least make that relationship so complex that the benefit
 of the rewrite is lost.
 
 However, it is not necessarily the case that rewrites
