@@ -1492,6 +1492,33 @@ but we leave that as a topic for future research.
 \section{Conclusion}
 \label{sec:conclusion}
 
+When first released in 2011,
+Marpa adopted its approach for dealing with nullable
+symbols from Aycock and Horspool~\cite{AH2002}.
+The solution of~\cite{AH2002} centered around a
+semi-deterministic finite automata,
+and converted the Earley algorithm to work in
+terms of states of this automata,
+rather than dotted rules.
+
+In using and extending Marpa,
+we found this solution awkward.
+In 2014,
+we decided to back the Aycock and Horspool automata out of Marpa.
+We did so successfully,
+and without a noticeable loss in performance.
+But we needed a new approach to nullable symbols.
+
+Fortunately, in the process of studying the
+algorithm of~\cite{AH2002},
+we discovered that~\cite{AH2002}
+contained the key ideas for another solution,
+one based on grammar rewrites.
+Marpa's current approach to nullable symbols
+is an extension of grammar rewriting ideas from~\cite{AH2002}.
+For this reason, we continue to consider Marpa to be
+a parser in the Aycock-Horspool lineage.
+
 \bibliographystyle{plain}
 
 \begin{thebibliography}{10}
