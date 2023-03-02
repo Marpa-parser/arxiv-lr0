@@ -1480,7 +1480,7 @@ or that the price paid was a very acceptable one.
 
 The simpler implementation of prediction that we had
 initially chosen produced
-performance results turned out to be entirely adequate.
+performance results that turned out to be entirely adequate.
 Bitmaps or other techniques for the computation of
 predicted Earley items
 might be faster than the methods Marpa currently uses,
@@ -1488,6 +1488,52 @@ but we leave that as a topic for future research.
 
 \section{Marpa's approach to nullable symbols}
 \label{sec:marpa-s-approach-to-nullable-symbols}
+
+As we saw in Section~\ref{sec:nihilist-normal-form}
+on page \pageref{sec:nihilist-normal-form},
+Aycock and Horspool, as part of the algorithm described
+in~\cite{AH2002}
+used a grammar rewrite.
+There are many grammar rewrites in the parsing literature
+to ``solve'' problems.
+For example, if a parser has trouble with left recursion,
+a rewrite can convert its grammars to use right recursion.
+This rewrite solves the problem in the sense that the parser
+running the rewritten grammar
+recognizes the same set of sentences as the parser does
+when running the pre-rewrite grammar.
+
+However, rewrites have been very lightly used for practical parsing.
+This is because
+practical parsing almost always requires an evaluation phase.
+And, even if a complex rewrite leaves string recognition intact,
+it often either erases the relationship between the rules
+of the grammar and their semantics,
+or makes that relationship so complex that the benefit
+of the rewrite is lost.
+
+However, it is not necessarily the case that rewrites
+are counter-productive.
+One very common rewrite is ``augmenting the grammar''
+with an accept rule.
+Many parsers augment their grammars with an accept rule.
+Marpa is one of them
+(see equation \ref{eq:accept-rule} on page \pageref{eq:accept-rule}).
+As an example, a new accept rule might be
+\[ \Vrule{accept} = \tuple{ \Vsym{accept} \de \Vsym{start} }, \]
+where \Vsym{accept} is a new symbol,
+and \V{start} is the start symbol of the original grammar.
+In this case the accept rule can be given pass-through semantics:
+The result of
+\Vrule{accept} is the value of \V{start}, its only child symbol.
+
+In the case of accept rules,
+it is clearly easy for a rewritten grammar to duplicate the semantics
+of the pre-rewrite grammar.
+In the case of Aycock and Horspool's NNF rules,
+duplicating the original semantics is only slightly more complex.
+
+\todo{Finish this}
 
 \section{Conclusion}
 \label{sec:conclusion}
