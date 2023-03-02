@@ -1427,61 +1427,64 @@ most AHFA states had only one dotted rule.
 
 This made some sense, since the motivation in~\cite{AH2002}
 for AHFA's was memoizing the transitive closure of predictions.
-We noted that predictions are very easy to memoize,
-and there is any number of ways to do it.
-For example,
-because in every Earley set each prediction has the same
+We noted that predictions are very easy to memoize.
+In every Earley set each prediction has the same
 dot position (zero),
 and the same origin (the current Earley set),
 the predictions
 within each Earley set can be uniquely identified by their rule.
 
-Since predictions in each Earley set can be uniquely identified by their rule,
+As one example,
+since predictions in each Earley set can be uniquely identified by their rule,
 if the rules are numbered,
-the predictions in each Earley could be represented as a bit map.
+the predictions in each Earley set can be represented as a bit map.
 The transitive closure of the predictions for each symbol
 could be precomputed as a bit mask, and the bit masks or'ed into the bit map.
 The bit map could be retained as the representation of the predictions,
-or time could be traded for space by converting the bit map to a list of integers.
+or converted into a list of integers.
 
 In converting away from AHFA states,
-we did use a bit map for addng predictions.
-We started with a simple implementation for adding predictions,
-which will be described in
+we did not use a bit map for addng predictions.
+Instead we decided to start with
+a simple implementation of prediction,
+one which will be described in
 Section~\ref{sec:marpa-s-approach-to-nullable-symbols}
-on page~\pageref{sec:marpa-s-approach-to-nullable-symbols},
-and changed Marpa incrementally, using test-driven development.
+on page~\pageref{sec:marpa-s-approach-to-nullable-symbols}.
+We converted Marpa incrementally, using test-driven development.
 After each change we timed our test suite,
 watching for changes in running speed.
-The tests in our test suite typically tested not just parsing,
+The tests in our test suite usually tested not just parsing,
 but evaluation.
-Some of the tests also were of
+Some of the tests were also of
 run-time event-processing,
 and tracing.
 
 Running speed for the test suite,
-as best we could measure,
 remained essentially constant during the changeover.
-Our tests of speed were not benchmarks of the typical kind.
-These control the environment and narrow the focus,
-and can produce results that are, in a sense, more precise.
-Our tests did reflect the range of circumstances under which
-Marpa is likely to be used,
-and this was what was important to us.
-This, combined with our asymptotic results,
+Our tests of speed were not benchmarks of the typical kind,
+which controls the environment and narrow the focus,
+and which can produce results that are, in a sense, more precise.
+Our tests, instead, reflect the range of circumstances under which
+Marpa is likely to be used.
+This was a vaguer metric, but one which was more important to us.
+
+The speed measurement from our test suite,
+combined with our asymptotic results,
 the theoretical indicators that AHFA states were not necessarily
 a clear win,
 and our statistics on AHFA states,
-gave us confidence that if,
+gave us confidence that
+we had either not paid any performance price
 for the changeover,
-we had paid any price at all,
-it was a very acceptable one.
+or that the price paid was a very acceptable one.
 
-Since the simpler implementation of prediction produced
-results that were entirely adequate,
-we left bitmaps and other possibly faster implementations
-for the computation of predicted Earley items
-as a topic for future research.
+The simpler implementation of prediction that we had
+initially chosen produced
+performance results turned out to be entirely adequate.
+Bitmaps or other techniques for the computation of
+predicted Earley items
+might be faster than the methods Marpa currently uses,
+but we leave that as a topic for future research.
 
 \section{Marpa's approach to nullable symbols}
 \label{sec:marpa-s-approach-to-nullable-symbols}
