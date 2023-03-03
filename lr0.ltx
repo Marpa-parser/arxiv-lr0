@@ -188,7 +188,6 @@
 \newcommand{\Next}[1]{\mymathop{Next}(#1)}
 \newcommand{\Predict}[1]{\mymathop{Predict}(#1)}
 \newcommand{\Postdot}[1]{\mymathop{Postdot}(#1)}
-\newcommand{\Penult}[1]{\mymathop{Penult}(#1)}
 \newcommand{\Pos}[1]{\mymathop{Pos}(#1)}
 \newcommand{\Rule}[1]{\mymathop{Rule}(#1)}
 \newcommand{\LHS}[1]{\mymathop{LHS}(#1)}
@@ -633,21 +632,6 @@ We also make the following definitions:
   \end{cases} \\
 \]
 
-\[
-  \Penult{\Vdr{x}} \defined
-  \begin{cases}
-  \Vsym{next}, \text{ if } \existQ{
-      \Vstr{pre}, \; \Vstr{post}, \; \Vsym{A}}{ \\
-      \qquad \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}} \\
-      \qquad \land \; \Nulling{\V{post}} \land \; \neg \Nulling{\V{next}}} \\
-  \unicorn, \text{ otherwise}
-  \end{cases}
-\]
-\todo{Delete Penult?}
-
-A \dfn{penult} is a dotted rule \Vdr{d} such that $\Penult{\V{d}} \isWellDef$.
-We note that $\Penult{\Vdr{x}}$
-is never a nullable symbol.
 The \dfn{initial dotted rule} is
 \begin{equation}
 \label{eq:initial-dr}
@@ -729,7 +713,6 @@ The following are examples:
 \RHS{\Veim{x}} \defined \RHS{\DR{\V{dr}}}. \\
 \Pos{\Veim{x}} \defined \Pos{\DR{\V{dr}}}. \\
 \Postdot{\Veim{x}} \defined \Postdot{\DR{\V{dr}}}. \\
-\Penult{\Veim{x}} \defined \Penult{\DR{\V{dr}}}. \\
 \Next{\Veim{x}} \defined \Next{\DR{\V{dr}}}. \\
 \Rule{\Veim{x}} \defined \Rule{\DR{\V{dr}}}.
 \end{gather*}
@@ -1492,7 +1475,7 @@ but we leave that as a topic for future research.
 As we saw in Section~\ref{sec:nihilist-normal-form}
 on page \pageref{sec:nihilist-normal-form},
 Aycock and Horspool, as part of the algorithm described
-in~\cite{AH2002}
+in~\cite{AH2002},
 used a grammar rewrite.
 There are many grammar rewrites in the parsing literature
 to ``solve'' problems.
@@ -1504,7 +1487,6 @@ recognizes the same set of sentences as the parser does
 when running the pre-rewrite grammar.
 
 \todo{Add note about language == set of strings}
-\todo{Semantics traditionally associated with rules, terminals and nulled symbols}
 
 However, rewrites have been very lightly used for practical parsing.
 This is because
@@ -1517,8 +1499,46 @@ of the grammar and their semantics,
 or at least make that relationship so complex that the benefit
 of the rewrite is lost.
 
-However, it is not necessarily the case that rewrites
-are counter-productive.
+For the purposes of this paper,
+we will describe semantics using
+a simplified version of the
+semantics implemented in Marpa.
+Marpa's tables are converted into
+a parse tree,
+which has rule nodes,
+and nodes for terminals.
+These nodes are evaluated recursively
+and the value of the top node
+is considered to be the value of the parse.
+
+The semantics of a rule node can be treated as a function:
+\[ \VFA{semRule}{$\V{parse}, \V{child1}, \V{child2}, \dotsc, \V{childN}$}. \]
+Here \( \V{child1}, \V{child2}, \dotsc, \V{childN} \)
+are the values of the rule instance's child nodes.
+There is a \V{parse} argument because the semantics of \Fname{semRule} will not necessarily
+be a pure function of the rule instance's child values.
+Semantic functions often have side effects ---
+for instance they may build symbol tables.
+Semantic functions also have access to all the data of the parse,
+including the grammar, the parse location of the rule instance.
+Nulled symbol instances are always associated with
+empty rules and their semantics comes their rule.
+Nulled symbol instances may be regarded
+as rules with no children.
+
+Every terminal symbol has a semantic function associated with it:
+\[ \VFA{semTerm}{\V{parse}, \V{value}}. \]
+Here \V{parse} is as for the rule semantics,
+and \V{value} is the ``token value'', a value that the application associates
+with each token as it is read.
+
+A rule has ``pass through'' semantics if it simply ``passes through''
+the value of its child node.
+More precisely, a rule node has pass through semantics iff
+it has exactly one child,
+and the semantic function is \V{semPass}, where
+\[ \VFA{semPass}{\V{parse}, \V{child}} = \V{child}. \]
+
 One very common rewrite is ``augmenting the grammar''
 with an accept rule.
 Many parsers augment their grammars with an accept rule.
@@ -1528,15 +1548,35 @@ As an example, a new accept rule might be
 \[ \Vrule{accept} = \tuple{ \Vsym{accept} \de \Vsym{start} }, \]
 where \Vsym{accept} is a new symbol,
 and \V{start} is the start symbol of the original grammar.
-In this case the accept rule can be given pass-through semantics:
-The result of
-\Vrule{accept} is the value of \V{start}, its only child symbol.
+We can ensure that the semantics of the augmented grammar duplicate
+those of the original grammar by giving the
+accept rule pass through semantics.
 
-In the case of accept rules,
-it is clearly easy for a rewritten grammar to duplicate the semantics
-of the pre-rewrite grammar.
 In the case of Aycock and Horspool's NNF rules,
-duplicating the original semantics is only slightly more complex.
+ensuring the rewritten grammar
+duplicated the semantics of the original was slightly more complex,
+but it was clear that it could be easily and efficiently done.
+
+Marpa never implemented the NNF rules in the form as
+described in~\cite{AH2002}.
+As we have mentioned,
+the NNF rewrite creates \order{2\expon\V{pn}} new rules
+for every rule \V{r} in the original grammar,
+where \V{pn} is the count of proper nullables in \V{r}.
+This is an overhead which is a constant depending on
+the grammar, but
+we regarded it as, potentially,
+a serious impediment.
+For example, the MYSQL 8.0 select statement has
+19 optional arguments\footnote{%
+    See ``13.2.13 SELECT Statement'' in the MYSQL 8.0 Reference
+    Manual~\cite{MYSQL8.0}.
+    The direct link is
+    \url{https://dev.mysql.com/doc/refman/8.0/en/select.html}.
+},
+so that the rule for the select statement,
+when rewritten into NNF,
+would become 524,288 rules.
 
 \todo{Finish this}
 
@@ -1626,6 +1666,11 @@ Jeffrey~Kegler.
 \bibitem{Marpa-R2}
 Jeffrey~Kegler, 2013: Marpa-R2.
 \newblock \url{http://search.cpan.org/dist/Marpa-R2/}.
+
+\bibitem{MYSQL8.0}
+\newblock MYSQL 8.0 Reference Manual.
+\newblock ``Document generated on: 2023-03-01 (revision: 75097)''.
+\newblock \url{https://dev.mysql.com/doc/refman/8.0/en/}.
 
 \bibitem{Leo1991}
 J.~M. I.~M. Leo.
