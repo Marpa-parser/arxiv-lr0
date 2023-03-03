@@ -1622,20 +1622,24 @@ Figure~\ref{fig:chaf}.
 \vspace{.5ex}
 \hrule
 \vspace{.5\baselineskip}
-\[ \begin{array}{lcl}
-  \V{S}^\prime&\de&\V{S}  \\
-  \V{S}&\de&\V{A}\cat\V{S1} \\
-  \V{S}&\de&\V{A}\cat\V{Ae}\cat\V{Ae}\cat\V{Ae} \\
-  \V{S}&\de&\V{Ae}\cat\V{S1} \\
-  \V{S1}&\de&\V{A}\cat\V{S2} \\
-  \V{S1}&\de&\V{A}\cat\V{Ae}\cat\V{Ae} \\
-  \V{S1}&\de&\V{Ae}\cat\V{S2} \\
-  \V{S2}&\de&\V{A}\cat\V{A} \\
-  \V{S2}&\de&\V{A}\cat\V{Ae} \\
-  \V{S2}&\de&\V{Ae}\cat\V{A} \\
-  \V{A}&\de&\V{a} \\
-  \V{A}&\de&
-\end{array} \]
+\begin{tabular}{ll}
+\multicolumn{1}{c}{Rule} &
+\multicolumn{1}{c}{Semantics} \\
+\vspace{1.5\baselineskip}
+  $ \V{S}^\prime \de \V{S} $ & Pass through \\
+  $ \V{S} \de \V{A}\cat\V{S1} $ & CHAF head \\
+  $ \V{S} \de \V{A}\cat\V{Ae}\cat\V{Ae}\cat\V{Ae} \qquad $ &
+     From pre-rewrite $\V{S} \de \V{A}\cat\V{A}\cat\V{A}\cat\V{A} $ \\
+  $ \V{S} \de \V{Ae}\cat\V{S1} $ & CHAF head \\
+  $ \V{S1} \de \V{A}\cat\V{S2} $ & CHAF inner \\
+  $ \V{S1} \de \V{A}\cat\V{Ae}\cat\V{Ae} $ & CHAF tail \\
+  $ \V{S1} \de \V{Ae}\cat\V{S2} $ & CHAF inner \\
+  $ \V{S2} \de \V{A}\cat\V{A} $ & CHAF tail \\
+  $ \V{S2} \de \V{A}\cat\V{Ae} $ & CHAF tail \\
+  $ \V{S2} \de \V{Ae}\cat\V{A} $ & CHAF tail \\
+  $ \V{A} \de \V{a} $ & From pre-rewrite $ \V{A} \de \V{a} $ \\
+  $ \V{Ae} \de $ & From pre-rewrite $ \V{A} \de $
+\end{tabular}
 \vspace{.5\baselineskip}
 \hrule
 \end{figure}
