@@ -1473,6 +1473,8 @@ but we leave that as a topic for future research.
 \section{Marpa's approach to nullable symbols}
 \label{sec:marpa-s-approach-to-nullable-symbols}
 
+\subsection{The pitfalls of rewrites}
+
 As we saw in Section~\ref{sec:nihilist-normal-form}
 on page \pageref{sec:nihilist-normal-form},
 Aycock and Horspool, as part of the algorithm described
@@ -1499,6 +1501,8 @@ Many rewrites erase the relationship between the rules
 of the grammar and their semantics,
 or at least make that relationship so complex that the benefit
 of the rewrite is lost.
+
+\subsection{Describing semantics}
 
 For the purposes of this paper,
 we will describe semantics using
@@ -1533,9 +1537,9 @@ Here \V{parse} is as for the rule semantics,
 and \V{value} is the ``token value'', a value that the application associates
 with each token as it is read.
 
-A rule has ``pass through'' semantics if it simply ``passes through''
+A rule has pass-through semantics if it simply ``passes through''
 the value of its child node.
-More precisely, a rule node has pass through semantics iff
+More precisely, a rule node has pass-through semantics iff
 it has exactly one child,
 and the semantic function is \V{semPass}, where
 \[ \VFA{semPass}{\V{parse}, \V{child}} = \V{child}. \]
@@ -1551,12 +1555,14 @@ where \Vsym{accept} is a new symbol,
 and \V{start} is the start symbol of the original grammar.
 We can ensure that the semantics of the augmented grammar duplicate
 those of the original grammar by giving the
-accept rule pass through semantics.
+accept rule pass-through semantics.
 
 In the case of Aycock and Horspool's NNF rules,
 ensuring the rewritten grammar
 duplicated the semantics of the original was slightly more complex,
 but it was clear that it could be easily and efficiently done.
+
+\subsection{The CHAF rewrite}
 
 Marpa never implemented the NNF rules in the form as
 described in~\cite{AH2002}.
@@ -1612,8 +1618,13 @@ rewrite to this augmented grammar\footnote{%
   \V{A}&\de&\V{a} \\
   \V{A}&\de&
 \end{array} \]
-to produce the grammar of
-Figure~\ref{fig:chaf}.
+to produce the grammar in
+Figure~\ref{fig:chaf}
+on page~\pageref{fig:chaf}.
+In Figure~\ref{fig:chaf}, the left hand column shows
+the rules of the rewritten grammar,
+and the right hand column shows the semantics for the new rules.
+
 \begin{figure}
 \hrule
 \caption{\label{fig:chaf}
@@ -1643,6 +1654,61 @@ Figure~\ref{fig:chaf}.
 \vspace{.5\baselineskip}
 \hrule
 \end{figure}
+
+For several of the rules
+in Figure~\ref{fig:chaf},
+the rewrite is trivial,
+and the semantics are exactly those of a pre-rewrite rule.
+The accept rule retains its pass-through semantics.
+
+The rules with CHAF semantics
+in Figure~\ref{fig:chaf} also use an array, call it \V{childV},
+to accumulate the values of the pre-rewrite rule.
+Since RHS of the pre-rewrite rule had 4 symbols, $\Vsize{childV} = 4$.
+
+If the rule has ``CHAF tail'' semantics,
+the semantics function does the following, in sequence:
+\begin{itemize}
+\item Creates the \V{childV} array.
+\item Populates the \V{childV} array,
+  from right to left,
+  with the semantics function's arguments from last to first.
+  For example, the semantic function for the $ \V{S2} \de \V{Ae}\cat\V{A} $,
+  call it \Fname{semS2c},
+  will write \Fname{semS2c}'s last argument (for the symbol \V{A}) into $\Velement{Vchild}{3}$,
+  and \Fname{semS2c}'s first argument (for the symbol \V{Ae}) into $\Velement{Vchild}{2}$.
+\item Returns \V{childV} as its value.
+\end{itemize}
+
+If the rule has ``CHAF inner'' semantics,
+its semantics function does the following, in sequence:
+\begin{itemize}
+\item Finds the \V{childV} array, which is the last argument
+of the semantics function.
+\item { \raggedright
+  Populates the unpopulated elements of the \V{childV} array
+  from right to left,
+  from the semantics function's arguments from next-to-last to first.
+  For example, the semantics function for the $ \V{S1} \de \V{Ae}\cat\V{S2} $,
+  call it \Fname{semS1b},
+  will write \Fname{semS1b}'s next-to-last argument
+  into $\Velement{Vchild}{1}$.
+  The next-to-last argument
+  of \Fname{semS1b}
+  is also \Fname{semS1b}'s first argument
+  and comes from the symbol \V{Ae}).
+}
+\item Returns \V{childV}.
+\end{itemize}
+
+\todo{Continue this}
+
+In all of the CHAF semantic routines,
+Which argument goes into which slot of \V{childV}
+is known once the grammar rewrite is complete.
+It does not have to be determined at run-time.
+
+\subsection{Eliminating nulling symbols}
 
 \todo{Discuss elimination of nulling symbols and empty rules}
 
@@ -1681,7 +1747,9 @@ with the following rules,
 the rules are differentiated by their LHS's,
 and conflation is avoided.
 
-\todo{Finish this}
+\subsection{Creating predictions}
+
+\todo{Write this}
 
 \section{Conclusion}
 \label{sec:conclusion}
