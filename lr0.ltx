@@ -87,6 +87,7 @@
 \newcommand{\naturals}{\ensuremath{\mathbb{N}}\xspace}
 \newcommand{\cat}{\mathbin{\scalebox{2}{.}}}
 \newcommand{\expon}{\mathbin{{*}{*}}}
+\newcommand{\mult}{\mathbin{\ast}}
 \newcommand{\order}[1]{\ensuremath{{\mathcal O}(#1)}\xspace}
 
 \newcommand{\size}[1]{\ensuremath{\left | {#1} \right |}}
@@ -1577,6 +1578,41 @@ For example, the MYSQL 8.0 select statement has
 so that the rule for the select statement,
 when rewritten into NNF,
 would become 524,288 rules.
+
+Once the exponential explosion of NNF rules is considered a problem,
+a simple fix suggests itself.
+Every rule can be split up,
+after the fashion of Chomsky Normal Form (CNF),
+into rules which contain no more than 2 proper nullables.
+The newly created LHS symbols may also be properly nullable,
+but even in the worst case,
+the CNF-style split up results in fewer than \V{pn} rules.
+Since each of the smaller rules contains at most 2 proper nullables,
+NNF factors it into
+no more than 4 rules.
+The total number rules of created will then be linear:
+\[ \order{\V{pn}\mult 4} = \order{\V{pn}}. \]
+
+We called this hybrid of NNF and Chomsky Normal Form,
+Chomsky-Horspool-Aycock Form (CHAF).
+In principle the CHAF rewrite is not difficult,
+and it could be left to the user.
+But there are a lot of corner cases,
+and Marpa automatically applies the CHAF rewrite to all rules
+with proper nullables.
+
+For an example of the CHAF rewrite, we will apply a CHAF
+rewrite to this augmented grammar\footnote{%
+    This is adopted from Aycock and Horspool's main example grammar, as given
+    in their Figure 2~\cite[p. 621]{AH2002}.
+}:
+\[ \begin{array}{lcl}
+  \V{S}^\prime&\de&\V{S}  \\
+  \V{S}&\de&\V{A}\cat\V{A}\cat\V{A}\cat\V{A} \\
+  \V{A}&\de&\V{a} \\
+  \V{A}&\de&
+\end{array} \]
+After the CHAF rewrite, we have
 
 \todo{Finish this}
 
