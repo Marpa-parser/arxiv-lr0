@@ -1605,14 +1605,77 @@ For an example of the CHAF rewrite, we will apply a CHAF
 rewrite to this augmented grammar\footnote{%
     This is adopted from Aycock and Horspool's main example grammar, as given
     in their Figure 2~\cite[p. 621]{AH2002}.
-}:
+}
 \[ \begin{array}{lcl}
   \V{S}^\prime&\de&\V{S}  \\
   \V{S}&\de&\V{A}\cat\V{A}\cat\V{A}\cat\V{A} \\
   \V{A}&\de&\V{a} \\
   \V{A}&\de&
 \end{array} \]
-After the CHAF rewrite, we have
+to produce the grammar of
+Figure~\ref{fig:chaf}.
+\begin{figure}
+\hrule
+\caption{\label{fig:chaf}
+    CHAF example
+}
+\vspace{.5ex}
+\hrule
+\vspace{.5\baselineskip}
+\[ \begin{array}{lcl}
+  \V{S}^\prime&\de&\V{S}  \\
+  \V{S}&\de&\V{A}\cat\V{S1} \\
+  \V{S}&\de&\V{A}\cat\V{Ae}\cat\V{Ae}\cat\V{Ae} \\
+  \V{S}&\de&\V{Ae}\cat\V{S1} \\
+  \V{S1}&\de&\V{A}\cat\V{S2} \\
+  \V{S1}&\de&\V{A}\cat\V{Ae}\cat\V{Ae} \\
+  \V{S1}&\de&\V{Ae}\cat\V{S2} \\
+  \V{S2}&\de&\V{A}\cat\V{A} \\
+  \V{S2}&\de&\V{A}\cat\V{Ae} \\
+  \V{S2}&\de&\V{Ae}\cat\V{A} \\
+  \V{A}&\de&\V{a} \\
+  \V{A}&\de&
+\end{array} \]
+\vspace{.5\baselineskip}
+\hrule
+\end{figure}
+
+\todo{Discuss elimination of nulling symbols and empty rules}
+
+With the elimination of nulling symbols and rules,
+a corner case must be dealt with.
+Two rules are usually regarded as identical if their
+LHS and RHS are identical.
+But elimination of nulling symbols can turn distinct rules
+into identical rules.
+An example occurs
+in the grammar of our Figure~\ref{fig:chaf}
+on page \pageref{fig:chaf}:
+The two rules \( \tuple{\V{S2} \de \V{A}\cat\V{Ae}} \)
+and \( \tuple{\V{S2} \de \V{Ae}\cat\V{A}} \),
+when the \V{Ae} symbol is eliminated,
+both turn into the rule
+\( \tuple{\V{S2} \de \V{A}} \) ---
+they become identical.
+
+Marpa's internals avoid this conflation of distinct rules
+by taking nulling markings into account
+in identifying a rule:
+for Marpa, two rules are different if their nulling markings are different.
+The conflation of rules which differ only in their nulling symbols could
+also have been avoided with a rewrite.
+If, in the grammar of our Figure~\ref{fig:chaf},
+the rules with \V{S2} on the LHS are removed and replaced
+with the following rules,
+\[ \begin{array}{lcl}
+  \V{S2}&\de&\V{S2a} \\
+  \V{S2}&\de&\V{S2b} \\
+  \V{S2a}&\de&\V{A}\cat\V{A} \\
+  \V{S2a}&\de&\V{A}\cat\V{Ae} \\
+  \V{S2b}&\de&\V{Ae}\cat\V{A}
+\end{array} \]
+the rules are differentiated by their LHS's,
+and conflation is avoided.
 
 \todo{Finish this}
 
