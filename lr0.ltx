@@ -1836,8 +1836,9 @@ in traditional Earley implementations,
 predictions could give rise to completions,
 which in turn could cause new predictions.
 
-With the elimination of nulling symbols,
-a prediction can no longer be a completion.
+With the elimination of nullable symbols,
+a prediction can no longer be a completion in the same Earley set,
+and cannot give rise to one.
 This allows that Marpa to
 complete each Earley set, call it \V{es},
 in distinct phases:
@@ -1884,7 +1885,7 @@ the transitive closure of Earley items predicted by that postdot symbol
 is added to the Earley set in the usual way.
 
 As mentioned earlier
-(page 
+(page
 \pageref{text:prediction-optimization}
 in Section
 \ref{text:prediction-optimization}),
