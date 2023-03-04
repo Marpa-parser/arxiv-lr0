@@ -1866,8 +1866,9 @@ For example, when parsing fails because no acceptable token is supplied,
 the application can ask Marpa what tokens would have been acceptable ---
 this is known because the full left context of the parse is known.
 This technique, described in~\cite{Marpa2023}, is called the ``Ruby Slippers''.
-One application of the Ruby Slippers is has been to base an extremely liberal
-HTML parser on an over-conservative grammar.
+One application of the Ruby Slippers has been to base an extremely liberal
+HTML parser~\cite{Marpa-HTML}
+on an over-conservative grammar.
 When the parse with the over-conservative grammar fails,
 Marpa invents an acceptable token,
 allowing the parse to continue,
@@ -1990,8 +1991,16 @@ Jeffrey~Kegler.
 \newblock \url{https://arxiv.org/abs/1910.08129}
 
 \bibitem{Marpa-R2}
-Jeffrey~Kegler, 2013: Marpa-R2.
-\newblock \url{http://search.cpan.org/dist/Marpa-R2/}.
+Jeffrey~Kegler.
+\newblock Marpa-R2.
+\newblock \url{https://metacpan.org/pod/Marpa::R2}.
+\newblock Accessed Sat 04 Mar 2023.
+
+\bibitem{Marpa-HTML}
+Jeffrey~Kegler.
+Marpa-HTML.
+\newblock{https://metacpan.org/dist/Marpa-R2/view/html/pod/HTML.pod}
+\newblock Accessed Sat 04 Mar 2023.
 
 \bibitem{MYSQL8.0}
 \newblock MYSQL 8.0 Reference Manual.
