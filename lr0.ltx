@@ -1864,7 +1864,7 @@ Error detection in Marpa is efficient and accurate enough that
 ``soft errors'' can be deliberately exploited as a parsing technique.
 For example, when parsing fails because no acceptable token is supplied,
 the application can ask Marpa what tokens would have been acceptable ---
-this is known because the full left context of the pa3se is known.
+this is known because the full left context of the parse is known.
 This technique, described in~\cite{Marpa2023}, is called the ``Ruby Slippers''.
 One application of the Ruby Slippers is has been to base an extremely liberal
 HTML parser on an over-conservative grammar.
