@@ -1679,6 +1679,7 @@ in Figure~\ref{fig:chaf} also use an array, call it \V{childV},
 to accumulate the values of the pre-rewrite rule.
 Since RHS of the pre-rewrite rule had 4 symbols, $\Vsize{childV} = 4$.
 
+\Needspace{10\baselineskip}
 If the rule has ``CHAF tail'' semantics,
 the semantics function does the following, in sequence:
 \begin{itemize}
@@ -1686,7 +1687,7 @@ the semantics function does the following, in sequence:
 \item Populates the \V{childV} array,
   from right to left,
   with the semantics function's arguments from last to first.
-  For example, the semantic function for the $ \V{S2} \de \V{Ae}\cat\V{A} $,
+  For example, the semantic function for the $ \V{S2} \de \V{Ae}\cat\V{A} $ rule,
   call it \Fname{semS2c},
   will write \Fname{semS2c}'s last argument (for the symbol \V{A}) into $\Velement{childV}{3}$,
   and \Fname{semS2c}'s first argument (for the symbol \V{Ae}) into $\Velement{childV}{2}$.
@@ -1702,14 +1703,14 @@ of the semantics function.
   Populates the unpopulated elements of the \V{childV} array
   from right to left,
   from the semantics function's arguments from next-to-last to first.
-  For example, the semantics function for the $ \V{S1} \de \V{Ae}\cat\V{S2} $,
+  For example, the semantics function for the $ \V{S1} \de \V{Ae}\cat\V{S2} $ rule,
   call it \Fname{semS1b},
   will write \Fname{semS1b}'s next-to-last argument
   into $\Velement{childV}{1}$.
   The next-to-last argument
   of \Fname{semS1b}
   is also \Fname{semS1b}'s first argument
-  and comes from the symbol \V{Ae}).
+  and comes from the symbol \V{Ae}.
 \item Returns \V{childV}.
 \end{itemize}
 
@@ -1733,21 +1734,24 @@ of the semantics function.
   from right to left,
   from the semantics function's arguments from next-to-last to first.
   For example, the semantics function for the 
-  $ \V{S} \de \V{Ae}\cat\V{S1}, $ rule
+  $ \V{S} \de \V{Ae}\cat\V{S1} $ rule,
   call it \Fname{semSa},
   will write \Fname{semSa}'s next-to-last argument
   into $\Velement{childV}{1}$.
   The next-to-last argument
   of \Fname{semSa}
   is also \Fname{semSa}'s first argument
-  and comes from the symbol \V{Ae}).
-\item Sets a temporary variable, call it \V{v}, to the semantics of the pre-rewrite rule,
+  and comes from the symbol \V{Ae}.
+\item Sets a temporary variable, call it \V{v},
+    to the semantics function of
+    the pre-rewrite rule~\eqref{eq:pre-rewrite-rule}
+    applied to the elements of \V{childV},
     so that
     \[ \begin{gathered}
        \V{v} = \Fname{semOrig}(\Velement{childV}{0}, \Velement{childV}{1}, \\
 	 \qquad \qquad \Velement{childV}{2}, \Velement{childV}{3}),
     \end{gathered} \]
-    where \Fname{semOrig} is the semantic function for \eqref{eq:pre-rewrite-rule}.
+    where \Fname{semOrig} is the semantics function for \eqref{eq:pre-rewrite-rule}.
 \item Releases the memory for \V{childV}, depending on the memory management model.
 \item Returns \V{v}.
 \end{itemize}
