@@ -1696,9 +1696,9 @@ the semantics function does the following, in sequence:
 If the rule has ``CHAF inner'' semantics,
 its semantics function does the following, in sequence:
 \begin{itemize}
-\item Finds the \V{childV} array, which is the last argument
+\item Locates the \V{childV} array, which will be the last argument
 of the semantics function.
-\item { \raggedright
+\item
   Populates the unpopulated elements of the \V{childV} array
   from right to left,
   from the semantics function's arguments from next-to-last to first.
@@ -1710,16 +1710,62 @@ of the semantics function.
   of \Fname{semS1b}
   is also \Fname{semS1b}'s first argument
   and comes from the symbol \V{Ae}).
-}
 \item Returns \V{childV}.
 \end{itemize}
 
-\todo{Continue this}
+For purpose of describing the ``CHAF head'' semantics,
+we refer to the rule
+\begin{equation}
+\label{eq:pre-rewrite-rule}
+  \V{S} \de \V{A}\cat\V{A}\cat\V{A}\cat\V{A}
+\end{equation}
+of the pre-rewrite grammar as the ``pre-rewrite rule'',
+and we refer to the semantic function for
+\eqref{eq:pre-rewrite-rule} 
+as \Fname{semOrig}.
+If the rule has ``CHAF head'' semantics,
+its semantics function does the following, in sequence:
+\begin{itemize}
+\item Locates the \V{childV} array, which will be the last argument
+of the semantics function.
+\item
+  Populates the unpopulated elements of the \V{childV} array
+  from right to left,
+  from the semantics function's arguments from next-to-last to first.
+  For example, the semantics function for the 
+  $ \V{S} \de \V{Ae}\cat\V{S1}, $ rule
+  call it \Fname{semSa},
+  will write \Fname{semSa}'s next-to-last argument
+  into $\Velement{childV}{1}$.
+  The next-to-last argument
+  of \Fname{semSa}
+  is also \Fname{semSa}'s first argument
+  and comes from the symbol \V{Ae}).
+\item Sets a temporary variable, call it \V{v}, to the semantics of the pre-rewrite rule,
+    so that
+    \[ \begin{gathered}
+       \V{v} = \Fname{semOrig}(\Velement{childV}{0}, \Velement{childV}{1}, \\
+	 \qquad \qquad \Velement{childV}{2}, \Velement{childV}{3}),
+    \end{gathered} \]
+    where \Fname{semOrig} is the semantic function for \eqref{eq:pre-rewrite-rule}.
+\item Releases the memory for \V{childV}, depending on the memory management model.
+\item Returns \V{v}.
+\end{itemize}
 
 In all of the CHAF semantic routines,
-Which argument goes into which slot of \V{childV}
+which argument goes into which slot of \V{childV}
 is known once the grammar rewrite is complete.
 It does not have to be determined at run-time.
+
+The semantic functions just given for CHAF rules are intended
+to demonstrate that the semantics of the CHAF rewrite can be
+implemented efficiently.
+They do not reflect the implementation of Marpa~\cite{Marpa-R2}.
+In~\cite{Marpa-R2},
+all the CHAF rules share a unified logic,
+which is driven by parameters that are set at CHAF rewrite time for each CHAF rule.
+\cite{Marpa-R2}~does not use a \V{childV} array.
+Instead it keeps the child values on a stack.
 
 \subsection{Eliminating nulling symbols}
 
