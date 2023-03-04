@@ -1694,8 +1694,8 @@ the semantics function does the following, in sequence:
   with the semantics function's arguments from last to first.
   For example, the semantic function for the $ \V{S2} \de \V{Ae}\cat\V{A} $,
   call it \Fname{semS2c},
-  will write \Fname{semS2c}'s last argument (for the symbol \V{A}) into $\Velement{Vchild}{3}$,
-  and \Fname{semS2c}'s first argument (for the symbol \V{Ae}) into $\Velement{Vchild}{2}$.
+  will write \Fname{semS2c}'s last argument (for the symbol \V{A}) into $\Velement{childV}{3}$,
+  and \Fname{semS2c}'s first argument (for the symbol \V{Ae}) into $\Velement{childV}{2}$.
 \item Returns \V{childV} as its value.
 \end{itemize}
 
@@ -1711,7 +1711,7 @@ of the semantics function.
   For example, the semantics function for the $ \V{S1} \de \V{Ae}\cat\V{S2} $,
   call it \Fname{semS1b},
   will write \Fname{semS1b}'s next-to-last argument
-  into $\Velement{Vchild}{1}$.
+  into $\Velement{childV}{1}$.
   The next-to-last argument
   of \Fname{semS1b}
   is also \Fname{semS1b}'s first argument
@@ -1729,42 +1729,108 @@ It does not have to be determined at run-time.
 
 \subsection{Eliminating nulling symbols}
 
-\todo{Discuss elimination of nulling symbols and empty rules}
+With the CHAF rewrite,
+we have eliminated proper nullables,
+so the symbols in the grammar are either nulling
+or non-nullable.
+We now make the further observation that
+nulling symbols do not
+show any trace in the input.
+They can be eliminated and the nulling-present
+and the nulling-free
+grammar will accept the same language.
+Nulling rules, those rules whose LHS is nulling, are also eliminated.
 
-With the elimination of nulling symbols and rules,
-a corner case must be dealt with.
-Two rules are usually regarded as identical if their
+To duplicate the semantics of the original grammar,
+when we keep a database of ``nulling markup'',
+which tracks the locations
+in the nulling-free rules where nulling symbols
+were eliminated.
+The semantics of the nulling-free grammar can easily be replicated
+at evaluation time by replacing the nulling symbols
+using the nulling markup.
+This can also be done efficiently at run-time,
+so that Marpa's recognizer runs using a nulling-free
+grammar,
+but its tracing and event-generation is done in terms
+of the nulling-present grammar.
+
+For the elimination of nulling symbols and rules
+to succeed, several corner cases must be dealt with.
+These are trivial grammars, trivial parses,
+nulling trees,
+and duplicated rules.
+Trivial grammars are grammars which recognize only the
+empty string.
+Trivial parses are parses of the empty string.
+The Marpa implementation deals with both of these
+by treating them as special cases.
+
+The elimination of nulling rules can prune entire subforests from a parse.
+Since these subforests are constants which depend on the grammar,
+we can,
+in the same way that we restore the nulling symbols during evaluation and tracing,
+restore these pruned subforests during evaluation and tracing.
+
+In practice, we found that users are not interested in the
+``semantics of nothing''.
+Marpa's current implementation prunes nulled subforests back to
+their topmost symbol.
+Applications are free to restore the semantics of the pruned
+subforests, but none have chosen to do so,
+to our knowledge.
+
+Users do want run-time events to take pruned symbols into account.
+and the Marpa implementation's run-time event feature is nulling symbol aware.
+The effect on for each event is a constant which depends on
+the grammar the event, so that run-time nulling-awareness is
+very efficient.
+
+Elimination of nulling symbols also raises an issue
+of duplicated rules.
+Two rules are traditionally considered identical if their
 LHS and RHS are identical.
 But elimination of nulling symbols can turn distinct rules
-into identical rules.
-An example occurs
+into rules which are identical by this definition.
+For example,
 in the grammar of our Figure~\ref{fig:chaf}
-on page \pageref{fig:chaf}:
-The two rules \( \tuple{\V{S2} \de \V{A}\cat\V{Ae}} \)
-and \( \tuple{\V{S2} \de \V{Ae}\cat\V{A}} \),
-when the \V{Ae} symbol is eliminated,
-both turn into the rule
-\( \tuple{\V{S2} \de \V{A}} \) ---
-they become identical.
+on page \pageref{fig:chaf},
+the two rules
+\begin{equation*}
+  \tuple{\V{S2} \de \V{A}\cat\V{Ae}}
+\end{equation*}
+and
+\begin{equation*}
+  \tuple{\V{S2} \de \V{Ae}\cat\V{A}},
+\end{equation*}
+when the nulling \V{Ae} symbol is eliminated,
+both become the rule
+\begin{equation}
+\label{eq:dup-rule}
+\tuple{\V{S2} \de \V{A}}.
+\end{equation}
 
-Marpa's internals avoid this conflation of distinct rules
-by taking nulling markings into account
-in identifying a rule:
-for Marpa, two rules are different if their nulling markings are different.
-The conflation of rules which differ only in their nulling symbols could
+In Marpa's internals,
+nulling markup is taken into account
+in identifying a rule.
+In effect, the Marpa implementation has two distinct rules of
+the form in \eqref{eq:dup-rule},
+which are distinguished by their nulling markup.
+
+The duplication of rules which differ only in their nulling markup could
 also have been avoided with a rewrite.
 If, in the grammar of our Figure~\ref{fig:chaf},
 the rules with \V{S2} on the LHS are removed and replaced
-with the following rules,
+with
 \[ \begin{array}{lcl}
   \V{S2}&\de&\V{S2a} \\
   \V{S2}&\de&\V{S2b} \\
   \V{S2a}&\de&\V{A}\cat\V{A} \\
   \V{S2a}&\de&\V{A}\cat\V{Ae} \\
-  \V{S2b}&\de&\V{Ae}\cat\V{A}
+  \V{S2b}&\de&\V{Ae}\cat\V{A} \qquad ,
 \end{array} \]
-the rules are differentiated by their LHS's,
-and conflation is avoided.
+then the rules are differentiated by their LHS's,
+and duplication is avoided.
 
 \subsection{Creating predictions}
 

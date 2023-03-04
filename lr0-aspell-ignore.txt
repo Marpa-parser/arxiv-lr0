@@ -10,7 +10,11 @@ Aycock
 bijection
 cardinality
 Ceriel
+CHAF
+childN
+childV
 Chiron
+CNF
 codomain
 CWEB
 definedness
@@ -18,6 +22,7 @@ designator
 DFA
 domSet
 dr
+dup
 duples
 Earley
 Earley's
@@ -41,6 +46,7 @@ Kegler
 LALR
 lcl
 lhs
+LHS's
 LOC
 lookahead
 mainstem
@@ -72,12 +78,18 @@ predN
 rhs
 runtime
 Rusinowitch
+semPass
+semRule
+semS
+semTerm
 sep
 sideff
 Silvio
 Springer
 SQRL
 STR
+subforest
+subforests
 superclasses
 SYM
 th
