@@ -1486,21 +1486,40 @@ For example, if a parser has trouble with left recursion,
 a rewrite can convert its grammars to use right recursion.
 This rewrite solves the problem in the sense that the parser
 running the rewritten grammar
-recognizes the same set of sentences as the parser does
+recognizes the same language as the parser does
 when running the pre-rewrite grammar.
 
-\todo{Add note about language == set of strings}
+However, ``language'' has a very non-intuitive meaning in
+parsing theory.\footnote{%
+    This eccentric use of the term ``language'' in parsing theory,
+    perhaps surprisingly,
+    is a holdover from the way a view that was once
+    dominant in linguistics.
+    The entries in
+    my timeline of parsing history~\cite{Timeline}
+    for the years from 1929 to 1956
+    describe this strange turn of intellectual history.
+}
+In parsing theory, a language is a set of strings,
+and is not associated with a semantics.
 
-However, rewrites have been very lightly used for practical parsing.
-This is because
-practical parsing almost always requires an evaluation phase.
-And, even if a complex rewrite recognizes the same language,
-it usually also needs to duplicate the semantics associated
+For this reason,
+rewrites have been very lightly used for practical parsing.
+Practical parsing almost always requires an evaluation phase.
+Even if a complex rewrite recognizes the same language,
+in the parsing theory sense of the word ``language''
+the application usually also needs to duplicate the semantics associated
 with every sentence of the grammar's language.
-Many rewrites erase the relationship between the rules
+Many rewrites in the parsing literature
+preserve the ``language'',
+but erase the relationship between the rules
 of the grammar and their semantics,
 or at least make that relationship so complex that the benefit
 of the rewrite is lost.
+For a rewrite to be useful for Marpa's purposes,
+the rewritten grammar must come with
+semantic processing which duplicates the semantics
+of the pre-rewrite grammar.
 
 \subsection{Describing semantics}
 
@@ -1608,7 +1627,7 @@ and Marpa automatically applies the CHAF rewrite to all rules
 with proper nullables.
 
 For an example of the CHAF rewrite, we will apply a CHAF
-rewrite to this augmented grammar\footnote{%
+rewrite to the augmented grammar\footnote{%
     This is adopted from Aycock and Horspool's main example grammar, as given
     in their Figure 2~\cite[p. 621]{AH2002}.
 }
@@ -1848,6 +1867,12 @@ J.~M. I.~M. Leo.
 \newblock A general context-free parsing algorithm running in linear time on
   every {LR($k$)} grammar without using lookahead.
 \newblock {\em Theoretical Computer Science}, 82:165--176, 1991.
+
+\bibitem{Timeline}
+Jeffrey~Kegler.
+\newblock Parsing:~a~timeline.
+\newblock Version 3.1, 2019.
+\newblock \url{https://jeffreykegler.github.io/personal/timeline_v3}.
 
 \end{thebibliography}
 
