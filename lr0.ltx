@@ -170,6 +170,7 @@
 \newcommand{\Vrule}[1]{\ensuremath{\V{#1}_{\type{RULE}}}}
 \newcommand{\Vruleset}[1]{\ensuremath{\V{#1}_{\setOf{\type{RULE}}}}}
 \newcommand{\Veim}[1]{\ensuremath{\V{#1}_{\type{EIM}}}}
+\newcommand{\Vahem}[1]{\ensuremath{\V{#1}_{\type{AHEM}}}}
 \newcommand{\es}[1]{\ensuremath{#1_{\type{ES}}}}
 \newcommand{\Ves}[1]{\ensuremath{\V{#1}_{\type{ES}}}}
 \newcommand{\Vstr}[1]{\ensuremath{\V{#1}_{\type{STR}}}}
@@ -199,6 +200,7 @@
 \newcommand{\NT}[1]{\ensuremath{\mymathop{NT}(#1)}}
 \newcommand{\Accept}[1]{\ensuremath{\mymathop{Accept}(#1)}}
 \newcommand{\DR}[1]{\mymathop{DR}(#1)}
+\newcommand{\AH}[1]{\mymathop{AH}(#1)}
 \newcommand{\Transition}[1]{\mymathop{Transition}(#1)}
 \newcommand{\Origin}[1]{\mymathop{Origin}(#1)}
 \newcommand{\Current}[1]{\mymathop{Current}(#1)}
@@ -948,8 +950,8 @@ cost of their new prediction operation.
 For their precomputation, Aycock and Horspool~\cite{AH2002}
 invented a new semi-deterministic finite automata,
 which \cite{AH2002} calls a ``split LR(0) $\epsilon$-DFA''.
-We recall that, in this paper,
-we are calling their ``split LR(0) $\epsilon$-DFA'',
+In this paper,
+we calling their ``split LR(0) $\epsilon$-DFA'',
 an Aycock-Horspool Finite Automata (AHFA).
 
 The AHFA is based
@@ -989,11 +991,25 @@ for groups of dotted rules that occur together frequently.
 \[ \type{AH} = \setOf{\type{DR}}. \]
 We recall that
 the traditional Earley items (\type{EIM}'s)
-are duples,
-\[ \tuple{\VTtyped{x}{DR}, \VTtyped{i}{LOC}}, \]
+are triples, such that
+\[ \VTtyped{x}{EIM} = \tuple{ \DR{\V{x}}, \Origin{\V{x}}, \Current{\V{x}} }, \]
 where \Vdr{x} is a dotted rule.
-An Aycock-Horspool Earley item is a duple
-\[ \tuple{\VTtyped{x}{AH}, \VTtyped{i}{LOC}}. \]
+
+An Aycock-Horspool Earley item (type \type{AHEM}) is a triple,
+\[ \type{AH} \times \type{ORIG} \times \type{LOC}, \]
+such that, when \V{x} is of type \type{AHEM},
+\begin{gather*}
+     \AH{\V{x}} \defined \Hd{\V{x}}, \\
+     \Origin{\V{x}} \defined \HTl{\V{x}}, \text{ and} \\
+     \Current{\V{x}} \defined \TTl{\V{x}}.
+\end{gather*}
+We say that $\AH{\Vahem{x}}$ is the AHFA state of \V{x}.
+Similarly to \type{EIM}s,
+we say that $\Current{\Vahem{x}}$
+is the \dfn{current location} of \Vahem{x},
+and that
+$\Origin{\Vahem{x}}$
+is the \dfn{origin} of \Vahem{x}.
 
 AHFA's are not fully deterministic.
 \cite{AH2002} also defines
