@@ -1020,7 +1020,7 @@ pairs of AHFA state and symbol,
 \end{equation*}
 A transition on the reserved non-symbol,
 for example
-\( \GOTO{\Vah{from)}}{\epsilon}, \)
+\( \GOTO{\Vah{from}}{\epsilon}, \)
 is a \dfn{null transition}.
 
 If \Vah{predicted} is the result of a null transition,
@@ -1039,7 +1039,7 @@ the grammar
   \V{S}&\de&\V{A}\cat\V{B} \\
   \V{A}&\de&\V{B} \\
   \V{A}&\de&\V{x}\cat\V{a} \\
-  \V{B}&\de&\V{x}\cat\V{b}
+  \V{B}&\de&\V{x}\cat\V{b} \qquad .
 \end{array} \]
 
 \section{Nihilist normal form}
@@ -1065,7 +1065,7 @@ we consider the grammar
   \V{S}^\prime&\de&\V{S}  \\
   \V{S}&\de&\V{A}\cat\V{A} \\
   \V{A}&\de&\V{a} \\
-  \V{A}&\de&
+  \V{A}&\de& \qquad .
 \end{array} \]
 NNF factors this grammar
 by introducing a new nulling symbol, \V{Ae},
@@ -1077,7 +1077,7 @@ and rewriting it as
   \V{S}&\de&\V{A}\cat\V{Ae} \\
   \V{S}&\de&\V{A}\cat\V{A} \\
   \V{A}&\de&\V{a} \\
-  \V{Ae}&\de&
+  \V{Ae}&\de& \qquad .
 \end{array} \]
 We see that a rule that contains 2 proper nullables
 is factored into 4 new rules.
@@ -1487,7 +1487,7 @@ or that the price paid was a very acceptable one.
 \section{Marpa's approach to nullable symbols}
 \label{sec:marpa-s-approach-to-nullable-symbols}
 
-\subsection{The pitfalls of rewrites}
+\subsection{The pitfall of rewrites}
 
 As we saw in Section~\ref{sec:nihilist-normal-form}
 on page \pageref{sec:nihilist-normal-form},
