@@ -568,19 +568,18 @@ $0 \le \Vloc{i} < \Vsize{w}$.
 \section{Earley's algorithm}
 \label{sec:earley}
 
-A dotted rule (type \type{DR}) is a duple of rule and position
-within the rule.
-\begin{gather*}
-\Rule{\Vdr{dr}} \defined \Hd{\V{dr}}. \\
-\Pos{\Vdr{dr}} \defined \Tl{\V{dr}}.
-\end{gather*}
-More precisely,
+A dotted rule (type \type{DR}) is a duple,
+\[ \type{DR} = \type{RULE} \times \naturals, \]
+such that, if \V{dr} is of type \type{DR},
 \[ \begin{gathered}
-\type{DR} \defined \setB{ \, \Vtyped{dr}{\type{RULE} \times \naturals}}{
-    0 \le \Pos{\V{dr}} \le \size{\Rule{\V{dr}}} \, }.
+  \Rule{\V{dr}} \defined \Hd{\V{dr}}, \\
+  \Pos{\V{dr}} \defined \Tl{\V{dr}}, \text{ and} \\
+  \Pos{\V{dr}} \le \size{\Rule{\V{dr}}}.
 \end{gathered} \]
+We say that $\Rule{\V{dr}}$ is the \dfn{rule} of \V{dr}
+and $\Pos{\Vdr}$ is the \dfn{dot position} of \V{dr}.
 
-The position of a dotted rule indicates the extent to which
+The dot position of a dotted rule indicates the extent to which
 the rule has been recognized,
 and is represented with a large raised dot,
 so that if
@@ -655,43 +654,56 @@ Predicted, confirmed and completed dotted rules
 are also called, respectively,
 \dfn{predictions}, \dfn{confirmations} and \dfn{completions}.
 
-An Earley item (type \type{EIM}) is a triple
-of dotted rule, origin, and current location.\footnote{%
-  This definition of \type{EIM} departs from the tradition,
-  according to which the current location is not an element
+An Earley item (type \type{EIM}) is a triple,\footnote{%
+  This definition of \type{EIM} departs from tradition.
+  According to the tradition, the current location is not an element
   of the tuples which define \type{EIM}s.
   Instead \type{EIM}s
   are grouped into sets
   that share the same current location.
   These sets of co-located \type{EIM}s are called
   ``Earley sets''.
-  Membership in an Earley sets becomes a ``property''
+  Membership in an Earley set becomes a ``property''
   of each \type{EIM}.
+
   In set theory, by the Axiom of Extensionality,
   sets with the same membership (or extension)
-  are equivalent,
-  and non-extensional properties do not exist.
-  Since \type{EIM}s at different current locations
-  are conceptually distinct for most purposes,
+  are equivalent.
+  In set theory, non-extensional properties,
+  such as membership in an Earley set,
+  do not make sets with the same extension distinct.
+  It can happen that \type{EIM}s in different Earley sets,
+  by the Axiom of Extensionality, are equal as sets.
+  Since in this paper, as in most modern mathematics, equality
+  means equality as sets,
+  and since \type{EIM}s at different current locations
+  are conceptually distinct for almost all purposes,
   the omission of current location from the \type{EIM}
-  definition is awkward,
-  and in this paper we honor the traditional definition in the breach.
+  definition is awkward.
+  For this reason,
+  in this paper, we honor the traditional definition of an \type{EIM}
+  in the breach.
 }
+\[ \type{EIM} = \type{DR} \times \type{LOC} \times \type{LOC}, \]
+such that, when \V{x} is of type \type{EIM},
 \begin{gather*}
-     \DR{\Veim{x}} = \Hd{\V{x}}. \\
-     \Origin{\Veim{x}} = \HTl{\V{x}}. \\
-     \Current{\Veim{x}} = \TTl{\V{x}}.
+     \DR{\V{x}} \defined \Hd{\V{x}}, \\
+     \Origin{\V{x}} \defined \HTl{\V{x}}, \text{ and} \\
+     \Current{\V{x}} \defined \TTl{\V{x}}.
 \end{gather*}
-$\DR{\Veim{x}}$ is the dotted rule.
-The origin of \Veim{x},
-$$\typed{\Origin{\Veim{x}}}{\type{LOC}},$$
+We say that $\DR{\Veim{x}}$ is the \dfn{dotted rule} of \V{x}.
+We say that $\Current{\Veim{x}}$
+is the \dfn{current location} of \Veim{x}.
+The current location of an Earley item \Veim{x} is the location in the input
+where the rule $\Rule{\DR{\Veim{x}}}$
+was recognized as far as the dot in the dotted rule of \Veim{x}.
+
+We say that
+$\Origin{\Veim{x}}$
+is the \dfn{origin} of \Veim{x}.
+The origin of an Earley item
 is the location in the input where recognition of $\Rule{\DR{\Veim{x}}}$
 started.
-The current location of \Veim{x},
-$$\typed{\Current{\Veim{x}}}{\type{LOC}},$$
-is the location in the input of the dot in $\DR{\Veim{x}}.$
-$\Current{\Veim{x}}$ is also called the \dfn{dot location}
-of \Veim{x}.
 For convenience, the type \type{ORIG} will be a synonym
 for \type{LOC}, indicating that the variable designates
 the origin entry of an Earley item.
