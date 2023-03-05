@@ -273,23 +273,6 @@ a practical general parser.
 Accordingly, when Marpa was first released in 2011,
 it included the improved handling of nullable symbols
 in Aycock and Horspool's 2002 paper~\cite{AH2002}.
-The measures proposed in
-that we adopted from \cite{AH2002}
-were the following:
-\begin{itemize}
-\item Eliminating proper nullable with a semantics preserving
-grammar rewrite.
-A ``proper nullable'' symbol is a nulling symbol
-that is not nulling.
-\item
-Collecting dotted rules into states of a
-finite automata, which we will call
-an Aycock-Horspool Finite Automata (AHFA)\footnote{%
-  In \cite{AH2002} an AHFA is called a ``split LR(0) $\epsilon$-DFA''.
-},
-and modifying the Earley parse engine to use
-AHFA states.
-\end{itemize}
 
 Section \ref{sec:preliminaries}
 deals with notation and other conventions.
@@ -542,6 +525,7 @@ A string or symbol is
 but not nulling; and
 \item \dfn{non-nulling} iff it is not nulling.
 \end{itemize}
+We often refer to nullable symbols simply as \dfn{nullables}.
 
 We assume grammars are ``augmented''.
 Specifically, for any grammar \V{g},
