@@ -475,7 +475,7 @@ and
 states that \V{x} derives \V{y} in zero or more steps.
 \end{itemize}
 We call these rewrites \dfn{derivation steps}.
-A sequence of one or more derivation steps,
+A sequence of zero or more derivation steps,
 in which the left hand side of all but the first
 is the right hand side of its predecessor,
 is a \dfn{derivation}.
@@ -484,7 +484,7 @@ the string of length 1 whose only term is that symbol,
 that is, the string \seq{\Vsym{x}}.
 Pedantically, the terms of derivations,
 and the arguments of concatenations like
-$\Vstr{s1} \cat \Vstr{s2}$
+$\Vstr{s1} \cat \Vstr{s2}$,
 must be strings.
 But in concatenations and derivation steps we often
 write the symbol to represent the string it induces so
@@ -494,7 +494,7 @@ $$ \Vstr{a} \cat \Vsym{b} \cat \Vstr{c}
 $$
 
 A \dfn{sentence} of \V{g} is a string of terminals derivable
-from \V{g}'s accept symbol.
+from \Accept{\V{g}}.
 The language of a grammar \V{g}, $\myL{\V{g}}$,
 is its set of sentences:
 \[ \begin{gathered}
@@ -523,38 +523,44 @@ induce:
 A string or symbol is
 \begin{itemize}
 \item \dfn{non-nullable} iff it is not nullable;
-\item a \dfn{proper nullable} iff it is nullable,
+\item \dfn{properly nullable} iff it is nullable,
 but not nulling; and
 \item \dfn{non-nulling} iff it is not nulling.
 \end{itemize}
-We often refer to nullable symbols simply as \dfn{nullables}.
+We often refer to nullable symbols as \dfn{nullables},
+and to properly nullable symbols as \dfn{proper nullables},
 
-We assume grammars are ``augmented''.
-Specifically, for any grammar \V{g},
-there is an accept rule,
+We assume the grammars in this paper are ``augmented''.
+We say that a grammar \V{g} is \dfn{augmented} iff
+\begin{itemize}
+\item there is an \dfn{accept rule},
 \begin{equation}
 \label{eq:accept-rule}
   \Vrule{accept} = \tuple{ \Vsym{accept} \de \Vsym{start} },
 \end{equation}
-where \( \Vsym{accept} = \Accept{\V{g}} \)
-and \( \Vsym{start} \in \Vocab{\V{g}}; \)
+where \( \Vsym{start} \in \Vocab{\V{g}} \)
+and \( \Vsym{accept} = \Accept{\V{g}} \) is the \dfn{accept symbol};
+\item the accept symbol does not appear as a RHS symbol in any rule,
 \begin{equation*}
 \begin{gathered}
-\forall \; \V{x} \in \Rules{\V{g}} \mid \\
-\nexists \; \Vstr{pre}, \; \Vstr{post} \; \mid \\
-\V{pre} \cat \Vsym{accept} \cat \V{post} = \RHS{\Vrule{x}}; \\
+\forall \; \V{x} \in \Rules{\V{g}} \mid
+\; \nexists \; \Vstr{pre}, \; \Vstr{post} \; \mid \\
+\V{pre} \cat \Vsym{accept} \cat \V{post} = \RHS{\Vrule{x}}; \text{ and} \\
 \end{gathered}
 \end{equation*}
-and the accept rule is unique,
+\item the accept rule is unique,
 \[ \Vsym{accept} = \LHS{\V{x}} \implies \Vrule{accept} = \V{x}. \]
+\end{itemize}
 
 Let the input to
-the parse be $\typed{\Cw}{\type{STR}^\ast}$.
-Locations in the input will be of type \type{LOC}.
+the parse be $\VTtyped{w}{STR}$.
+Locations in the input will be of type \type{LOC},
+where \( \type{LOC} = \naturals \).
 When we state our complexity results later,
 they will often be in terms of $\V{n}$,
 where $\V{n} = \Vsize{w}$.
-\typed{\VVelement{w}{i}}{\type{SYM}} is character \Vloc{i}
+\typed{\VVelement{w}{i}}{\type{SYM}} is the \Vloc{i}'th
+character
 of the input,
 and is well-defined when
 $0 \le \Vloc{i} < \Vsize{w}$.
