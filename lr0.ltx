@@ -196,6 +196,7 @@
 \newcommand{\Rules}[1]{\ensuremath{\mymathop{Rules}(#1)}}
 \newcommand{\Vocab}[1]{\ensuremath{\mymathop{Vocab}(#1)}}
 \newcommand{\Terminals}[1]{\ensuremath{\mymathop{Terminals}(#1)}}
+\newcommand{\NT}[1]{\ensuremath{\mymathop{NT}(#1)}}
 \newcommand{\Accept}[1]{\ensuremath{\mymathop{Accept}(#1)}}
 \newcommand{\DR}[1]{\mymathop{DR}(#1)}
 \newcommand{\Transition}[1]{\mymathop{Transition}(#1)}
@@ -361,6 +362,8 @@ $\V{f} \circ \V{g}$, pronounced ``\V{f} after \V{g}'',
 indicates the composition of the functions \V{f} and \V{g},
 so that
 $\rawfn{(\V{f}\circ\V{g})}{\V{x}} = \VFA{f}{\VFA{g}{\V{x}}}$.
+The difference of the two sets, \V{S1} and \V{S2}, is written
+\( \V{S1} \setminus \V{S2}. \)
 
 We write tuples using angle brackets: $ \tuple{\V{a},\V{b},\V{c}} $.
 The head of a tuple \V{S} can be written \Hd{S}.
@@ -423,7 +426,7 @@ symbols:
 The empty string is \( \emptyset \), but we let
 \( \emptyset = \epsilon \)
 and we usually write the empty string as \( \epsilon \).
-We note also that \(\epsilon\) can usually be used as
+We also use \(\epsilon\) as
 the reserved non-symbol: \( \epsilon \notin \type{SYM} \).
 
 A rule (type \type{RULE}) is a duple:
@@ -443,22 +446,21 @@ of \Vrule{r}.
 
 A grammar is a 4-tuple, type \type{G},
 \[
-      \type{G} = \setOf{\type{SYM}} \times \setOf{\type{SYM}} \times  \type{RULE} \times \type{SYM},
+      \type{G} = \setOf{\type{SYM}} \times \setOf{\type{SYM}} \times
+	\setOf{\type{RULE}} \times \type{SYM},
 \]
-where
+where, if \VTtyped{g}{G} is a grammar, then
 \[ \begin{gathered}
-      \Vocab{\VTtyped{g}{G}} \defined \Hd{\V{g}}, \\
-      \Terminals{\VTtyped{g}{G}} \defined \HTl{\V{g}}, \\
-      \Rules{\VTtyped{g}{G}} \defined \HTTl{\V{g}}, \text{ and}\\
-      \Accept{\VTtyped{g}{G}} \defined \TTTl{\V{g}}, \\
-\end{gathered} \]
-and where, if \V{g} is a grammar, then
-\[ \begin{gathered}
-      \Accept{\V{g}} \in \Vocab{\V{g}}, \\
-      \Terminals{\V{g}} \subset \Vocab{\V{g}} \setminus \Terminals{\V{g}}, \\
-      \V{r} \in \Rules{\V{g}} \implies \LHS{\V{r}} \in \Vocab{\V{g}} \setminus \Terminals{\V{g}},
+      \Vocab{\V{g}} \defined \Hd{\V{g}}, \\
+      \Terminals{\V{g}} \defined \HTl{\V{g}}, \\
+      \Terminals{\V{g}} \subset \Vocab{\V{g}}, \\
+      \NT{\V{g}} \defined \Vocab{\V{g}} \setminus \Terminals{\V{g}}, \\
+      \Rules{\V{g}} \defined \HTTl{\V{g}}, \\
+      \V{r} \in \Rules{\V{g}} \implies \LHS{\V{r}} \in \NT{\V{g}}, \\
+      \V{r} \in \Rules{\V{g}} \implies \RHS{\V{r}} \in (\naturals \tfnMMap \Vocab{\V{g}}), \\
+      \Accept{\V{g}} \defined \TTTl{\V{g}},
 	\text{ and }\\
-      \V{r} \in \Rules{\V{g}} \implies \RHS{\V{r}} \in \setOf{\Vocab{\V{g}}}.
+      \Accept{\V{g}} \in \Vocab{\V{g}}. \\
 \end{gathered} \]
 
 The rules of a grammar imply the traditional rewriting system,
