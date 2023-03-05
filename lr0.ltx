@@ -1084,10 +1084,10 @@ is factored into 4 new rules.
 Each rule is factored into \order{2\expon\V{pn}}
 new rules,
 where \V{pn} is the number of proper nullables in the rule.
-This overhead is a grammar constant, and \cite{AH2002} found it tolerable,
-but we will return to this matter
-in Section \ref{sec:marpa-s-approach-to-nullable-symbols}
-on page \pageref{sec:marpa-s-approach-to-nullable-symbols}.
+This overhead is a grammar constant, and \cite{AH2002} found it tolerable.
+We will return to this matter
+in Section \ref{sec:the-chaf-rewrite}
+on page \pageref{sec:the-chaf-rewrite}.
 
 \section{The pitfall of counting Earley items}
 \label{sec:pitfall-of-counting-earley-items}
@@ -1099,7 +1099,7 @@ which can have a real effect in practice,
 but this is far outweighed by the advantage:
 Results in asymptotic terms hold up well when
 the environment or hardware changes,
-which they often do in the computer field.
+which in the computer field they do rapidly.
 
 In analyzing parsing,
 results are sometimes reported in terms of the size of
@@ -1129,8 +1129,8 @@ uses an ``accounting technique'' to calculate complexity.
 Operations are not counted directly.
 Instead a complex accounting assigns the resource
 for every operation to
-an Earley item,
-taking care that each attempt to create an Earley item is assigned
+an attempt to add an Earley item,
+taking care that each attempt is assigned
 no more than
 a constant amount of resource.
 The resource consumed by the Earley algorithm is then
@@ -1143,10 +1143,10 @@ Aycock and Horspool~\cite{AH2002}
 reported no complexity improvements in
 asymptotic terms.
 Instead \cite{AH2002} claimed that, because the use of AHFA states,
-their algorithm produces fewer Earley items,
+its algorithm produces fewer Earley items,
 reducing constants,
-which are hidden by asymptotic analysis,
-but which are nonetheless significant.
+and that this reduction would be significant,
+even though it was hidden by asymptotic analysis.
 
 In assessing whether \cite{AH2002} was indeed faster,
 we need to look for any additional overheads
@@ -1258,6 +1258,7 @@ and can reduce or eliminate any gains.
   \path[->] (C0) edge node[anchor=south,above] {$\V{S}$} (C8) ;
   \path[->] (P1) edge node[anchor=south,above] {$\V{x}$} (C2) ;
   \path[->] (P1) edge node[anchor=left,right] {$\V{A}$} (C3) ;
+  \path[->] (P1) edge node[anchor=south,above] {$\V{B}$} (C4) ;
   \path[->] (C3) edge node[anchor=left,right] {$\epsilon$} (P2) ;
   \path[->] (C3) edge node[anchor=south,above] {$\V{B}$} (C4) ;
   \path[->] (P2) edge node[anchor=south,above] {$\V{x}$} (C5) ;
@@ -1307,7 +1308,7 @@ but we also could not find a counter-example.
 \subsection{Difficulty in debugging and tracing}
 \label{sec:difficulty-in-debugging-and-tracing}
 
-During the years that Marpa used AHFA items,
+During the years that Marpa used \type{AHEM}s,
 we encountered a number of disadvantages.
 A first was in debugging grammars.
 
@@ -1341,10 +1342,10 @@ if they were simply trying to get a grammar working,
 could ignore the internal representation,
 focus on the dotted rules,
 and act as if the AHFA states did not exist.
-But a the user might, for example,
+But a user might, for example,
 be concerned with efficiency.
-In that case a trace that translated multiple AHFA items
-into multiple dotted rules might give a misleading impressing.
+In that case a trace that translated multiple \type{AHEM}s
+into a different count of \type{EIM}s might give a misleading impression.
 
 For the programmer working in the Marpa code itself,
 dealing with the AHFA states was unavoidable.
@@ -1352,8 +1353,8 @@ Evaluation required doing the many-to-many translation
 from AHFA states and dotted rules.
 Undoing the potential duplication of dotted rules in AHFA states
 is an overhead that cut into the speedups promised by AHFA states,
-and the over of a duplication check had to incurred for every AHFA
-item, whether it contained a duplicated dotted rule or not.
+and the overhead of a duplication check had to incurred for every \type{AHEM},
+whether it contained a duplicated dotted rule or not.
 
 Translation often needed to be done at run-time.
 We have mentioned the case of tracing or debugging.
@@ -1363,14 +1364,14 @@ the events in this mechanism needed to be presented to the user in terms
 of dotted rules, not AHFA states.
 Other run-time features have been contemplated for Marpa,
 and the complexity of translating to and from AHFA states
-was a real obstacle to their implementation.
+posed a real obstacle to their implementation.
 
 \subsection{Increased theoretical complexity}
 \label{sec:increased-theoretical-complexity}
 
 Earley~\cite{Earley1970}, in his proofs, could rely on each Earley item
 representing one dotted rule.
-For analyzing Marpa with AHFA items,
+For analyzing Marpa with \type{AHEM}s,
 since we did not have a proof that the count of Earley items
 in~\cite{Earley1970}
 was the worst case for~\cite{AH2002},
@@ -1596,6 +1597,7 @@ duplicated the semantics of the original was slightly more complex,
 but it was clear that it could be easily and efficiently done.
 
 \subsection{The CHAF rewrite}
+\label{sec:the-chaf-rewrite}
 
 Marpa never implemented the NNF rules in the form as
 described in~\cite{AH2002}.
