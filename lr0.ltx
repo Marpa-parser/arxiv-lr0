@@ -728,8 +728,9 @@ An Earley parser builds a table of Earley sets,
 \quad \text{where} \quad
 0 \le \Vloc{i} \le \size{\Cw}.
 \end{equation*}
-Earley sets are of type \type{ES}.
-Earley sets are often named by their location:
+Earley sets (type \type{ES}) are set of \type{EIM}s,
+\[ \type{ES} = \setOf{\type{EIM}}. \]
+Earley sets are often named by their location.
 That is,
 the bijection between \Ves{i} and \Vloc{i}
 allows locations to be treated as the ``names'' of Earley sets.
