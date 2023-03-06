@@ -1729,7 +1729,7 @@ of the semantics function.
 \item
   Populates the unpopulated elements of the \V{childV} array
   from right to left,
-  from the semantics function's arguments from next-to-last to second.
+  with the semantics function's arguments from next-to-last to second.
   For example, the semantics function for the $ \V{S1} \de \V{Ae}\cat\V{S2} $ rule,
   call it \Fname{semS1b},
   will write \Fname{semS1b}'s next-to-last argument
@@ -1742,15 +1742,12 @@ of the semantics function.
 \end{itemize}
 
 For purpose of describing the ``CHAF head'' semantics,
-we refer to the rule
+the rule
 \begin{equation}
 \label{eq:pre-rewrite-rule}
   \V{S} \de \V{A}\cat\V{A}\cat\V{A}\cat\V{A}
 \end{equation}
-of the pre-rewrite grammar as the ``pre-rewrite rule'',
-and we refer to the semantic function for
-\eqref{eq:pre-rewrite-rule}
-as \Fname{semOrig}.
+of the pre-rewrite grammar is the ``pre-rewrite rule''.
 If the rule has ``CHAF head'' semantics,
 its semantics function does the following, in sequence:
 \begin{itemize}
@@ -1759,7 +1756,7 @@ of the semantics function.
 \item
   Populates the unpopulated elements of the \V{childV} array
   from right to left,
-  from the semantics function's arguments from next-to-last to second.
+  with the semantics function's arguments from next-to-last to second.
   For example, the semantics function for the
   $ \V{S} \de \V{Ae}\cat\V{S1} $ rule,
   call it \Fname{semSa},
