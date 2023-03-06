@@ -1,12 +1,11 @@
 personal_ws-1.1 en 0
-eidetic
-eideticism
 Ae
 AHFA
 AHFA's
 Aho
 AHpred
 arXiv
+AST
 automata
 Aycock
 bijection
@@ -28,6 +27,8 @@ dup
 duples
 Earley
 Earley's
+eidetic
+eideticism
 eim
 EIM
 eimSet
@@ -35,6 +36,7 @@ Englewood
 eq
 extensionality
 fn
+Github
 GOTO
 Grune
 hd
@@ -55,6 +57,7 @@ mainstem
 maintainance
 Marpa
 Marpa's
+MarpaX
 McMaster
 memoize
 memoizing
@@ -80,9 +83,11 @@ predN
 rhs
 runtime
 Rusinowitch
+semOrig
 semPass
 semRule
 semS
+semSa
 semTerm
 sep
 sideff
@@ -98,5 +103,6 @@ th
 tl
 Ullman
 undefinedness
+useable
 Verlag
 ZF
