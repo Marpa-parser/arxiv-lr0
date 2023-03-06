@@ -1799,24 +1799,31 @@ Instead it keeps the child values on a stack.
 
 With the CHAF rewrite,
 we have eliminated proper nullables,
-so the symbols in the grammar are either nulling
+so the symbols and rules in the grammar are either nulling
 or non-nullable.
 We now make the further observation that
-nulling symbols do not
+nulling symbols and nulling rules do not
 show any trace in the input.
-They can be eliminated and the nulling-present
-and the nulling-free
-grammar will accept the same language.
-Nulling rules, those rules whose LHS is nulling, are also eliminated.
+They can be eliminated.
 
-To duplicate the semantics of the original grammar,
-when we keep a database of ``nulling markup'',
+We will call a grammar before the elimination of nulling symbols
+the ``nulling-present'' grammar.
+We will call the grammar after elimination of nulling symbols
+the ``nulling-free'' grammar.
+The nulling-present grammar and the nulling-free grammar accept the same language.
+
+To duplicate the semantics of the nulling-present grammar,
+we keep a database of ``nulling markup'',
 which tracks the locations
-in the nulling-free rules where nulling symbols
-were eliminated.
-The semantics of the nulling-free grammar can easily be replicated
-at evaluation time by replacing the nulling symbols
-using the nulling markup.
+in the nulling-free rules
+where nulling symbols were eliminated.
+We can go back and forth quickly between the nulling-free rule
+and its nulling markup, on one hand,
+and the nulling-present rule,
+on the other hand.
+
+The semantics of the nulling-present grammar can easily be replicated
+at evaluation time using the nulling markup.
 This can also be done efficiently at run-time,
 so that Marpa's recognizer runs using a nulling-free
 grammar,
@@ -1826,17 +1833,18 @@ of the nulling-present grammar.
 For the elimination of nulling symbols and rules
 to succeed, several corner cases must be dealt with.
 These are trivial grammars, trivial parses,
-nulling trees,
+nulling subforests,
 and duplicated rules.
 Trivial grammars are grammars which recognize only the
 empty string.
 Trivial parses are parses of the empty string.
-The Marpa implementation deals with both of these
+The Marpa implementation deals with
+trivial grammars and trivial parses
 by treating them as special cases.
 
 The elimination of nulling rules can prune entire subforests from a parse.
 Since these subforests are constants which depend on the grammar,
-we can,
+we could,
 in the same way that we restore the nulling symbols during evaluation and tracing,
 restore these pruned subforests during evaluation and tracing.
 
