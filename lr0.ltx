@@ -1922,13 +1922,13 @@ which in turn could cause new predictions.
 
 With the elimination of nullable symbols,
 a prediction can no longer be a completion in the same Earley set,
-and cannot give rise to one.
-This allows that Marpa to
+and cannot give rise to a completion.
+This allows Marpa to
 complete each Earley set, call it \V{es},
 in distinct phases:
 \begin{itemize}
-\item Marpa first creates \V{es} and all the scanned items to it.
-\item Marpa next adds all completions to \V{es}.
+\item Marpa first creates \V{es} and adds all scanned items to it.
+\item Marpa next adds all reductions to \V{es}.
 \item Finally, Marpa adds predictions to \V{es}.
 \end{itemize}
 Unlike many Earley implementations,
@@ -1938,8 +1938,8 @@ This means there is a point in the running of the Marpa
 parse engine, where work on the Earley set at location \Vloc{i}
 is complete,
 but work on the Earley set at \Vloc{i}+1 has yet to be started.
-A this point the parse is ``left-eidetic'' ---
-fully aware of everything that have take place up to the current
+At this point the parse is ``left-eidetic'' ---
+fully aware of everything that has taken place up to the current
 location,
 but not yet committed to any actions after the current location.
 
@@ -1950,24 +1950,30 @@ For example, when parsing fails because no acceptable token is supplied,
 the application can ask Marpa what tokens would have been acceptable ---
 this is known because the full left context of the parse is known.
 This technique, described in~\cite{Marpa2023}, is called the ``Ruby Slippers''.
+
 One application of the Ruby Slippers has been to base an extremely liberal
 HTML parser~\cite{Marpa-HTML}
 on an over-conservative grammar.
-When the parse with the over-conservative grammar fails,
-Marpa invents an acceptable token,
-allowing the parse to continue,
-and turning the over-conservative HTML parser into
-one that is so liberal it will parse any input
-as HTML,
+The over-conservative HTML grammar
+is stricter than the strictest HTML standard
+and requires that, among other things, all start tags have matching end tags.
+When a parse with the over-conservative grammar fails
+the grammar's excessively strict requirements,
+\cite{Marpa-HTML}~invents an acceptable token to satisfy it,
+allowing the parse to continue.
+While the grammar of \cite{Marpa-HTML} is over-conversative,
+\cite{Marpa-HTML}
+is in operation a completely liberal HTML parser,
+one which will parse any input as HTML,
 albeit highly defective HTML.
 
 Marpa's method for calculating predictions is simple.
-The transitive closure of predictions for each symbol is
+The transitive closure of predictions for each postdot symbol is
 precomputed from the grammar.
-Once the scanned and completed Earley items are known,
-for each postdot symbol in the scanned and completed Earley items,
-the transitive closure of Earley items predicted by that postdot symbol
-is added to the Earley set in the usual way.
+Once the scanned and reduced Earley items are known,
+for each postdot symbol in the scanned and reduced Earley items,
+the Earley items in the transitive closure predicted by that postdot symbol
+are added to the Earley set in the usual way.
 
 As mentioned earlier
 (page
