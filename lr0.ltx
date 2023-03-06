@@ -1554,6 +1554,7 @@ The semantics of a rule node can be treated as a function:
 \[ \VFA{semRule}{$\V{parse}, \V{child1}, \V{child2}, \dotsc, \V{childN}$}. \]
 Here \( \V{child1}, \V{child2}, \dotsc, \V{childN} \)
 are the values of the rule instance's child nodes.
+\label{text:parse-argument}%
 There is a \V{parse} argument because the semantics of \Fname{semRule} will not necessarily
 be a pure function of the rule instance's child values.
 Semantic functions often have side effects ---
@@ -1698,10 +1699,11 @@ The accept rule retains its pass-through semantics.
 
 The rules with CHAF semantics
 in Figure~\ref{fig:chaf} also use an array, call it \V{childV},
-to accumulate the values of the pre-rewrite rule.
-Since RHS of the pre-rewrite rule had 4 symbols, $\Vsize{childV} = 4$.
+to accumulate the child values of the pre-rewrite rule.
+Since the RHS of the pre-rewrite rule had 4 symbols, $\Vsize{childV} = 4$.
 In the counting of arguments below, we recall that the first argument
-of every semantic function is \V{parse} argument,
+of every semantic function is the \V{parse} argument
+(described on page \pageref{text:parse-argument})
 so that the child values are passed as the second through last arguments.
 
 \Needspace{10\baselineskip}
