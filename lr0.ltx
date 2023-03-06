@@ -1857,10 +1857,11 @@ subforests, but none have chosen to do so,
 to our knowledge.
 
 Users do want run-time events to take pruned symbols into account.
-and the Marpa implementation's run-time event feature is nulling symbol aware.
-The effect on for each event is a constant which depends on
-the grammar the event, so that run-time nulling-awareness is
-very efficient.
+The Marpa implementation's run-time event feature
+generates events in terms of the nulling-present grammar.
+The effect of nulling symbols on each event is a constant which depends on
+the grammar,
+and run-time nulling-awareness is very efficient.
 
 Elimination of nulling symbols also raises an issue
 of duplicated rules.
@@ -1879,7 +1880,7 @@ and
 \begin{equation*}
   \tuple{\V{S2} \de \V{Ae}\cat\V{A}},
 \end{equation*}
-when the nulling \V{Ae} symbol is eliminated,
+when the nulling symbol \V{Ae} is eliminated,
 both become the rule
 \begin{equation}
 \label{eq:dup-rule}
