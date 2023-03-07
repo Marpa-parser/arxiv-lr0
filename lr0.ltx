@@ -1600,7 +1600,8 @@ empty rules and their semantics comes from their rule.
 Nulled symbol instances may be regarded
 as rules with no children.
 
-Every terminal symbol has a semantic function associated with it:
+Every terminal symbol has
+an impure semantic function associated with it:
 \[ \VFA{semTerm}{\V{parse}, \V{value}}. \]
 Here \V{parse} is as for the rule semantics,
 and \V{value} is the ``token value'', a value that the application associates
@@ -1610,7 +1611,9 @@ A rule has pass-through semantics if it simply ``passes through''
 the value of its child node.
 More precisely, a rule node has pass-through semantics iff
 it has exactly one child,
-and the semantic function is \V{semPass}, where
+and the semantic function is a pure function,
+call it \V{semPass},
+where
 \[ \VFA{semPass}{\V{parse}, \V{child}} = \V{child}. \]
 
 One very common rewrite is ``augmenting the grammar''
@@ -1627,7 +1630,7 @@ those of the original grammar by giving the
 accept rule pass-through semantics.
 
 In the case of Aycock and Horspool's NNF rules,
-ensuring the rewritten grammar
+ensuring that the rewritten grammar
 duplicated the semantics of the original was slightly more complex,
 but it was clear that it could be easily and efficiently done.
 
