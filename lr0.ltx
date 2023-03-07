@@ -1889,6 +1889,7 @@ restore these pruned subforests during evaluation and tracing.
 
 In practice, we found that users are not interested in the
 ``semantics of nothing''.
+For evaluation purposes,
 Marpa's current implementation prunes nulled subforests back to
 their topmost symbol.
 Applications are free to restore the semantics of the pruned
@@ -2009,8 +2010,11 @@ albeit highly defective HTML.
 Marpa's method for calculating predictions is simple.
 The transitive closure of predictions for each postdot symbol is
 precomputed from the grammar.
-Once the scanned and reduced Earley items are known,
-for each postdot symbol in the scanned and reduced Earley items,
+When creating each Earley set,
+once the scanned and reduced Earley items are known,
+we make a second pass through them,
+looking for their postdot symbols.
+For each postdot symbol,
 the Earley items in the transitive closure predicted by that postdot symbol
 are added to the Earley set in the usual way.
 
