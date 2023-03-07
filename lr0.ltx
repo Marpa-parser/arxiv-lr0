@@ -367,6 +367,9 @@ $$
 $$
 
 We often abbreviate ``if and only if'' to ``iff''.
+We also often subsitute the more prominent double colon ($\mcoloncolon$)
+for the ``mid'' divider ($\mid$).
+
 We define the natural numbers, \naturals, to include zero.
 $\V{f} \circ \V{g}$, pronounced ``\V{f} after \V{g}'',
 indicates the composition of the functions \V{f} and \V{g},
@@ -587,7 +590,7 @@ such that, if \V{dr} is of type \type{DR},
   \Pos{\V{dr}} \le \size{\Rule{\V{dr}}}.
 \end{gathered} \]
 We say that $\Rule{\V{dr}}$ is the \dfn{rule} of \V{dr}
-and $\Pos{\Vdr}$ is the \dfn{dot position} of \V{dr}.
+and $\Pos{\V{dr}}$ is the \dfn{dot position} of \V{dr}.
 
 The dot position of a dotted rule indicates the extent to which
 the rule has been recognized,
@@ -620,7 +623,7 @@ We also make the following definitions:
   \begin{cases}
   \Vsym{next}, \text{ if } \existQ{
       \Vstr{pre}, \; \Vstr{post}, \; \Vsym{A}}{ \\
-      \qquad \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}}} \\
+      \qquad \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}}}, \\
   \unicorn, \text{ otherwise.}
   \end{cases} \\
 \]
@@ -629,7 +632,9 @@ We also make the following definitions:
   \Next{\Vdr{x}} \defined
   \begin{cases}
     \VTtyped{\tuple{ \Vsym{A} \de \Vstr{pre} \cat \Vsym{next} \mydot \Vstr{post}}}{DR}, \\
-      \qquad \text{if } \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}} \\
+      \qquad \text{if } \existQ{
+      \Vstr{pre}, \; \Vstr{post}, \; \Vsym{A}}{ \\
+      \qquad \qquad \V{x} = \tuple{ \V{A} \de \V{pre} \mydot \V{next} \cat \V{post}} }, \\
     \unicorn, \text{ otherwise.}
   \end{cases} \\
 \]
