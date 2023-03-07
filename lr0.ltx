@@ -255,7 +255,12 @@ a Creative Commons Attribution-NoDerivs 3.0 United States License.
 }
 
 \begin{abstract}
-Marpa is an improved Earley parser.
+Marpa~\cite{Marpa2023} was intended
+to make the best results
+in the academic literature
+on Earley's algorithm
+available as
+a practical general parser.
 Earley-based parsers have had issues handling
 nullable symbols.
 Initially, we dealt with nullable symbols by following the approach
@@ -270,8 +275,10 @@ in reaction to that experience.
 \section{Overview}
 
 The Marpa recognizer~\cite{Marpa2023} was intended
-to make the best results on Earley's algorithm
-in the academic literature available as
+to make the best results
+in the academic literature
+on Earley's algorithm
+available as
 a practical general parser.
 Accordingly, when Marpa was first released in 2011,
 it included the improved handling of nullable symbols
@@ -304,9 +311,10 @@ Section \ref{sec:conclusion} summarizes our conclusions.
 \section{Preliminaries}
 \label{sec:preliminaries}
 
-Readers should be familiar with Marpa~\cite{Marpa2023},
-with Aycock and Horspool's 2002 paper~\cite{AH2002},
+Readers should be familiar with Marpa~\cite{Marpa2023}
 and with standard grammar notation.
+It will also be useful to be familiar with Earley parsing,
+and with Aycock and Horspool's 2002 paper~\cite{AH2002}.
 
 We use the type system
 of Farmer~2012~\cite{Farmer2012},
