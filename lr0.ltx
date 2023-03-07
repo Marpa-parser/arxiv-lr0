@@ -1537,7 +1537,7 @@ However, ``language'' has a very non-intuitive meaning in
 parsing theory.\footnote{%
     This eccentric use of the term ``language'' in parsing theory,
     perhaps surprisingly,
-    is a holdover from the way a view that was once
+    is a holdover from a view that was once
     dominant in linguistics.
     The entries in
     my timeline of parsing history~\cite{Timeline}
@@ -1562,7 +1562,7 @@ or at least make that relationship so complex that the benefit
 of the rewrite is lost.
 For a rewrite to be useful for Marpa's purposes,
 the rewritten grammar must come with
-semantic processing which duplicates the semantics
+semantic processing that duplicates the semantics
 of the pre-rewrite grammar.
 
 \subsection{Describing semantics}
@@ -1579,19 +1579,24 @@ These nodes are evaluated recursively
 and the value of the top node
 is considered to be the value of the parse.
 
-The semantics of a rule node can be treated as a function:
-\[ \VFA{semRule}{$\V{parse}, \V{child1}, \V{child2}, \dotsc, \V{childN}$}. \]
-Here \( \V{child1}, \V{child2}, \dotsc, \V{childN} \)
+The semantics of a rule node can be treated as a impure function,
+\[ \VFA{semRule}{$\V{parse}, \V{child1}, \V{child2}, \dotsc, \V{childN}$}, \]
+where \( \V{child1}, \V{child2}, \dotsc, \V{childN} \)
 are the values of the rule instance's child nodes.
 \label{text:parse-argument}%
-There is a \V{parse} argument because the semantics of \Fname{semRule} will not necessarily
-be a pure function of the rule instance's child values.
-Semantic functions often have side effects ---
-for instance they may build symbol tables.
-Semantic functions also have access to all the data of the parse,
-including the grammar, the parse location of the rule instance.
+The parse argument, \V{parse}, gives \Fname{semRule}
+access to all the data of the parse,
+including the grammar,
+and the parse location of the rule instance.
+
+Our semantic functions are impure functions ---
+they have side effects.
+For instance they may build symbol tables.
+For our purposes in this paper,
+this will not be a problem.
+
 Nulled symbol instances are always associated with
-empty rules and their semantics comes their rule.
+empty rules and their semantics comes from their rule.
 Nulled symbol instances may be regarded
 as rules with no children.
 
