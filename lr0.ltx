@@ -716,12 +716,14 @@ such that, when \V{x} is of type \type{EIM},
      \Origin{\V{x}} \defined \HTl{\V{x}}, \text{ and} \\
      \Current{\V{x}} \defined \TTl{\V{x}}.
 \end{gather*}
+\begin{MYsloppy}
 We say that $\DR{\Veim{x}}$ is the \dfn{dotted rule} of \V{x}.
 We say that $\Current{\Veim{x}}$
 is the \dfn{current location} of \Veim{x}.
 The current location of an Earley item \Veim{x} is the location in the input
 where the rule $\Rule{\DR{\Veim{x}}}$
 was recognized as far as the dot in the dotted rule of \Veim{x}.
+\end{MYsloppy}
 
 We say that
 $\Origin{\Veim{x}}$
@@ -1042,10 +1044,12 @@ pairs of AHFA state and symbol,
 \begin{equation*}
 \Vtyped{GOTO}{ \type{AH} \times (\epsilon \cup \Vocab{\V{g}}) \fnMap \type{AH} }.
 \end{equation*}
-Null transitions are written as transitions on $\epsilon$,
+\begin{MYsloppy}
+\noindent Null transitions are written as transitions on $\epsilon$,
 the reserved non-symbol,
 for example
 \( \GOTO{\Vah{from}}{\epsilon}. \)
+\end{MYsloppy}
 
 If \Vah{predicted} is the result of a null transition,
 it is called a \dfn{predicted} AHFA state.
@@ -1824,6 +1828,7 @@ which argument goes into which slot of \V{childV}
 is known once the grammar rewrite is complete.
 It does not have to be determined at run-time.
 
+\begin{MYsloppy}
 The semantic functions just given for CHAF rules are intended
 to demonstrate that the semantics of the CHAF rewrite can be
 implemented efficiently.
@@ -1833,6 +1838,7 @@ all the CHAF rules share a unified logic,
 which is driven by parameters that are set at CHAF rewrite time for each CHAF rule.
 \cite{Marpa-R2}~does not use a \V{childV} array.
 Instead it keeps the child values on a stack.
+\end{MYsloppy}
 
 \subsection{Eliminating nulling symbols}
 
