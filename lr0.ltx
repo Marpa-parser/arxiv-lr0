@@ -1798,7 +1798,7 @@ of the semantics function.
   $ \V{S} \de \V{Ae}\cat\V{S1} $ rule,
   call it \Fname{semSa},
   will write \Fname{semSa}'s next-to-last argument
-  into $\Velement{childV}{1}$.
+  into $\Velement{childV}{0}$.
   The next-to-last argument
   of \Fname{semSa}
   is also \Fname{semSa}'s second argument
@@ -1817,6 +1817,8 @@ of the semantics function.
 \item Returns \V{v}.
 \end{itemize}
 
+The ``CHAF head'', ``CHAF inner'', and ``CHAF tail'' semantic functions are
+all pure functions.
 In all of the CHAF semantic routines,
 which argument goes into which slot of \V{childV}
 is known once the grammar rewrite is complete.
@@ -1854,9 +1856,9 @@ we keep a database of ``nulling markup'',
 which tracks the locations
 in the nulling-free rules
 where nulling symbols were eliminated.
-We can go back and forth quickly between the nulling-free rule
+We can go back and forth quickly between a nulling-free rule
 and its nulling markup, on one hand,
-and the nulling-present rule,
+and a nulling-present rule,
 on the other hand.
 
 The semantics of the nulling-present grammar can easily be replicated
