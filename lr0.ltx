@@ -1024,17 +1024,18 @@ and that
 $\Origin{\Vahem{x}}$
 is the \dfn{origin} of \Vahem{x}.
 
-AHFA's are not fully deterministic.
-\cite{AH2002} also defines
+AHFA's are not fully deterministic --- they have
+\dfn{null transitions}.
+\cite{AH2002} defines
 a partial transition function for
 pairs of AHFA state and symbol,
 \begin{equation*}
 \Vtyped{GOTO}{ \type{AH} \times (\epsilon \cup \Vocab{\V{g}}) \fnMap \type{AH} }.
 \end{equation*}
-A transition on the reserved non-symbol,
+Null transitions are written as transitions on $\epsilon$,
+the reserved non-symbol,
 for example
-\( \GOTO{\Vah{from}}{\epsilon}, \)
-is a \dfn{null transition}.
+\( \GOTO{\Vah{from}}{\epsilon}. \)
 
 If \Vah{predicted} is the result of a null transition,
 it is called a \dfn{predicted} AHFA state.
