@@ -1000,7 +1000,7 @@ and conjectured that this would
 make Earley's algorithm faster in practice.
 
 An AHFA state (type \type{AH}) is, in effect, a shorthand
-for groups of dotted rules that occur together frequently.
+for groups of dotted rules that occur together frequently,
 \[ \type{AH} = \setOf{\type{DR}}. \]
 We recall that
 the traditional Earley items (\type{EIM}'s)
@@ -1009,7 +1009,7 @@ are triples, such that
 where \Vdr{x} is a dotted rule.
 
 An Aycock-Horspool Earley item (type \type{AHEM}) is a triple,
-\[ \type{AH} \times \type{ORIG} \times \type{LOC}, \]
+\[ \type{AHEM} = \type{AH} \times \type{ORIG} \times \type{LOC}, \]
 such that, when \V{x} is of type \type{AHEM},
 \begin{gather*}
      \AH{\V{x}} \defined \Hd{\V{x}}, \\
